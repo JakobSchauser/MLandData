@@ -1,0 +1,11 @@
+When setting out on this project, we had no way of knowing where we would end. 
+We blanking on initial ideas, but as soon as we opened Scratch, the cat became our big inspiration. We imagined him dancing and prancing and doing acrobatics 
+for the entertainment of our players. We harnessed this creative energy by giving the cat the ability to do backflips at the mere press of a button. 
+From here the possibilities were endless, so we turned to our knowledge of programming for what to do next. It was obvious! A couple of variables later,
+the cat could not only "springe badut" as we say in danish, but also count the (in)famous Fibonacci-numbers as it did. Without stopping to think of the 
+philosophical consequences of what we had created, the counting cat needed some gameplay. As all the members of our team have backgrounds in physics, we
+wanted to harness this unique possibility to create a personalized game. This turned into a physcial simulation of the Newtonian motion of a free-falling body
+using Euler integration of first order. Or in layman-terms: A ball.
+We used some vector-math to make an approximate recreation of the bouncing of a real-life ball and finished up by adding a loose-condition and a way to restart.
+We also added the obligatory cat pun when you loose. 
+https://scratch.mit.edu/projects/567226177/
