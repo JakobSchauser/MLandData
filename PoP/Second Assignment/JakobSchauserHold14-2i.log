@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2021.9.14)  14 SEP 2021 14:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2021.9.14)  14 SEP 2021 15:16
 entering extended mode
 **./JakobSchauserHold14-2i.tex
 (JakobSchauserHold14-2i.tex
@@ -70,8 +70,8 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (JakobSchauserHold14-2i.aux) ) 
 Here is how much of TeX's memory you used:
  422 strings out of 480790
- 7475 string characters out of 2897301
- 241890 words of memory out of 3000000
+ 7567 string characters out of 2897301
+ 242890 words of memory out of 3000000
  16497 multiletter control sequences out of 15000+200000
  536928 words of font info for 39 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -86,7 +86,7 @@ s/jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
 <C:/Users/jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
 r17.pfb><C:/Users/jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/cm/cmr7.pfb>
-Output written on JakobSchauserHold14-2i.pdf (4 pages, 92567 bytes).
+Output written on JakobSchauserHold14-2i.pdf (4 pages, 94315 bytes).
 PDF statistics:
  48 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
