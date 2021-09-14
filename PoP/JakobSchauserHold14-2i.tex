@@ -1,0 +1,47 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+% \usepackage{list}
+
+\title{Second Assignment in PoP}
+\author{Jakob H. Schauser, pwn274}
+\date{September 2021}
+
+
+\begin{document}
+\maketitle
+
+\section{2i0}
+As with so many things in life, there are no clear-cut rights or wrongs when it comes to running f\# code. The gray area that is code-compilation has multiple possible solutions
+ - each with their own advantages and drawbacks. The three main ways are comprised of:
+\subsection{Compiling and running with a single command}
+The first way of bringing f\# code to life is via the "fsharpi"-command. This command interprets the f\# code in a file and runs it.
+One might suspect the command "fsharpi" to be the best, as it certainly is the most convenient. But this method of interpretation has some disadvantages.
+\subsection{Compiling and running with two seperate commands}
+The choice of could also fall on firstly compiling the code before running it on the computer. This is typically done via the "fsharpc" command, which uses dotnet to create an 
+executable .exe file. This file can then, through use of mono, be understood by the computer and runned. 
+
+\section{Converting between bases}
+
+\subsection{From binary to decimal}
+I use the trusty doubling technique. Given $(10101)_2$, moving from left to right I double the current total and add the next. This gives:
+\begin{itemize}
+    \item{1}
+    \item{2}
+    \item{5}
+    \item{10}
+    \item{21}
+\end{itemize}
+Meaning the final answer is $(10101)_2$ = $(21)_{10}$
+
+\subsection{From decimal to binary}
+Halving technique from $(10)_{10}$:
+\begin{itemize}
+    \item{}
+    \item{2}
+    \item{5}
+    \item{10}
+    \item{21}
+\end{itemize}
+
+
+\end{document}
