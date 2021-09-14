@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 % \usepackage{list}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{float}
 
 \title{Second Assignment in PoP}
 \author{Jakob H. Schauser, pwn274}
@@ -29,6 +31,18 @@ takes longer than the direct interpretation as described in the last section.
 You can also run interactively. This is not a smart way to program bigger projects, but when simply needing to run a single line of code, this is the way to go. 
 
 \section{Converting between bases}
+\subsection{The whole grid}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{llll}
+    Decimal                    & Binary                        & Hexadecimal                & Octal                      \\ \hline
+    \cellcolor[HTML]{EFEFEF}10 & 1010                          & A                          & 12                         \\
+    21                         & \cellcolor[HTML]{EFEFEF}10101 & 15                         & 25                         \\
+    47                         & 101111                        & \cellcolor[HTML]{EFEFEF}2F & 57                         \\
+    59                         & 111011                        & 3B                         & \cellcolor[HTML]{EFEFEF}73
+    \end{tabular}
+    \end{table}
+
 
 \subsection{From binary to decimal}
 I use the trusty doubling technique. Given $(10101)_2$, moving from left to right I double the current total and add the next. This gives:
