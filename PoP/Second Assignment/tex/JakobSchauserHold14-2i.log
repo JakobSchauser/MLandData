@@ -1,0 +1,153 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2021.9.14)  16 SEP 2021 10:33
+entering extended mode
+**./JakobSchauserHold14-2i.tex
+(JakobSchauserHold14-2i.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-06-18>
+(C:\Users\jakob\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
+(C:\Users\jakob\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo
+File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@section=\count168
+\c@subsection=\count169
+\c@subsubsection=\count170
+\c@paragraph=\count171
+\c@subparagraph=\count172
+\c@figure=\count173
+\c@table=\count174
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+)
+(C:\Users\jakob\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks15
+\inpenc@posthook=\toks16
+)
+(C:\Users\jakob\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(C:\Users\jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+
+(C:\Users\jakob\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+) (C:\Users\jakob\AppData\Local\Programs\MiKTeX\tex/latex/colortbl\colortbl.sty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+(C:\Users\jakob\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
+\col@sep=\dimen135
+\ar@mcellbox=\box45
+\extrarowheight=\dimen136
+\NC@list=\toks17
+\extratabsurround=\skip49
+\backup@length=\skip50
+\ar@cellbox=\box46
+)
+\everycr=\toks18
+\minrowclearance=\skip51
+)
+\rownum=\count175
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+(C:\Users\jakob\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count176
+\float@exts=\toks19
+\float@box=\box47
+\@float@everytoks=\toks20
+\@floatcapt=\box48
+)
+(C:\Users\jakob\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+mode.def
+File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count177
+\l__pdf_internal_box=\box49
+)
+No file JakobSchauserHold14-2i.aux.
+\openout1 = `JakobSchauserHold14-2i.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+
+(C:\Users\jakob\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count178
+\scratchdimen=\dimen137
+\scratchbox=\box50
+\nofMPsegments=\count179
+\nofMParguments=\count180
+\everyMPshowfont=\toks21
+\MPscratchCnt=\count181
+\MPscratchDim=\dimen138
+\MPnumerator=\count182
+\makeMPintoPDFobject=\count183
+\everyMPtoPDFconversion=\toks22
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 13.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 13.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 13.
+ [1
+
+{C:/Users/jakob/AppData/Local/MiKTeX/pdftex/config/pdftex.map}]
+No file JakobSchauserHold14-2i.toc.
+\tf@toc=\write3
+\openout3 = `JakobSchauserHold14-2i.toc'.
+
+[2]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 37.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 37.
+ [3] [4] [5] (JakobSchauserHold14-2i.aux) ) 
+Here is how much of TeX's memory you used:
+ 1511 strings out of 480790
+ 21047 string characters out of 2897301
+ 262063 words of memory out of 3000000
+ 17564 multiletter control sequences out of 15000+200000
+ 536620 words of font info for 38 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 32i,9n,37p,221b,221s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\jakob\AppData\Local\MiKTe
+X\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/jakob/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/jakob/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/ja
+kob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/
+Users/jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.
+pfb><C:/Users/jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmr17.pfb><C:/Users/jakob/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
+sfonts/cm/cmr7.pfb>
+Output written on JakobSchauserHold14-2i.pdf (5 pages, 81962 bytes).
+PDF statistics:
+ 47 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+
