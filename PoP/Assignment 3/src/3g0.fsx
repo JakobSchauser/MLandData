@@ -1,5 +1,7 @@
-// Q: What sound does a cumulative bee make? 
-// A: Sum sum sum
+// This is the answer to the question (a)
+// <summary> Finds the sum up to a number n </summary>
+// <param name = "n"> The number to sum to </param>
+// <returns> The total sum. 0 if n < 0 <\returns>
 let sum (n : int) : int =
     if n > 0 then
         let mutable count : int = 1
@@ -10,46 +12,47 @@ let sum (n : int) : int =
         s
     else 0
 
-// Gauss was quite a lot smarter than any of us will ever be. 
-// He said that the following is equal to the "sum" function above and we will trust that blindly!
-let simplesum (n: int) : int = if n > 0 then n*(n+1)/2 else 0
+
+// This is the answer to the question (b)
+// This is an implementation of Gauss' summation rule, that for a given n returns the sum from 1 to n:
+// <summary> Finds the sum up to a number n using Gauss' summation rule </summary>
+// <param name = "n"> The number to sum to </param>
+// <returns> The total sum. 0 if n < 0 <\returns>
+let simpleSum (n: int) : int = if n > 0 then n*(n+1)/2 else 0
 
 
-// Take an input and tries casting it to an integer, which is then returned
+
+
+
+// <summary> Recursively prints rows with correct whitespace </summary>
+// <param name = "n"> The row number to start at </param>
+// <returns> true when finished <\returns>
+let rec printRow (n : int) = 
+    if n > 10 then
+        true
+    else
+        printfn "%-4i%-4i%-4i" n (sum n) (simpleSum n)
+        printRow(n+1)
+
+// This is the answer to the question (c)
+
+// <summary> Takes an input from the user and tries casting it to an integer </summary>
+// <returns> The integer inputted by the user <\returns>
 let input () : int =
     printfn "Enter a number to sum to:"
     let x = System.Console.ReadLine()
     x |> int
+let x = input()
+printfn "%A" (sum x)
 
 
-// We had not seen that there was a built-in padding in F#, so this was our solution
-let addwhite = fun i -> (i |> string) + String.replicate (4 - String.length (i |> string)) " " 
+// This is the answer to (d)
+printfn "n  |sum|simplesum"
+printRow(1)
 
 
-// Recursive row-printing with correct whitespace
-let rec printrow (n : int) = 
-    if n > 10 then
-        true
-    else
-        let str : string = addwhite n + addwhite (sum n) + addwhite (simplesum n)
-        printfn "%s" str 
-        printrow(n+1)
-    
+// The maximal number is 2^31-1. This is purely because we have defined the functions as outputting ints, which has a maximal value of 2147483647
+// A workaround is defining them to take unsigned ints or doubles which both have higher maximal values. 
 
-
-
-
-// To see if we understand the input system, outcomment the following two lines:
-// let x = input()
-// printfn "%A" (sum x)
-
-
-// To see our solution to the "print in a table"-problem, outcomment the following two lines:
-// printfn "n  |sum|simplesum"
-// printrow(1)
-
-
-// The maximal number is 2^31-1 as we are using integers. 
-// To test this, just outcomment the following two lines 
-// let max : int = 2147483647
-// printfn "%A %A" max (max+1)
+// This is also means that the highest n where the calculation works is when the sum is less than 2147483647. A quick calculation shows that this happens at:
+// n*(n+1)/2 = 2147483647  <=>   n^2+n = 2147483647*2  => n = (sqrt(8*2147483647+1)-1)/2 = 65535

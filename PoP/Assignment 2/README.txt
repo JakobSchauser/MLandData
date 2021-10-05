@@ -8,4 +8,4 @@
                                                                  |___/        
 
 For compiling the LaTeX, simply use any LaTeX to pdf converter on JakobSchauserHold14-2i.tex.
-When running the F# code, compile the 2i1.fsx down to a binary and run that using mono.
+When running the F# code, compile the 2i1.fsx down to a binary and run that.

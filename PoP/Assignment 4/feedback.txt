@@ -1,0 +1,44 @@
+# 4i - generelle kommentarer og overholdelse af afleveringsformat
+
+[+] Filerne er afleveret korrekt.
+[-] README forklarer ikke hvordan jeg oversætter og kører koden.
+
+# 4i0a
+
+[+] Din signatur for funktionen len er korrekt.
+[+] Din signatur for funktionen ang er korrekt.
+[+] Din signatur for funktionen add er korrekt.      
+[-] Du har ikke dokumenteret funktionerne i vec2dSmall.fsi.
+[-] Du bruger Params-tagget forket. Du burde skrive "..param name = (a,b)", da det er én tuple og ikke 2 seperate argumenter
+
+# 4i0b
+
+[+] Din len-funktion er korrekt.
+[+] Din ang-funktion er korrekt.
+[+] Din add-funktion er korrekt.
+
+# 4i0c
+
+[+] Dit bibliotek kan oversættes (compiles) præcis som forventet.
+[-] Vi kan ikke oversætte dit bibliotek. Vi får følgende fejl....
+
+# 4i1, Test af len-funktionen
+
+[+] Fin opstilling af dine test.
+[+] Dine testcases er ok.
+[-] Du har for få test. 2 test er ikke nok til at afprøve funktionen.
+
+# 4i1, Test af ang-funktionen
+
+[+] Fin opstilling af dine test.
+[+] Dine testcases er ok.
+[-] Du har for få test. N test er ikke nok til at afprøve funktionen.
+
+# 4i1, Test af add-funktionen
+
+[-] Mangler tests.
+
+# 4i2
+
+[+] Din håndkøring viser at du forstår hvordan fsharp-kode bliver evalueret.
+[-] Forklarer ikke hvad funktionskaldene bliver evalueret til.

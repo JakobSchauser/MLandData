@@ -1,0 +1,33 @@
+# 3g - generelle kommentarer og overholdelse af afleveringsformat
+
+\- Generelt mangler dokumentationsstandarden over det hele. Læs Kap. 7 i Jons bog.
+\- README forklarer ikke hvordan jeg compiler eller kører jeres fil.
+\- I har udkommenteret alt den kode der skulle køre når jeg kører filen.
+\- Kunne være fedt med kommentarer der indeler opgaven i de delopgaver i arbejder på.
+
+# 3g0a
+
+\- Jeres funktion bruger korrekt et while-loop med to variable til at udregne summen fra 1..n. Super!
+\- Jeres funktion returnerer 0 for n-værdier mindre end 1. super!
+
+# 3g0b
+
+\- Jeres funktion bruger formlen til udregne summen fra 1..n korrekt.
+\- Mangler delspørgsmålet "..includes a comment explaining how the expression implemented is related to the mentioned sum."
+
+# 3g0c
+
+\- Udkommenteret kode.
+\- Hvis i opdagede der var en smart løsning, hvorfor skiftede i så ikke? Hvis funktionaliteten er det samme, så foretræk den simple løsning.
+\- Benyt gerne lower camelcase til definering af funktioner.
+
+# 3g0d
+
+\- Udkommenteret kode.
+\- Jeres funktion printer tabellen korrekt, godt arbejde!
+
+# 3g0e
+
+\- Integers kan være flere forskellige datatyper, især i denne kontekst. Specificer hvilken i snakker om.
+\- Jeg tror at i har misforstået spørgsmålet. Der spørges ind til hvor stor n kan være i de forskellige funktioner, hvor de stadig regner rigtigt.
+\- Ellers korrekt.

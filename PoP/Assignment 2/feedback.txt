@@ -1,0 +1,20 @@
+# 2i - generelle kommentarer og overholdelse af afleveringsformat
+
+\- You have handed in the necessary files, named correctly and in the right folders.
+\- Fashy README that tells me what to do, but not exactly how.
+\- Good cleaning of the tex and src folders. I don't want unessesary files.
+
+# 2i0
+
+\- Good description of the ways to run F\# code.
+\- Good diskussion on pros and cons.
+
+# 2i1
+
+\- You are printinf the strings, which is fine, but that is not exactly what the assignment states.
+\- You are missing an explaination of why there is an output from the program.
+
+# 2i2
+
+\- Your table is correct. Well done!
+\- Your calculations shown is correct.
