@@ -7,7 +7,7 @@ printfn "%A" (transposeArr test)
 
 // (c)
 // The advantages of transposeArr is, that the code is short and therefore easily read.
-// We don't really see the advantages of doing it as we did in 5g0.fsx
+// We don't really see the advantages of doing it as we did in 5g0.fsx 
 
 
 // (d) 
