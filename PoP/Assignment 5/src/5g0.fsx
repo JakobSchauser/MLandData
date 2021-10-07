@@ -5,7 +5,7 @@ let allSame (len : int) (elem : 'a list) : bool = (elem.Length = len)
 let isTable (llst : 'a list list) : bool =
     match llst with
     | [] -> false
-    | _ -> llst.[0].Length > 0 && llst.Length = (List.filter (allSame llst.[0].Length) llst).Length 
+    | _ -> llst.[0].Length > 0 && List.forall (fun (l : 'a list) -> l = llst.[0].Length) llst
 
 let firstColumn (llst : 'a list list) : 'a list =
     match List.contains [] llst with
@@ -25,7 +25,7 @@ let rec trans (donelist : 'a list list) (whole : 'a list list) : 'a list list =
 
 let transposeLstLst (llst : 'a list list) : 'a list list =
     match isTable llst with
-        | false -> []
+        | false -> [[]]
         | true -> trans [] llst
 
 
