@@ -1,17 +1,18 @@
-///<summary> Takes a 2-dimensional array and returns its transpose</summary>
-///<param name = a> The Array2d to transpose </param>
-///<returns> The transposed Array2d </returns>
+/// <summary> Takes a 2-dimensional array and returns its transpose </summary>
+/// <param name = a> The Array2d to transpose </param>
+/// <returns> The transposed Array2d </returns>
 let transposeArr (a : 'a [,]) : 'a [,] = Array2D.init (Array2D.length2 a) (Array2D.length1 a) (fun i j -> a.[j,i])
 
-
-let test = array2D [[10;10;10];[9;9;9];[8;8;8]]
+let test = array2D [[3;3;3];[2;2;2];[1;1;1]]
 
 printfn "%A" (transposeArr test)
+
 
 // (c)
 // The advantages of transposeArr is, that the code is short and therefore easily read.
 // We don't really see the advantages of doing it as we did in 5g0.fsx, but in other usecases,
 // the more elaborate, handwritten implementation might be advantageous.
+// Also arrays does not allow for raggedness, which might be needed for a given problem.
 
 
 // (d) 
