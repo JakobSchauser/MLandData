@@ -1,0 +1,105 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{etoolbox}
+\newtoggle{exam}
+\togglefalse{exam}
+\newcommand{\an}{4}
+
+\usepackage{../assignment}
+\usepackage{framed}
+\usepackage{color}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+
+\usepackage{xcolor}  % For a colorfull presentation
+\usepackage{listings}  % For presenting code 
+
+\usepackage{hyperref}
+
+% Definition of a style for code, matter of taste
+\lstdefinestyle{mystyle}{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color[HTML]{F7F7F7},
+  rulecolor=\color[HTML]{EEEEEE},
+  identifierstyle=\color[HTML]{24292E},
+  emphstyle=\color[HTML]{005CC5},
+  keywordstyle=\color[HTML]{D73A49},
+  commentstyle=\color[HTML]{6A737D},
+  stringstyle=\color[HTML]{032F62},
+  emph={@property,self,range,True,False},
+  morekeywords={super,with,as,lambda},
+  literate=%
+    {+}{{{\color[HTML]{D73A49}+}}}1
+    {-}{{{\color[HTML]{D73A49}-}}}1
+    {*}{{{\color[HTML]{D73A49}*}}}1
+    {/}{{{\color[HTML]{D73A49}/}}}1
+    {=}{{{\color[HTML]{D73A49}=}}}1
+    {/=}{{{\color[HTML]{D73A49}=}}}1,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=none,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=4,
+  frame=single,
+}
+\lstset{style=mystyle}
+
+
+\begin{document}
+\title{Machine Learning A\\Home Assignment 5}
+\author{\color{red}Your name}
+\date{}
+\maketitle
+
+
+\section{Principal Component Analysis}
+
+\subsection{PCA and preprocessing}
+\subsubsection{By the book}
+\paragraph{b)}
+In question part b), we were asked to 
+
+\paragraph{c)}
+In question part c), we were asked to 
+
+
+\subsubsection{In the center}
+Let $\vec{S}$ be a  $d \times d$  matrix.
+
+\subsection{PCA in practice}
+
+\subsubsection{Explained variance}
+\begin{figure}
+    \centering
+    \caption{Eigenspectrum of the handwritten digits data.}
+    \label{fig:my_figure}
+\end{figure}
+
+The  explained variance is shown in Fig.~\ref{fig:my_figure}.
+
+Ten components are  \dots to explain 80\% of the variance.
+This can be seen from \dots
+
+
+\section{Logistic Regression in PyTorch}
+
+\subsection{Logistic regression in PyTorch}
+First, I completed the definition of the logistic regression model:
+\begin{lstlisting}
+class LogisticRegressionPytorch(nn.Module):
+    def __init__(self, d, m):
+        super(LogisticRegressionPytorch, self).__init__()
+        # LAYER DEFINITION MISSING
+    def forward(self, x):
+        # RETURN VALUE MISSING
+\end{lstlisting}
+Then 
+
+\end{document}
