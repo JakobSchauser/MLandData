@@ -7,7 +7,8 @@ let eps = 0.0000001
 /// <returns> Returns a float </summary>
 let rec cfrac2float (lst : int list): float = 
     match List.length lst with
-        | 1 -> 1.0/float(lst.[0])
+        | 0 -> 0.0
+        | 1 -> float(lst.[0])
         | _ -> float(lst.[0]) + 1.0/(cfrac2float lst.[1..])
 
 /// <summary> Takes a decimal number and returns the list of numbers for the continued fraction </summary>

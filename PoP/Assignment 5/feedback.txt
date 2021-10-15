@@ -1,0 +1,59 @@
+# 5g - generelle kommentarer og overholdelse af afleveringsformat
+
+[*] Generelt rigtig god opgave, men en væsentlig del af testene mangler.
+[-] Udførelse af White box tests mangler i 5g0.fsx og 5g1.fsx.
+[+] God REAME, nemt at overskue jeres white box planlægning.
+
+# 5g0a - isTable
+
+[+] Jeres funktion næsten korrekt.
+[+] Jeres dokumentation af isTable følger dokumentationsstandarden.
+[-] Jeres funktion returner et forkert svar for input [[]], der skal være true. Lille fejl.
+
+# 5g0b - firstColumn
+
+[+] Jeres funktion er korrekt.
+[+] Jeres dokumentation af firstColumn følger dokumentationsstandarden.
+
+# 5g0c - dropFirstColumn
+
+[+] Jeres funktion er korrekt.
+[+] Jeres dokumentation af dropFirstColumn følger dokumentationsstandarden.
+
+# 5g0c - transposeLstLst
+
+[+] Jeres funktion er korrekt.
+[+] Jeres dokumentation af transposeLstLst følger dokumentationsstandarden.
+
+# 5g0e - isTable test
+
+[-] Mangler
+
+# 5g0e - firstColumn test
+
+[-] Mangler
+
+# 5g0e - dropFirstColumn test
+
+[-] Mangler
+
+# 5g0e - transposeLstLst test
+
+[-] Mangler
+
+# 5g1a - transposeArr
+
+[+] Jeres funktion er korrekt.
+[+] Jeres dokumentation af transposeArr følger dokumentationsstandarden.
+
+# 5g1b - transposeArr test
+
+[-] Mangler
+
+# 5g1c - diskussion af fordele og ulemper
+
+[+] Gode pointer.
+
+# 5g1d - diskussion af fordele og ulemper ved funktionel vs. imperativ
+
+[+] Gode pointer.
