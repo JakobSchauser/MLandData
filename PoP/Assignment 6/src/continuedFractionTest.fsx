@@ -8,8 +8,6 @@ printfn "%5b: [3;4;12;4]" (floor(cfrac2float [3;4;12;4] * 1000.0) = floor(3.2448
 printfn "%5b: Simply [0]" (string(cfrac2float [0]) = "Infinity")
 printfn "%5b: [4;2] = [4;1;1]" (cfrac2float [4;1;1] = cfrac2float [4;2])
 
-
-
 // printfn "\nBlack-box testing of float2cfrac" 
 printfn "%5b: 0.0" (float2cfrac 0.0 = [0])
 printfn "%5b: The example 3.245" (float2cfrac 3.245 = [3; 4; 12; 4])
@@ -35,3 +33,4 @@ printfn "%5b: A negative number" (float2cfrac -1.0 = [-1])
 // +-----------------+-------+-----------+-------+-----------------+--------------------------+
 // |                 | 2b    | true      | 3.245 | [3; 4; 12; 4]   |                          |
 // +-----------------+-------+-----------+-------+-----------------+--------------------------+
+
