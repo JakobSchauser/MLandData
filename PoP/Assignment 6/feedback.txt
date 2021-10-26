@@ -1,0 +1,34 @@
+# 6i - generelle kommentarer og overholdelse af afleveringsformat
+
+[-] README forklarer ikke hvordan jeg skal oversætte koden, blot at jeg skal gøre det. 
+[*] Generelt fin aflevering, men jeg kan ikke oversætte din kode.
+
+# 6i0
+
+[+] Din dokumentation af cfrac2float følger dokumentationsstandarden.
+[+] Din funktion fungerer korrekt
+[y] Din signatur for funktionen float2cfrac er ikke korrekt.
+
+# 6i1
+
+[+] Din dokumentation af float2cfrac følger dokumentationsstandarden.
+[y] Din signatur for funktionen float2cfrac er ikke korrekt.
+[+] Du sammenligner `ri` med en epsilon-værdi. Godt!
+[+] Din funktion fungerer korrekt.
+
+# 6i2 - continued fractions bibliotek
+
+[y] Vi kan ikke oversætte dit bibliotek. Skyldes fejlen i signaturfilen.
+
+# 6i2, Test af biblioteket, cfrac2float
+
+[+] Fin opstilling af dine test.
+[-] Dine testcases er fine, men den sidste er kedelig. (blackbox)
+[+] God whitebox test.
+[y] I stedet for at gange med 1000 og derefter benytte floor, kan du bare afrunde tallet til et bestemt antal decimaler.
+
+# 6i2, Test af biblioteket, float2cfrac
+
+[+] Fin opstilling af dine tests.
+[y] Du kan bare teste din break-branch først og derefter den anden som egentlig kører begge stykker kode igennem. På den måde finder du stadig ud af hvor fejlen er, hvis der skulle være nogen. (whitebox)
+[-] 3 cases er ikke nok til at teste din funktion (blackbox).

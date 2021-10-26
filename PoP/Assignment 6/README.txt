@@ -8,6 +8,10 @@
 ╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┏━┛┃╋╋╋╋╋
 ╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┗━━┛╋╋╋╋╋
 
+There are multiple ways, but to run the f-sharp code, the modules must first be compiled down into a 
+.dll file which can be attached to the main files "4i1.fsx" and "4i2.fsx". These can then be compiled into 
+.exe files using fsharpc and run by use of mono.
+
 
 Whitebox:
 +-----------------+-------+-----------+-------+-----------------+--------------------------+
