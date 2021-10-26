@@ -9,8 +9,10 @@
 ╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋╋┗━━┛╋╋╋╋╋
 
 There are multiple ways, but to run the f-sharp code, the modules must first be compiled down into a 
-.dll file which can be attached to the main files "4i1.fsx" and "4i2.fsx". These can then be compiled into 
-.exe files using fsharpc and run by use of mono.
+.dll file using "fsharpc -a continuedFraction.fsi continuedFraction.fs". These can then be combined with the main file "continuedFraction.fsx" and compiled into 
+.exe files by the command "fsharpc -r continuedFraction.dll continuedFraction.fsx" and run by use of mono.
+
+
 
 
 Whitebox:

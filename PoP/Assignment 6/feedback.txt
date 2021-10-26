@@ -31,4 +31,4 @@
 
 [+] Fin opstilling af dine tests.
 [y] Du kan bare teste din break-branch først og derefter den anden som egentlig kører begge stykker kode igennem. På den måde finder du stadig ud af hvor fejlen er, hvis der skulle være nogen. (whitebox)
-[-] 3 cases er ikke nok til at teste din funktion (blackbox).
+[y] 3 cases er ikke nok til at teste din funktion (blackbox).

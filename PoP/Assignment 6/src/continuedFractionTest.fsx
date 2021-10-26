@@ -12,6 +12,8 @@ printfn "\nBlack-box testing of float2cfrac"
 printfn "%5b: 0.0" (float2cfrac 0.0 = [0])
 printfn "%5b: The example 3.245" (float2cfrac 3.245 = [3; 4; 12; 4])
 printfn "%5b: A negative number" (float2cfrac -1.0 = [-1])
+printfn "%5b: A small number" (float2cfrac 0.21 = [0;4;1;3;5])
+printfn "%5b: A large number" (float2cfrac 20.21 = [20;4;1;3;5])
 
 
 
@@ -29,10 +31,11 @@ printfn "%5b: A negative number" (float2cfrac -1.0 = [-1])
 // +-----------------+-------+-----------+-------+-----------------+--------------------------+
 // | float2cfrac     | 2     |           |       |                 |                          |
 // +-----------------+-------+-----------+-------+-----------------+--------------------------+
-// | r < eps         | 2a    | false     | 3.0   | [3]             |                          |
+// | r < eps         | 2a    | true      | 3.0   | [3]             |                          |
 // +-----------------+-------+-----------+-------+-----------------+--------------------------+
-// |                 | 2b    | true      | 3.245 | [3; 4; 12; 4]   |    + recursive calls     |
+// |                 | 2b    | false     | 3.245 | [3; 4; 12; 4]   |    + recursive calls     |
 // +-----------------+-------+-----------+-------+-----------------+--------------------------+
+
 printfn "\nWhite-box tests: "
 printfn "1a : %A" (cfrac2float [])
 printfn "1b : %A" (cfrac2float [2])
