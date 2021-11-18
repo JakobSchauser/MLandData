@@ -9,7 +9,6 @@ let len (b:Board) : int = ( b |> List.length |> float |> sqrt |> int )
 let create (n:uint64) : Board = 
     Seq.toList "abcdefghijklmnopqustuvwxy".[..int (n*n - uint64 1)]
 
-
     
 let board2Str (b:Board) : string = 
     b |> List.toArray |> System.String

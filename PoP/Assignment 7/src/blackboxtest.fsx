@@ -24,12 +24,12 @@ printfn "%5b: 7 illegal to the bo3ttom" (validRotation bo3 7 = false)
 printfn "%5b: 69 very large" (validRotation bo3 69 = false)
 
 // val rotate : (b:Board) -> (p:Position) -> Board
-// // valid
-// // invalid
 let bo2 = create (uint64 2)
 printfn "Black-box testing of rotate" 
 printfn "%5b: legal" (rotate bo2 0 = ['c';'a';'d';'b'])
 printfn "%5b: illegal" (rotate bo2 1 = bo2)
+printfn "%5b: cyclic" (rotate bo2 4 = bo2)
+
 
 
 // val scramble : (b:Board) -> (m:uint) -> Board
