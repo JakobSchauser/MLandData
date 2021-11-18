@@ -3,23 +3,26 @@ module Rotate
 type Board = char list
 type Position = int
 
-let rand = new System.Random()
-
+let rand = System.Random ()
+let len (b:Board) : int = ( b |> List.length |> float |> sqrt |> int )
 
 let create (n:uint64) : Board = 
-    Seq.toList "abcdefghijklmnopqustuvwxyz".[..int (n*n)]
+    Seq.toList "abcdefghijklmnopqustuvwxy".[..int (n*n - uint64 1)]
 
 let board2Str (b:Board) : string = 
-    System.String (List.toArray b)
+    let ps = b |> List.mapi (fun i x -> if i = len b then "\n" + ("%c" x)  else x)
+    System.String (List.toArray ps)
 
-let len (b:Board) : int = ( b |> List.length |> float |> sqrt |> int ))
 
 let validRotation (b:Board) (p:Position) : bool =
-    let l = len b
-    match ((int p) %  l -  (l - 1 ) with
-        | 0 -> false
-        | _ -> if p >= l * (l - 1) then false else true
-        
+    if p < 0 then 
+        false
+    else 
+        let l = len b
+        match ((int p) %  l -  (l - 1 )) with
+            | 0 -> false
+            | _ -> if p >= l * (l - 1) then false else true
+            
 let rotate (b:Board) (p:Position) : Board =
     let l = len b
     match validRotation b p with
@@ -43,10 +46,10 @@ let rec scramble (b:Board) (m:uint64) : Board =
     match int m with
     | 0 -> b
     | _ -> 
-        let rand_ind = rand.Next(0, (b |> List.length ) - 1 ) + rand.Next(0, (b |> List.length ) -1 ) * (b |> List.length) 
-
+        let rand_ind = rand.Next (b |> List.length) + (rand.Next (b |> List.length)) * (b |> List.length) 
         scramble (rotate b rand_ind) (m - uint64 1) 
 
 
 let solved (b:Board) : bool =
-    (b, (b |> List.length |> uint64 |> create)) ||> List.forall2 (=)
+    let trues = create (uint64 ((b |> List.length)/2))
+    (b, trues) ||> List.forall2 (=)
