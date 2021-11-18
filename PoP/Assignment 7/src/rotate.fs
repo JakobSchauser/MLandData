@@ -46,7 +46,7 @@ let rec scramble (b:Board) (m:uint64) : Board =
     match int m with
     | 0 -> b
     | _ -> 
-        let rand_ind = rand.Next (b |> List.length) + (rand.Next (b |> List.length)) * (b |> List.length) 
+        let rand_ind = rand.Next (b |> len) + (rand.Next (b |> len)) * (b |> len) 
         scramble (rotate b rand_ind) (m - uint64 1) 
 
 

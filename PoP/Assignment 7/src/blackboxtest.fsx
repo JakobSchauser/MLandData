@@ -36,6 +36,7 @@ printfn "%5b: cyclic" (rotate bo2 4 = bo2)
 printfn "Black-box testing of scramble" 
 printfn "%5b: check if unchanged" ((scramble bo2 (uint64 0) = bo2) = true)
 printfn "%5b: chech if changed" ((scramble bo2 (uint64 20) = bo2) = false)
+printfn "%5A: HERE" (scramble  (create (uint64 3)) (uint64 4))
 
 
 // val solved : (b:Board) -> bool
