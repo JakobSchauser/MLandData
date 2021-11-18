@@ -27,10 +27,6 @@ printfn "%5b: 69 very large" (validRotation bo3 69 = false)
 // // valid
 // // invalid
 let bo2 = create (uint64 2)
-
-printfn "%A" (board2Str bo2)
-
-
 printfn "Black-box testing of rotate" 
 printfn "%5b: legal" (rotate bo2 0 = ['c';'a';'d';'b'])
 printfn "%5b: illegal" (rotate bo2 1 = bo2)

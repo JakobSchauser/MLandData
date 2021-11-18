@@ -9,9 +9,10 @@ let len (b:Board) : int = ( b |> List.length |> float |> sqrt |> int )
 let create (n:uint64) : Board = 
     Seq.toList "abcdefghijklmnopqustuvwxy".[..int (n*n - uint64 1)]
 
+
+    
 let board2Str (b:Board) : string = 
-    let ps = b |> List.mapi (fun i x -> if i = len b then "\n" + ("%c" x)  else x)
-    System.String (List.toArray ps)
+    b |> List.toArray |> System.String
 
 
 let validRotation (b:Board) (p:Position) : bool =
