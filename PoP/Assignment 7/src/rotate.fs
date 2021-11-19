@@ -11,7 +11,12 @@ let create (n:uint64) : Board =
 
     
 let board2Str (b:Board) : string = 
-    b |> List.toArray |> System.String
+    // b |> List.toArray |> System.String
+    let l = len b
+    b |> List.mapi(fun i x -> if (i%l = 0) && not (i = 0) then ['\n';x] else [x]) |> List.concat |> List.toArray |> System.String
+    
+
+
 
 
 let validRotation (b:Board) (p:Position) : bool =

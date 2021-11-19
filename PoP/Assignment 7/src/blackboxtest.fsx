@@ -1,6 +1,10 @@
 #load "rotate.fs"
 open Rotate
 
+let bo2 = create (uint64 2)
+let bo3 = create (uint64 3)
+
+
 
 // Blackbox
 printfn "Black-box testing of create" 
@@ -12,10 +16,9 @@ printfn "%5b: 3 one that works" (create (uint64 3) = ['a';'b';'c';'d';'e';'f';'g
 
 // val board2Str : (b:Board) -> string
 // // no idea
-
+printfn "%5b: Is this printing newlined?" ( (board2Str bo2) = "ab\ncd")
 
 // val validRotation : (b:Board) -> (p:Position) -> bool
-let bo3 = create (uint64 3)
 printfn "Black-box testing of validRotation" 
 printfn "%5b: -1 not legal" (validRotation bo3 -1 = false)
 printfn "%5b: 0 trivially true" (validRotation bo3 0 = true)
@@ -24,7 +27,6 @@ printfn "%5b: 7 illegal to the bo3ttom" (validRotation bo3 7 = false)
 printfn "%5b: 69 very large" (validRotation bo3 69 = false)
 
 // val rotate : (b:Board) -> (p:Position) -> Board
-let bo2 = create (uint64 2)
 printfn "Black-box testing of rotate" 
 printfn "%5b: legal" (rotate bo2 0 = ['c';'a';'d';'b'])
 printfn "%5b: illegal" (rotate bo2 1 = bo2)
@@ -42,4 +44,4 @@ printfn "%5A: HERE" (scramble  (create (uint64 3)) (uint64 4))
 // val solved : (b:Board) -> bool
 printfn "Black-box testing of solved" 
 printfn "%5b: solved" (solved ['a';'b';'c';'d'] = true)
-printfn "%5b: unsolved" (solved ['a';'b';'d';'c'] = false)
+printfn "%5b: unsolved" (solved ['b';'d';'s';'m'] = false)
