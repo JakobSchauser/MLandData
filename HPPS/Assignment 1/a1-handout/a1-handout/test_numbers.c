@@ -2,5 +2,5 @@
 #include "numbers.h"
 
 int main() {
-  // TODO
+  bits8_print(bits8_from_int(10));
 }
