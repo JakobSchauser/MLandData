@@ -57,9 +57,9 @@ let makePicture (filnavn:string) (figur:figure) (b:int) (h:int) : unit =
 let rec checkFigure (f:figure) : bool =
     match f with
         | Circle ((cx,cy), r, col) -> 
-            if r > 0 then true else false
+            r > 0
         | Rectangle ((x0,y0), (x1,y1), col) -> 
-            if x0 <= x1 && y0 <= y1 then true else false
+            x0 <= x1 && y0 <= y1
         | Mix (f1, f2) -> 
             (checkFigure f1) && (checkFigure f2)
 
@@ -73,7 +73,7 @@ let rec move (f : figure) (x : int,y : int) : figure =
         | Circle ((cx,cy), r, col) -> 
             Circle ((cx + x,cy + y), r, col)
         | Rectangle ((x0,y0), (x1,y1), col) -> 
-            Rectangle ((x0 + x, y0 + y), (x1 + x,y1 + y), col) 
+            Rectangle ((x0 + x, y0 + y), (x1 + x, y1 + y), col) 
         | Mix (f1, f2) -> 
             Mix (move f1 (x,y), move f2 (x,y))
 
