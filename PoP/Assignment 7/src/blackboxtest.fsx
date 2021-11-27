@@ -43,5 +43,7 @@ printfn "%5A: HERE" (scramble  (create (uint64 3)) (uint64 4))
 
 // val solved : (b:Board) -> bool
 printfn "Black-box testing of solved" 
-printfn "%5b: solved" (solved ['a';'b';'c';'d'] = true)
-printfn "%5b: unsolved" (solved ['b';'d';'s';'m'] = false)
+printfn "%5b: solved 2x2" (solved ['a';'b';'c';'d'] = true)
+printfn "%5b: unsolved 2x2" (solved ['b';'d';'s';'m'] = false)
+printfn "%5b: solved 3x3" (solved ['a';'b';'c';'d';'e';'f';'g';'h';'i'] = true)
+printfn "%5b: unsolved 3x3" (solved  ['a';'u';'b';'e';'r';'g';'i';'n';'e']  = false)
