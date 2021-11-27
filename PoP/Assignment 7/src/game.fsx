@@ -9,7 +9,7 @@ let rec playmove (b: Board) (total: int) : int=
         printfn "The board looks as follows:\n%s" (board2Str b)
         printfn "What move do you want to make?"
         let move = System.Console.ReadLine();
-        if validRotation bo3 -1 then
+        if validRotation b (int move) then
             playmove (rotate b (int move)) (total + 1)
         else
             printfn "That is not a valid move - try something else!"

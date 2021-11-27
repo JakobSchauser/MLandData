@@ -6,8 +6,8 @@ type Position = int
 let rand = System.Random ()
 let len (b:Board) : int = ( b |> List.length |> float |> sqrt |> int )
 
-let create (n:uint64) : Board = 
-    Seq.toList "abcdefghijklmnopqustuvwxy".[..int (n*n - uint64 1)]
+let create (n:uint32) : Board = 
+    Seq.toList "abcdefghijklmnopqustuvwxy".[..int (n*n - uint32 1)]
 
     
 let board2Str (b:Board) : string = 
@@ -26,7 +26,7 @@ let validRotation (b:Board) (p:Position) : bool =
         let l = len b
         match ((int p) %  l -  (l - 1 )) with
             | 0 -> false
-            | _ -> if p >= l * (l - 1) then false else true
+            | _ -> not p >= l * (l - 1)
             
 let rotate (b:Board) (p:Position) : Board =
     let l = len b
@@ -47,14 +47,14 @@ let rotate (b:Board) (p:Position) : Board =
             )
 
 
-let rec scramble (b:Board) (m:uint64) : Board = 
+let rec scramble (b:Board) (m:uint32) : Board = 
     match int m with
     | 0 -> b
     | _ -> 
-        let rand_ind = rand.Next (b |> len) + (rand.Next (b |> len)) * (b |> len) 
-        scramble (rotate b rand_ind) (m - uint64 1) 
+        let rand_ind = rand.Next ((b |> len) - 1) + (rand.Next ((b |> len) - 1)) * (b |> len) 
+        scramble (rotate b rand_ind) (m - uint32 1) 
 
 
 let solved (b:Board) : bool =
-    let trues = create (uint64 ((b |> List.length)/2))
+    let trues = create (uint32 ((b |> len))
     (b, trues) ||> List.forall2 (=)
