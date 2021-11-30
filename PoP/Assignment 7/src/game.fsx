@@ -1,4 +1,3 @@
-#load "rotate.fs"
 open Rotate
 let rec playmove (b: Board) (total: int) = 
     if solved b then printfn "\n\nYou solved the board in %A moves!" total else

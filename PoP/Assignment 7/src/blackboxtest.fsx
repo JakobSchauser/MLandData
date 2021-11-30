@@ -33,7 +33,8 @@ printfn "Black-box testing of rotate"
 printfn "%5b: legal 2x2" (rotate bo2 1 = ['c';'a';'d';'b'])
 printfn "%5b: illegal 2x2" (rotate bo2 2 = bo2)
 printfn "%5b: illegal 3x3" (rotate bo3 3 = bo3)
-printfn "%5b: cyclic" ((rotate (rotate (rotate (rotate bo2 1) 1) 1) 1) = bo2)
+printfn "%5b: cyclic 2x2" ((rotate (rotate (rotate (rotate bo2 1) 1) 1) 1) = bo2)
+printfn "%5b: cyclic 3x3" ((rotate (rotate (rotate (rotate bo3 1) 1) 1) 1) = bo3)
     
 
 
