@@ -1,12 +1,9 @@
 type Board = char list
 type Position = int
 
-val create : (n:uint32) -> Board
-val board2Str : (b:Board) -> string
-val validRotation : (b:Board) -> (p:Position) -> bool
-val rotate : (b:Board) -> (p:Position) -> Board
-val scramble : (b:Board) -> (m:uint32) -> Board
-val solved : (b:Board) -> bool
-
-
-
+val create : uint32 -> Board
+val board2Str : Board -> string
+val validRotation : Board -> Position -> bool
+val rotate : Board -> Position -> Board
+val scramble : Board -> uint32 -> Board
+val solved : Board -> bool
