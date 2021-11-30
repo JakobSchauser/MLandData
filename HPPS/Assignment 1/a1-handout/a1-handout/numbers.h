@@ -14,42 +14,33 @@ struct bits8 {
 
 
 struct bit getBit(int x, int ind){
-  return bit_from_int((x>>ind)%2);
+  int b = (x>>ind)%2;
+  return bit_from_int(b);
 }
 
-struct bits8 setBit(int x, int ind){
-  // struct bits8 bits;
-  // bits.b0 = getBit(x,0);
-  // bits.b1 = getBit(x,1);
-  // bits.b2 = getBit(x,2);
-  // bits.b3 = getBit(x,3);
-  // bits.b4 = getBit(x,4);
-  // bits.b5 = getBit(x,5);
-  // bits.b6 = getBit(x,6);
-  // bits.b7 = getBit(x,7);
-
-  x^(1 << ind)
-  return bits;
-
-}
 struct bits8 bits8_from_int(unsigned int x){
   struct bits8 bits;
 
   bits.b0 = getBit(x,0);
   bits.b1 = getBit(x,1);
   bits.b2 = getBit(x,2);
-  bits.b7 = getBit(x,3);
-  bits.b3 = getBit(x,4);
-  bits.b4 = getBit(x,5);
-  bits.b5 = getBit(x,6);
-  bits.b6 = getBit(x,7);
+  bits.b3 = getBit(x,3);
+  bits.b4 = getBit(x,4);
+  bits.b5 = getBit(x,5);
+  bits.b6 = getBit(x,6);
+  bits.b7 = getBit(x,7);
   return bits;
 }
 
+
+struct bits8 setBit(int x, int ind){
+  int ret = x|(1 << ind);
+  return bits8_from_int(ret);
+
+}
+
 unsigned int bits8_to_int(struct bits8 x){
-
-
-
+  return 10;
 }
 
 void bits8_print(struct bits8 v){
@@ -64,10 +55,10 @@ void bits8_print(struct bits8 v){
 
 }
 
-struct bit calc_overflow(struct bit x, struct bit y, struct bit z){
-  // return bit_or(bit_and(x,y),bit_and(y,z));
-  return bit_from_int(1);
-}
+// struct bit calc_overflow(struct bit x, struct bit y, struct bit z){
+//   // return bit_or(bit_and(x,y),bit_and(y,z));
+//   return bit_from_int(1);
+// }
 
 struct bits8 bits8_add(struct bits8 x, struct bits8 y){
   struct bit overflow;
@@ -99,7 +90,7 @@ struct bits8 bits8_add(struct bits8 x, struct bits8 y){
   return bits;
 }
 struct bits8 bits8_negate(struct bits8 x){
-
+  return bits8_from_int((bits8_to_int(x)^(-1)) + 1);
 
 }
 struct bits8 bits8_mul(struct bits8 x, struct bits8 y);
