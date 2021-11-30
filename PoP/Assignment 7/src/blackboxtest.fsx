@@ -17,16 +17,16 @@ printfn "%5b: 3 one that works" (create (uint32 3) = ['a';'b';'c';'d';'e';'f';'g
 // board2Str
 printfn "Black-box testing of board2Str" 
 printfn "%5b: Is this printing newlined?" ( (board2Str bo2) = "ab\ncd")
-printfn "%5b: Empty board?" ( (Board []) = "")
+printfn "%5b: Empty board?" ( board2Str(create (uint32 0)) = "")
 
 
 // validRotation
 printfn "Black-box testing of validRotation" 
-printfn "%5b: -1 not legal" (validRotation bo3 -1 = false)
-printfn "%5b: 1 trivially true" (validRotation bo3 1 = true)
-printfn "%5b: 3 illegal to the right" (validRotation bo3 3 = false)
-printfn "%5b: 8 illegal to the bo3ttom" (validRotation bo3 8 = false)
-printfn "%5b: 69 very large" (validRotation bo3 69 = false)
+printfn "%5b: -1 not legal 3x3" (validRotation bo3 -1 = false)
+printfn "%5b: 1 trivially true 3x3" (validRotation bo3 1 = true)
+printfn "%5b: 3 illegal to the right 3x3" (validRotation bo3 3 = false)
+printfn "%5b: 8 illegal to the bo3ttom 3x3" (validRotation bo3 8 = false)
+printfn "%5b: 69 very large 3x3" (validRotation bo3 69 = false)
 
 // rotate
 printfn "Black-box testing of rotate" 
