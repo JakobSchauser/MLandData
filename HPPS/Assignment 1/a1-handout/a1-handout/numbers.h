@@ -14,7 +14,7 @@ struct bits8 {
 
 
 struct bit getBit(int x, int ind){
-  int b = (x>>ind)%2;
+  int b = abs((x>>ind)%2);
   return bit_from_int(b);
 }
 
@@ -40,7 +40,17 @@ struct bits8 setBit(int x, int ind){
 }
 
 unsigned int bits8_to_int(struct bits8 x){
-  return 10;
+  int num = 0;
+  num = num|(bit_to_int(x.b0)<<0);
+  num = num|(bit_to_int(x.b1)<<1);
+  num = num|(bit_to_int(x.b2)<<2);
+  num = num|(bit_to_int(x.b3)<<3);
+  num = num|(bit_to_int(x.b4)<<4);
+  num = num|(bit_to_int(x.b5)<<5);
+  num = num|(bit_to_int(x.b6)<<6);
+  num = num|(bit_to_int(x.b7)<<7);
+
+  return num;
 }
 
 void bits8_print(struct bits8 v){
@@ -55,10 +65,6 @@ void bits8_print(struct bits8 v){
 
 }
 
-// struct bit calc_overflow(struct bit x, struct bit y, struct bit z){
-//   // return bit_or(bit_and(x,y),bit_and(y,z));
-//   return bit_from_int(1);
-// }
 
 struct bits8 bits8_add(struct bits8 x, struct bits8 y){
   struct bit overflow;
@@ -90,7 +96,25 @@ struct bits8 bits8_add(struct bits8 x, struct bits8 y){
   return bits;
 }
 struct bits8 bits8_negate(struct bits8 x){
-  return bits8_from_int((bits8_to_int(x)^(-1)) + 1);
+  int i = bits8_to_int(x);
+  int ichanged = (i^(-1)) + 1;
+  return bits8_from_int(ichanged);
 
 }
-struct bits8 bits8_mul(struct bits8 x, struct bits8 y);
+struct bits8 bits8_mul(struct bits8 x, struct bits8 y){
+  int num1 = bits8_to_int(y);
+
+  int result = 0;
+  result += num1*bit_to_int(x.b0)*(1<<0);
+  result += num1*bit_to_int(x.b1)*(1<<1);
+  result += num1*bit_to_int(x.b2)*(1<<2);
+  result += num1*bit_to_int(x.b3)*(1<<3);
+  result += num1*bit_to_int(x.b4)*(1<<4);
+  result += num1*bit_to_int(x.b5)*(1<<5);
+  result += num1*bit_to_int(x.b6)*(1<<6);
+  result += num1*bit_to_int(x.b7)*(1<<7);
+
+  return bits8_from_int(result);
+}
+
+

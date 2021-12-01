@@ -2,5 +2,6 @@
 #include "numbers.h"
 
 int main() {
-  bits8_print(bits8_from_int(10));
+  struct bits8 toprint = bits8_mul(bits8_from_int(-2),bits8_from_int(5));
+  bits8_print(toprint);
 }
