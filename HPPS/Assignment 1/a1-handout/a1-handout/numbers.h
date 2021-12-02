@@ -66,45 +66,49 @@ void bits8_print(struct bits8 v){
 }
 
 
+struct bit calc_overflow(struct bit a, struct bit b,struct bit c){
+
+  return bit_or(bit_or(bit_and(a,b),bit_and(a,c)),bit_and(b,c));
+}
+
 struct bits8 bits8_add(struct bits8 x, struct bits8 y){
   struct bit overflow;
   struct bits8 bits;
 
   bits.b0 = bit_xor(x.b0, y.b0);
-  overflow = bit_and(x.b0,y.b0);
+  overflow = calc_overflow(x.b0,y.b0,bit_from_int(0));
+
   
   bits.b1 = bit_xor(bit_xor(x.b1, y.b1), overflow);
-  overflow = bit_and(bit_or(x.b1,y.b1),bit_or(y.b1,overflow));
+  overflow = calc_overflow(x.b1,y.b1,overflow);
 
   bits.b2 = bit_xor(bit_xor(x.b2, y.b2), overflow);
-  overflow = bit_and(bit_or(x.b2,y.b2),bit_or(y.b2,overflow));
+  overflow = calc_overflow(x.b2,y.b2,overflow);
 
   bits.b3 = bit_xor(bit_xor(x.b3, y.b3), overflow);
-  overflow = bit_and(bit_or(x.b3,y.b3),bit_or(y.b3,overflow));
+  overflow = calc_overflow(x.b3,y.b3,overflow);
 
   bits.b4 = bit_xor(bit_xor(x.b4, y.b4), overflow);
-  overflow = bit_and(bit_or(x.b4,y.b4),bit_or(y.b4,overflow));
+  overflow = calc_overflow(x.b4,y.b4,overflow);
 
   bits.b5 = bit_xor(bit_xor(x.b5, y.b5), overflow);
-  overflow = bit_and(bit_or(x.b5,y.b5),bit_or(y.b5,overflow));
+  overflow = calc_overflow(x.b5,y.b5,overflow);
 
   bits.b6 = bit_xor(bit_xor(x.b6, y.b6), overflow);
-  overflow = bit_and(bit_or(x.b6,y.b6),bit_or(y.b6,overflow));
+  overflow = calc_overflow(x.b6,y.b6,overflow);
 
   bits.b7 = bit_xor(bit_xor(x.b7, y.b7), overflow);
 
   return bits;
 }
 struct bits8 bits8_negate(struct bits8 x){
-  int i = bits8_to_int(x);
-  int ichanged = (i^(-1)) + 1;
-  return bits8_from_int(ichanged);
+  // negate by xor'ing with a bits8 filled with 1's. Add one.
+  struct bits8 new = bits8_add(bit_xor(x,fill(bit_from_int(1))), 1);
+  return new;
 
 }
 
 struct bits8 bits8_shiftleft(struct bits8 x, int num){
-  if (num == 0){return x;}
-
   struct bits8 returner;
   returner.b0 = bit_from_int(0);
   returner.b1 = x.b0;
@@ -117,38 +121,85 @@ struct bits8 bits8_shiftleft(struct bits8 x, int num){
 
   return bits8_shiftleft(returner,num-1);
 }
+
+struct bits8 fill(struct bit b){
+  struct bits8 returner;
+  returner.b0 = b;
+  returner.b1 = b;
+  returner.b2 = b;
+  returner.b3 = b;
+  returner.b4 = b;
+  returner.b5 = b;
+  returner.b6 = b;
+  returner.b7 = b;
+
+  return returner;
+  
+}
+
+struct bits8 bits8_and(struct bits8 x,struct bits8 y){
+  struct bits8 result;
+
+  result.b0 = bit_and(x.b0,y.b0);
+  result.b1 = bit_and(x.b1,y.b1);
+  result.b2 = bit_and(x.b2,y.b2);
+  result.b3 = bit_and(x.b3,y.b3);
+  result.b4 = bit_and(x.b4,y.b4);
+  result.b5 = bit_and(x.b5,y.b5);
+  result.b6 = bit_and(x.b6,y.b6);
+  result.b7 = bit_and(x.b7,y.b7);
+
+  return result;
+}
+
+
+struct bits8 bits8_xor(struct bits8 x,struct bits8 y){
+  struct bits8 result;
+
+  result.b0 = bit_xor(x.b0,y.b0);
+  result.b1 = bit_xor(x.b1,y.b1);
+  result.b2 = bit_xor(x.b2,y.b2);
+  result.b3 = bit_xor(x.b3,y.b3);
+  result.b4 = bit_xor(x.b4,y.b4);
+  result.b5 = bit_xor(x.b5,y.b5);
+  result.b6 = bit_xor(x.b6,y.b6);
+  result.b7 = bit_xor(x.b7,y.b7);
+
+  return result;
+}
 struct bits8 bits8_mul(struct bits8 x, struct bits8 y){
   
-  struct bits8 result = bits8_shiftleft(x,999);  // Easy all zeros
+  struct bits8 result = fill(bit_from_int(0));  // All zeros
   struct bits8 shifted;
 
 
-  shifted = bits8_shiftleft(x,bit_to_int(y.b0)*0);
+  shifted = bits8_shiftleft(bits8_and(fill(x.b0),y),0);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(x,bit_to_int(y.b1)*1);
+  shifted = bits8_shiftleft(bits8_and(fill(x.b1),y),1);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(x,bit_to_int(y.b2)*2);
+  shifted = bits8_shiftleft(bits8_and(fill(x.b2),y),2);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(x,bit_to_int(y.b3)*3);
+  shifted = bits8_shiftleft(bits8_and(fill(x.b3),y),3);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(x,bit_to_int(y.b4)*4);
+  shifted = bits8_shiftleft(bits8_and(fill(x.b4),y),4);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(x,bit_to_int(y.b5)*5);
+  shifted = bits8_shiftleft(bits8_and(fill(x.b5),y),5);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(x,bit_to_int(y.b6)*6);
+  shifted = bits8_shiftleft(bits8_and(fill(x.b6),y),6);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(x,bit_to_int(y.b7)*7);
+  
+
+  shifted = bits8_shiftleft(bits8_and(fill(x.b7),y),7);
   result = bits8_add(result,shifted);
 
-
-
+  
   return result;
 
 }
