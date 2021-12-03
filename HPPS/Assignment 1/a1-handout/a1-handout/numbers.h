@@ -13,6 +13,7 @@ struct bits8 {
 };
 
 
+
 struct bit getBit(int x, int ind){
   int b = abs((x>>ind)%2);
   return bit_from_int(b);
@@ -33,11 +34,11 @@ struct bits8 bits8_from_int(unsigned int x){
 }
 
 
-struct bits8 setBit(int x, int ind){
-  int ret = x|(1 << ind);
-  return bits8_from_int(ret);
+// struct bits8 setBit(int x, int ind){
+//   int ret = x|(1 << ind);
+//   return bits8_from_int(ret);
 
-}
+// }
 
 unsigned int bits8_to_int(struct bits8 x){
   int num = 0;
@@ -71,6 +72,22 @@ struct bit calc_overflow(struct bit a, struct bit b,struct bit c){
   return bit_or(bit_or(bit_and(a,b),bit_and(a,c)),bit_and(b,c));
 }
 
+struct bits8 bits8_fill(struct bit b){
+
+  struct bits8 returner;
+  returner.b0 = b;
+  returner.b1 = b;
+  returner.b2 = b;
+  returner.b3 = b;
+  returner.b4 = b;
+  returner.b5 = b;
+  returner.b6 = b;
+  returner.b7 = b;
+
+  return returner;
+  
+}
+
 struct bits8 bits8_add(struct bits8 x, struct bits8 y){
   struct bit overflow;
   struct bits8 bits;
@@ -101,14 +118,11 @@ struct bits8 bits8_add(struct bits8 x, struct bits8 y){
 
   return bits;
 }
-struct bits8 bits8_negate(struct bits8 x){
-  // negate by xor'ing with a bits8 filled with 1's. Add one.
-  struct bits8 new = bits8_add(bit_xor(x,fill(bit_from_int(1))), 1);
-  return new;
 
-}
 
 struct bits8 bits8_shiftleft(struct bits8 x, int num){
+  if(num == 0){return x;};
+
   struct bits8 returner;
   returner.b0 = bit_from_int(0);
   returner.b1 = x.b0;
@@ -122,22 +136,10 @@ struct bits8 bits8_shiftleft(struct bits8 x, int num){
   return bits8_shiftleft(returner,num-1);
 }
 
-struct bits8 fill(struct bit b){
-  struct bits8 returner;
-  returner.b0 = b;
-  returner.b1 = b;
-  returner.b2 = b;
-  returner.b3 = b;
-  returner.b4 = b;
-  returner.b5 = b;
-  returner.b6 = b;
-  returner.b7 = b;
 
-  return returner;
-  
-}
 
 struct bits8 bits8_and(struct bits8 x,struct bits8 y){
+
   struct bits8 result;
 
   result.b0 = bit_and(x.b0,y.b0);
@@ -167,39 +169,50 @@ struct bits8 bits8_xor(struct bits8 x,struct bits8 y){
 
   return result;
 }
+
+struct bits8 bits8_negate(struct bits8 x){
+  struct bits8 ones = bits8_fill(bit_from_int(1));
+  struct bits8 one = bits8_from_int(1);
+
+  // negate by xor'ing with a bits8 bits8_filled with 1's. Add one.
+  struct bits8 new = bits8_add(bits8_xor(x,ones), one);
+  return new;
+
+}
 struct bits8 bits8_mul(struct bits8 x, struct bits8 y){
-  
-  struct bits8 result = fill(bit_from_int(0));  // All zeros
-  struct bits8 shifted;
+  struct bits8 result = bits8_fill(bit_from_int(0));  // All zeros
+  struct bits8 shifted; 
 
 
-  shifted = bits8_shiftleft(bits8_and(fill(x.b0),y),0);
+  shifted = bits8_shiftleft(bits8_and(bits8_fill(x.b0),y),0);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(bits8_and(fill(x.b1),y),1);
+  shifted = bits8_shiftleft(bits8_and(bits8_fill(x.b1),y),1);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(bits8_and(fill(x.b2),y),2);
+  shifted = bits8_shiftleft(bits8_and(bits8_fill(x.b2),y),2);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(bits8_and(fill(x.b3),y),3);
+  shifted = bits8_shiftleft(bits8_and(bits8_fill(x.b3),y),3);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(bits8_and(fill(x.b4),y),4);
+  shifted = bits8_shiftleft(bits8_and(bits8_fill(x.b4),y),4);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(bits8_and(fill(x.b5),y),5);
+  shifted = bits8_shiftleft(bits8_and(bits8_fill(x.b5),y),5);
   result = bits8_add(result,shifted);
 
-  shifted = bits8_shiftleft(bits8_and(fill(x.b6),y),6);
+  shifted = bits8_shiftleft(bits8_and(bits8_fill(x.b6),y),6);
   result = bits8_add(result,shifted);
 
-  
-
-  shifted = bits8_shiftleft(bits8_and(fill(x.b7),y),7);
+  shifted = bits8_shiftleft(bits8_and(bits8_fill(x.b7),y),7);
   result = bits8_add(result,shifted);
 
   
   return result;
 
+}
+
+struct bits8 bits8_sub(struct bits8 x, struct bits8 y){
+  return bits8_add(x,bits8_negate(y));
 }

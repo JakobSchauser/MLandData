@@ -1,4 +1,4 @@
-CFLAGS=-Wall -Wextra -pedantic -std=c99
+CFLAGS=-Wall -Wextra -g -pedantic -std=c99
 
 test_bits: test_bits.c bits.h
 	gcc -o test_bits test_bits.c $(CFLAGS)
