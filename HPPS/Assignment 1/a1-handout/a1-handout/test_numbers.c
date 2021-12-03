@@ -7,7 +7,8 @@ int main() {
   struct bits8 neg2 = bits8_from_int(-2);
   struct bits8 pos2 = bits8_from_int(2);
 
-  printf("Test negative:\n");
+  printf("Visual tests. Any two should be the same:\n")
+  printf("Test addition:\n");
   bits8_print(bits8_add(pos10,neg2));
   printf("\n");
   bits8_print(bits8_from_int(8));
@@ -24,7 +25,7 @@ int main() {
   printf("\n");
   printf("\n");
 
-  printf("Test negative:\n");
+  printf("Test multiplication:\n");
   bits8_print(bits8_mul(pos10,neg2));
   printf("\n");
   bits8_print(bits8_from_int(-20));
