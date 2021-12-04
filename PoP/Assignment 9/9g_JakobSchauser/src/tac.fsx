@@ -1,4 +1,4 @@
-open read
+open readNWrite
 
 [<EntryPoint>]
 let main args =
