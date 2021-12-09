@@ -1,3 +1,5 @@
+module Simulation
+
 type Drone (startx: int, starty : int, destinationx : int, destinationy : int, speed : int) =
     let mutable movedPosition = (startx, starty)
     let mutable direction = atan2 (float (destinationy - starty)) (float (destinationx - startx))
@@ -70,11 +72,3 @@ type Airspace (a)=
 
 
 
-let space = Airspace ()
-
-space.AddRandomDrones 20 5000
-printfn "%A" (List.length space.Drones)
-
-printfn "%A" (space.WillCollide 5)
-
-printfn "%A" (List.length space.Drones)
