@@ -12,60 +12,61 @@ let droneAtDestination = Drone (0, 0, 0, 0, 10)
 let droneZeroSpeed = Drone (0, 0, 1000, 1000, 0) 
 
 // Fly
+printfn "\nBlackbox test of Fly:"
+
 let posbefore = drone.Position
 drone.Fly
-printfn "%b" (posbefore <> drone.Position)
+printfn "%5b: Is position different after a flight?" (posbefore <> drone.Position)
 
 let zeroposbefore = droneZeroSpeed.Position
 droneZeroSpeed.Fly
-printfn "%b" (zeroposbefore = droneZeroSpeed.Position)
+printfn "%5b: Is position the same if the drone has speed 0?" (zeroposbefore = droneZeroSpeed.Position)
 
 // AtDestination
-printfn "%b" (droneAtDestination.AtDestination)
+printfn "\nBlackbox test of AtDestination:"
 
-printfn "%b" (not drone.AtDestination)
+printfn "%5b: Is the drone that is created at its destination showing correctly?" (droneAtDestination.AtDestination)
+
+printfn "%5b: Is this other random drone at its destination?" (not drone.AtDestination)
 
 
 // AddDrone
-printfn "%b" (List.length space.Drones = 0)
+printfn "\nBlackbox test of AddDrone, AddRandomDrone and AddRandomDrones:"
+printfn "%5b: Is an empty Arispace droneless" (List.length space.Drones = 0)
 space.AddDrone (0, 0, 1000, 1000, 10) 
-printfn "%b" (List.length space.Drones = 1)
+printfn "%5b: Does it have exactly one drone after using AddDrone" (List.length space.Drones = 1)
 
-// AddRandomDrone
 let mutable dronesbefore = space.GetDrones
 space.AddRandomDrone
 let mutable dronesafter = space.GetDrones
-printfn "%b" (List.length dronesbefore < List.length dronesafter)
-
-
-// AddRandomDrones
+printfn "%5b: Does adding a random drone increase the numer of drones?" (List.length dronesbefore < List.length dronesafter)
 dronesbefore <- space.GetDrones
 space.AddRandomDrones 20
 dronesafter <- space.GetDrones
-printfn "%b" (List.length dronesbefore + 20 = List.length dronesafter)
+printfn "%5b: If you add 20 random drones, does the count increase by 20?" (List.length dronesbefore + 20 = List.length dronesafter)
 
-
+printfn "\nBlackbox test of DroneDist:"
 // DroneDist
-printfn "%b" (space.DroneDist droneAtDestination droneZeroSpeed = 0.0)
-printfn "%b" (space.DroneDist droneAtDestination drone > 0.0)
+printfn "%5b: Are two drones on top of each other at distance 0.0?" (space.DroneDist droneAtDestination droneZeroSpeed = 0.0)
+printfn "%5b: Is it larger if they are away from each other?" (space.DroneDist droneAtDestination drone > 0.0)
 
 // WillCollide
+printfn "\nBlackbox test of WillCollide:"
 let mutable emptyspace = Airspace (50*100)
 let collided = emptyspace.WillCollide 10
-printfn "%b" (List.length collided = 0)
+printfn "%5b: There should be no collision for an empty airspace" (List.length collided = 0)
 
 emptyspace.AddRandomDrones 50
 let collidednow = emptyspace.WillCollide 10
-printfn "%b" (List.length collidednow > 0)
+printfn "%5b: But there should be some for a filled one." (List.length collidednow > 0)
 
 // FlyDrones
+printfn "\nBlackbox test of FlyDrones:"
 emptyspace <- Airspace (50*100)
 emptyspace.AddRandomDrones 50
 
 let droneposbefore = emptyspace.GetDronePositions
 emptyspace.FlyDrones
-emptyspace.FlyDrones
-emptyspace.FlyDrones
 
 let allchanged = List.exists2 (fun ((a,b) :int*int) ((c,d) :int*int) -> a = c && b = d) droneposbefore emptyspace.GetDronePositions
-printfn "%b" (not allchanged)
+printfn "%5b: After using FlyDrones 1 time, all drones should have moved." (not allchanged)
