@@ -29,7 +29,7 @@ int* read_indexes(FILE *f, int *n_out, int *k_out) {
 }
 
 int write_points(FILE *f, int32_t n, int32_t d, double *data) {
-  return fwrite(&data, sizeof(double),1, f);
+  return fwrite(data, sizeof(double), n*d, f);
 }
 
 int write_indexes(FILE *f, int32_t n, int32_t k, int *data) {
