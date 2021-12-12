@@ -31,8 +31,25 @@ double distance(int d, const double *x, const double *y) {
 // to 'query' than any point in 'closest'.
 //
 // Returns 1 if 'closest' was updated, and otherwise '0'.
+
 int insert_if_closer(int k, int d,
                      const double *points, int *closest, const double *query,
                      int candidate) {
-  assert(0);
+
+  int len = sizeof(*closest)/sizeof(int);
+
+
+  double new_dist = distance(d, *points[candidate], *points[*query]);
+
+  for(int i = 0; i < len; i++){
+    if(distance(d, *points[query]), *points[*closest[i]] < new_dist){
+      return 0;
+    }
+
+  }
+
+  closest[len] = candidate;
+  return 1;
+
+  
 }
