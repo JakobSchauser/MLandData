@@ -31,7 +31,7 @@ int* knn(int k, int d, int n, const double *points, const double* query) {
       nearest[i] = i;
       if (distance(d, *points[highest],*points[query]) > distance(d, *points[i],*points[query])){
         *nearest[highest] = i;
-
+        // NOT DONE
       };
     } else {
 
