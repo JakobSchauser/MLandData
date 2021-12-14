@@ -19,31 +19,17 @@
 // the responsibility of the caller to free this array.
 int* knn(int k, int d, int n, const double *points, const double* query) {
 
-  int nearest[k];
+  int closest[k] = malloc(k * sizeof(int));
 
-  int howfilled = 0;
+  for(int i = 0; i < k; i++){ closest[i] = -1;}
 
-  int highest = 0;
 
-  int index_of_highest = -1;
 
-  double dist_to_highest = 99999;
-
-  for(int i = 0; i < n; n++){
-    if (howfilled < k){
-      howfilled += 1;
-      *nearest[i] = i;
-    } 
-    
-    double dist_to_point = distance(d, *points[i],*points[query]);
-    if (dist_to_point < dist_to_highest || index_of_highest == -1){
-      highest = i;
-      dist_to_highest =  distance(d, *points[highest],*points[query]);
-    };
-
+  for(int i = 0; i < n; i++){
+    int asdasd = insert_if_closer(k,d,*points,*closest,query,points[i]);
   }
 
-  assert(0);
+  return closest;
 
 
 }

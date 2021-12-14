@@ -38,23 +38,32 @@ int insert_if_closer(int k, int d,
 
   int len = sizeof(*closest)/sizeof(int);
 
+  // COULD BE DONE IN A SINGLE LOOP IF I WAS SMARTER
+  for(int i = 0; i < len; i++){
+    if (closest[i] == -1) {
+      *closest[i] = candidate;
+      return 1;
+  }
 
-  double new_dist = distance(d, *points[candidate], *points[*query]);
+  double candidate_dist = distance(d, *points[candidate], *points[*query]);
+
+  int highest_in_array = 0;
+  int highest_index_in_array = -1;
 
   for(int i = 0; i < len; i++){
     double dist = distance(d, *points[query]), *points[*closest[i]];
-
-    if(dist < new_dist){
-      return 0;
-    }
-
-  }
-  for(int i = 0; i < len; i++){
-    if (*closest[i] == -1){
-      *closest[i] = candidate;
-      return 1;
+    if(dist > highest_in_array && dist < candidate_dist){
+      highest_in_array = dist;
+      highest_index_in_array = i;
     }
   }
+  if (highest_index_in_array != -1){
+    *closest[highest_index_in_array] = candidate;
+    return 1;
+  }
+
+  return 0;
+
 
   
 }
