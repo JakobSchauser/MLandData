@@ -21,78 +21,79 @@ void draw_points(int size, int n_points, double* points) {
 
 void draw_queries(int size, int d, double *points,
                   const char *queries_fname, const char *indexes_fname) {
-    FILE *queries_f = fopen(queries_fname, "r");
-    assert(queries_f != NULL);
+  FILE *queries_f = fopen(queries_fname, "r");
+  assert(queries_f != NULL);
 
-    int n_queries;
-    int d_queries;
-    double *queries = read_points(queries_f, &n_queries, &d_queries);
+  int n_queries;
+  int d_queries;
+  double *queries = read_points(queries_f, &n_queries, &d_queries);
 
-    if (d != d_queries) {
-      fprintf(stderr, "Reference points have dimensionality %d, but query points have dimensionality %d\n",
-              (int)d, (int)d_queries);
-      exit(1);
-    }
-
-    if (queries == NULL) {
-      fprintf(stderr, "Failed reading data from %s\n",
-              queries_fname);
-      exit(1);
-    }
-    fclose(queries_f);
-
-    FILE *indexes_f = fopen(indexes_fname, "r");
-    assert(indexes_f != NULL);
-
-    int n_indexes;
-    int k;
-    int *indexes = read_indexes(indexes_f, &n_indexes, &k);
-    if (indexes == NULL) {
-      fprintf(stderr, "Failed reading data from %s\n",
-              indexes_fname);
-      exit(1);
-    }
-    fclose(indexes_f);
-
-    if (n_queries != n_indexes) {
-      fprintf(stderr, "Found %d queries, but %d indexes\n",
-              n_queries, n_indexes);
-      exit(1);
-    }
-
-    double query_radius = 4;
-    for (int q = 0; q < n_queries; q++) {
-      double x = queries[q*d] * size;
-      double y = queries[q*d+1] * size;
-
-      // Draw each query in a randomly generated colour.
-      int r = rand() % 128;
-      int g = rand() % 128;
-      int b = rand() % 128;
-
-      printf("<circle cx=\"%f\" cy=\"%f\" r=\"%f\" fill=\"#%.2x%.2x%.2x\" />\n",
-             x, y, query_radius, r, g, b);
-
-      // Find the distance to the most distant neighbour.
-      double most_distant = 0;
-      for (int j = 0; j < k; j++) {
-        double j_dist = distance(d,
-                                 &queries[q*d],
-                                 &points[indexes[q*k+j]*d]);
-        if (j_dist > most_distant) {
-          most_distant = j_dist;
-        }
-      }
-
-      // Then draw a non-filled circle with that radius around the
-      // query point.
-      double circle_thickness = 1;
-      printf("<circle cx=\"%f\" cy=\"%f\" r=\"%f\" stroke=\"#%.2x%.2x%.2x\" stroke-width=\"%f\" fill-opacity=\"0\" />\n",
-             x, y, most_distant*size, r, g, b, circle_thickness);
-    }
-
-    free(queries);
+  if (d != d_queries) {
+    fprintf(stderr, "Reference points have dimensionality %d, but query points have dimensionality %d\n",
+            (int)d, (int)d_queries);
+    exit(1);
   }
+
+  if (queries == NULL) {
+    fprintf(stderr, "Failed reading data from %s\n",
+            queries_fname);
+    exit(1);
+  }
+  fclose(queries_f);
+
+  FILE *indexes_f = fopen(indexes_fname, "r");
+  assert(indexes_f != NULL);
+
+  int n_indexes;
+  int k;
+  int *indexes = read_indexes(indexes_f, &n_indexes, &k);
+  if (indexes == NULL) {
+    fprintf(stderr, "Failed reading data from %s\n",
+            indexes_fname);
+    exit(1);
+  }
+  fclose(indexes_f);
+
+  if (n_queries != n_indexes) {
+    fprintf(stderr, "Found %d queries, but %d indexes\n",
+            n_queries, n_indexes);
+    exit(1);
+  }
+
+  double query_radius = 4;
+  for (int q = 0; q < n_queries; q++) {
+    double x = queries[q*d] * size;
+    double y = queries[q*d+1] * size;
+
+    // Draw each query in a randomly generated colour.
+    int r = rand() % 128;
+    int g = rand() % 128;
+    int b = rand() % 128;
+
+    printf("<circle cx=\"%f\" cy=\"%f\" r=\"%f\" fill=\"#%.2x%.2x%.2x\" />\n",
+           x, y, query_radius, r, g, b);
+
+    // Find the distance to the most distant neighbour.
+    double most_distant = 0;
+    for (int j = 0; j < k; j++) {
+      double j_dist = distance(d,
+                               &queries[q*d],
+                               &points[indexes[q*k+j]*d]);
+      if (j_dist > most_distant) {
+        most_distant = j_dist;
+      }
+    }
+
+    // Then draw a non-filled circle with that radius around the
+    // query point.
+    double circle_thickness = 1;
+    printf("<circle cx=\"%f\" cy=\"%f\" r=\"%f\" stroke=\"#%.2x%.2x%.2x\" stroke-width=\"%f\" fill-opacity=\"0\" />\n",
+           x, y, most_distant*size, r, g, b, circle_thickness);
+  }
+
+  free(queries);
+  free(indexes);
+}
 
 int main(int argc, char** argv) {
   if (argc != 2 && argc != 4) {
@@ -148,5 +149,4 @@ int main(int argc, char** argv) {
   printf("</svg>\n");
 
   free(points);
-  free(indexes);
 }
