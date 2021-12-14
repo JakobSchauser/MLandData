@@ -23,17 +23,22 @@ int* knn(int k, int d, int n, const double *points, const double* query) {
 
   int howfilled = 0;
 
-  int highest_near = 0;
+  int highest = 0;
 
   for(int i = 0; i < n; n++){
+
     if (howfilled < k){
       howfilled += 1;
-      nearest[i] = i;
-      if (distance(d, *points[highest],*points[query]) > distance(d, *points[i],*points[query])){
+      *nearest[i] = i;      
+
+    } else {
+
+      double dist_to_highest = distance(d, *points[highest],*points[query]);
+      double dist_to_point = distance(d, *points[i],*points[query]);
+      if (dist_to_highest > dist_to_point){
         *nearest[highest] = i;
         // NOT DONE
       };
-    } else {
 
     }
   }

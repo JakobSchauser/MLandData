@@ -18,7 +18,11 @@ int main(int argc, char *argv[]) {
     printf("%f ", data[i]);
     
   }
-  free(data);
+  // free(data);
    
+  FILE * filetest = fopen("20_5_copy.points","w");
+  
+  write_points(filetest, n_out,d_out, data);
 
+  fclose(filetest);
 }

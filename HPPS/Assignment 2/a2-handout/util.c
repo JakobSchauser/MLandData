@@ -42,14 +42,19 @@ int insert_if_closer(int k, int d,
   double new_dist = distance(d, *points[candidate], *points[*query]);
 
   for(int i = 0; i < len; i++){
-    if(distance(d, *points[query]), *points[*closest[i]] < new_dist){
+    double dist = distance(d, *points[query]), *points[*closest[i]];
+
+    if(dist < new_dist){
       return 0;
     }
 
   }
-
-  closest[len] = candidate;
-  return 1;
+  for(int i = 0; i < len; i++){
+    if (*closest[i] == -1){
+      *closest[i] = candidate;
+      return 1;
+    }
+  }
 
   
 }
