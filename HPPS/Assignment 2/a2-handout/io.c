@@ -6,7 +6,7 @@
 
 
 // MANGLER: Fejltjek over alt
-
+///
 double* read_points(FILE *f, int* n_out, int *d_out) {
   assert(f);
   fread (n_out, sizeof(int32_t), 1, f);
