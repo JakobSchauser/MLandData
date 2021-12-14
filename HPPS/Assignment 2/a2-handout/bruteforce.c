@@ -29,7 +29,7 @@ int* knn(int k, int d, int n, const double *points, const double* query) {
     int asdasd = insert_if_closer(k,d,*points,*closest,query,points[i]);
   }
 
-  return closest;
+  return &closest;
 
 
 }
