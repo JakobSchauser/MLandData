@@ -7,7 +7,7 @@ double distance(int d, const double *x, const double *y) {
     double sum = 0;
 
     for (int i = 0; i < d; i++){
-        sum += (x[i] - y[i])*(x[i] - y[i])
+        sum += (x[i] - y[i])*(x[i] - y[i]);
     }
     return sqrt(sum);
 }
@@ -36,25 +36,28 @@ int insert_if_closer(int k, int d,
                      const double *points, int *closest, const double *query,
                      int candidate) {
 
-  int len = sizeof(*closest)/sizeof(int);
-  double candidate_dist = distance(d, *points[candidate], *points[*query]);
+  double candidate_dist = distance(d, &points[candidate], query);
 
-  int highest_in_array = 0;
+  double highest_in_array = 0;
   int highest_index_in_array = -1;
 
-  for(int i = 0; i < len; i++){
-    double dist = distance(d, *points[query]), *points[*closest[i]];
-    if(*closest[i] == -1){
-      *closest[i] = candidate;
+  for(int i = 0; i < k; i++){
+    
+    if(closest[i] == -1){
+      closest[i] = candidate;
       return 1;
     }
-    if(dist > highest_in_array && dist < candidate_dist){
+
+    double dist = distance(d, query, &points[closest[i]]);
+    
+    if(dist > highest_in_array && candidate_dist < dist){
       highest_in_array = dist;
       highest_index_in_array = i;
     }
   }
+
   if (highest_index_in_array != -1){
-    *closest[highest_index_in_array] = candidate;
+    closest[highest_index_in_array] = candidate;
     return 1;
   }
 

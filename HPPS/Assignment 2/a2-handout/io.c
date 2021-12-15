@@ -48,13 +48,13 @@ int write_points(FILE *f, int32_t n, int32_t d, double *data) {
 
   fwrite(data, sizeof(double), n*d, f);
 
-  return 1;
+  return 0;
 }
 
 int write_indexes(FILE *f, int32_t n, int32_t k, int *data) {
   assert(f);
 
-  fwrite(data, sizeof(int32_t), n*k, f);
+  fwrite(data, sizeof(int), n*k, f);
 
-  return 1;
+  return 0;
 }
