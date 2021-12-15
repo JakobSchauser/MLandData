@@ -44,6 +44,7 @@ int insert_if_closer(int k, int d,
   for(int i = 0; i < k; i++){
     
     if(closest[i] == -1){
+      // printf("-1: %d",i);
       closest[i] = candidate;
       return 1;
     }
@@ -51,16 +52,17 @@ int insert_if_closer(int k, int d,
     double dist = distance(d, query, &points[closest[i]]);
     
     if(dist > highest_in_array && candidate_dist < dist){
-      highest_in_array = dist;
+      highest_in_array = dist; 
       highest_index_in_array = i;
     }
   }
 
   if (highest_index_in_array != -1){
     closest[highest_index_in_array] = candidate;
+    // printf("found : %d",highest_index_in_array);
+
     return 1;
   }
-
   return 0;
  
 }
