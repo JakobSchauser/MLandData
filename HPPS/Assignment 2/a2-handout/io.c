@@ -31,13 +31,14 @@ double* read_points(FILE *f, int* n_out, int *d_out) {
 int* read_indexes(FILE *f, int *n_out, int *k_out) {
   assert(f);
   fread (n_out, sizeof(int32_t), 1, f);
+  fread (k_out, sizeof(int32_t), 1, f);
 
   int size;
   size = (*n_out) * (*k_out);
 
   // printf("%d %d %d\n",*n_out,*d_out, size);
 
-  int *datapointer = malloc(size*sizeof(int32_t));
+  int *datapointer = malloc(size*sizeof(int));
 
   fread (datapointer, sizeof(int), size, f);
   return datapointer;
