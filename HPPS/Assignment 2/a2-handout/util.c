@@ -37,7 +37,7 @@ int insert_if_closer(int k, int d,
                      int candidate) {
 
   double candidate_dist = distance(d, &points[d*candidate], query);
-  printf("dist = %f\n",candidate_dist);
+  
   if (candidate_dist == 0.0){
     return 0;
   }
@@ -45,7 +45,6 @@ int insert_if_closer(int k, int d,
   double highest_in_array = 0;
   int highest_index_in_array = -1;
 
-  
 
   for(int i = 0; i < k; i++){
 

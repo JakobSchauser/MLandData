@@ -19,9 +19,66 @@ struct kdtree {
   struct node* root;
 };
 
+struct sort_env {
+  int c;
+  int d;
+  double *points;
+};
+
+int cmp_indexes(const int *ip, const int *jp, struct sort_env* env) {
+  int i = *ip;
+  int j = *jp;
+  double *x = &env->points[i*env->d];
+  double *y = &env->points[j*env->d];
+  int c = env->c;
+
+  if (x[c] < y[c]) {
+    return -1;
+  } else if (x[c] == y[c]) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+
+
 struct node* kdtree_create_node(int d, const double *points,
                                 int depth, int n, int *indexes) {
-  assert(0);
+
+
+
+  struct node *node = malloc(sizeof(struct node));
+  node->left = NULL;
+  node->right = NULL;        
+  node->point_index = NULL;                        
+  node->axis = NULL;
+
+  int axis = depth%d;
+
+  struct sort_env env;
+  env.points = points;
+  env.d = d;
+  env.c = axis;
+
+  hpps_quicksort(indexes, n, sizeof(int),
+                  (int (*)(const void*, const void*, void*))cmp_indexes,
+                  &env);
+
+
+  int half = (int) floor(n/2);
+  int median = indexes[half];
+
+  
+  if(half == 0){
+    return node;
+  }   
+
+  node->axis = axis;
+  node->point_index = median;
+  node->left = kdtree_create_node(d,points,depth+1,half,indexes);
+  node->right = kdtree_create_node(d,points,depth+1,n-half,&indexes[n-half]);
+ 
+  return node;
 }
 
 struct kdtree *kdtree_create(int d, int n, const double *points) {
@@ -43,7 +100,14 @@ struct kdtree *kdtree_create(int d, int n, const double *points) {
 }
 
 void kdtree_free_node(struct node *node) {
-  assert(0);
+  if (node->left != NULL) {
+    kdtree_free_node(node->left);
+  }
+  if (node->right != NULL){
+    kdtree_free_node(node->right);
+  } 
+
+  free(node);
 }
 
 void kdtree_free(struct kdtree *tree) {
@@ -54,7 +118,42 @@ void kdtree_free(struct kdtree *tree) {
 void kdtree_knn_node(const struct kdtree *tree, int k, const double* query,
                      int *closest, double *radius,
                      const struct node *node) {
-  assert(0);
+                    
+  
+  int inserted = insert_if_closer(k, tree->d, tree->points, closest, query, node->point_index);
+  double *point = &tree->points[node->point_index];
+  double diff = point[node->axis] - query[node->axis];
+
+  double highest = 0;
+
+  for(int i = 0; i < k; i++){
+    int ind = closest[i];
+    if(ind != -1 && distance(tree->d,&tree->points[ind],query) > highest){
+      highest = distance(tree->d,&tree->points[ind],query);
+    }
+  }
+  *radius = highest;
+  
+
+  if(diff >= 0 && *radius > diff){
+    if(node->left == NULL){
+      printf("out %d",closest[0]);
+
+      return;
+    }
+    kdtree_knn_node(tree,k,query,closest,radius,node->left);
+  }
+  if(diff >= 0 && *radius > diff){
+    if(node->right == NULL){
+      printf("out %d",closest[0]);
+
+      return;
+
+    }
+    printf("furhter %d",closest[0]);
+
+    kdtree_knn_node(tree,k,query,closest,radius,node->right);
+  }
 }
 
 int* kdtree_knn(const struct kdtree *tree, int k, const double* query) {
