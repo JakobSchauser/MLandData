@@ -61,22 +61,21 @@ struct node* kdtree_create_node(int d, const double *points,
   env.c = axis;
 
   hpps_quicksort(indexes, n, sizeof(int),
-                  (int (*)(const void*, const void*, void*))cmp_indexes,
-                  &env);
-
+                (int (*)(const void*, const void*, void*))cmp_indexes,
+                &env);    
 
   int half = (int) floor(n/2);
   int median = indexes[half];
 
-  
+  printf("%d\n",median);
   if(half == 0){
     return node;
   }   
 
   node->axis = axis;
   node->point_index = median;
-  node->left = kdtree_create_node(d,points,depth+1,half,indexes);
-  node->right = kdtree_create_node(d,points,depth+1,n-half,&indexes[n-half]);
+  node->left = kdtree_create_node(d, points, depth+1, half, indexes);
+  node->right = kdtree_create_node(d, points, depth+1, n-half, &indexes[half]);
  
   return node;
 }
@@ -91,7 +90,7 @@ struct kdtree *kdtree_create(int d, int n, const double *points) {
   for (int i = 0; i < n; i++) {
     indexes[i] = i;
   }
-
+  
   tree->root = kdtree_create_node(d, points, 0, n, indexes);
 
   free(indexes);
@@ -118,8 +117,8 @@ void kdtree_free(struct kdtree *tree) {
 void kdtree_knn_node(const struct kdtree *tree, int k, const double* query,
                      int *closest, double *radius,
                      const struct node *node) {
-                    
-  
+
+  printf("tries");
   int inserted = insert_if_closer(k, tree->d, tree->points, closest, query, node->point_index);
   double *point = &tree->points[node->point_index];
   double diff = point[node->axis] - query[node->axis];
@@ -134,25 +133,15 @@ void kdtree_knn_node(const struct kdtree *tree, int k, const double* query,
   }
   *radius = highest;
   
-
   if(diff >= 0 && *radius > diff){
-    if(node->left == NULL){
-      printf("out %d",closest[0]);
-
-      return;
+    if(node->left != NULL){
+      kdtree_knn_node(tree,k,query,closest,radius,node->left);
     }
-    kdtree_knn_node(tree,k,query,closest,radius,node->left);
   }
-  if(diff >= 0 && *radius > diff){
-    if(node->right == NULL){
-      printf("out %d",closest[0]);
-
-      return;
-
+  if(diff <= 0 && *radius > diff){
+    if(node->right != NULL){
+      kdtree_knn_node(tree,k,query,closest,radius,node->right);
     }
-    printf("furhter %d",closest[0]);
-
-    kdtree_knn_node(tree,k,query,closest,radius,node->right);
   }
 }
 
