@@ -67,7 +67,6 @@ struct node* kdtree_create_node(int d, const double *points,
   int half = (int) floor(n/2);
   int median = indexes[half];
 
-  printf("%d\n",median);
   if(half == 0){
     return node;
   }   
@@ -118,31 +117,40 @@ void kdtree_knn_node(const struct kdtree *tree, int k, const double* query,
                      int *closest, double *radius,
                      const struct node *node) {
 
-  printf("tries");
-  int inserted = insert_if_closer(k, tree->d, tree->points, closest, query, node->point_index);
-  double *point = &tree->points[node->point_index];
+  int check_index = node->point_index;
+  int d = tree->d;
+
+  int inserted = insert_if_closer(k, d, tree->points, closest, query, check_index);
+
+  double *point = &tree->points[check_index*d];
+
   double diff = point[node->axis] - query[node->axis];
 
-  double highest = 0;
+  if(inserted == 1){
+    double highest = 0;
 
-  for(int i = 0; i < k; i++){
-    int ind = closest[i];
-    if(ind != -1 && distance(tree->d,&tree->points[ind],query) > highest){
-      highest = distance(tree->d,&tree->points[ind],query);
+    for(int i = 0; i < k; i++){
+      int ind = closest[i];
+      if(ind != -1 && distance(d,&tree->points[ind*d],query) > highest){
+        highest = distance(d,&tree->points[ind*d],query);
+      }
     }
+
+    *radius = highest;
   }
-  *radius = highest;
-  
-  if(diff >= 0 && *radius > diff){
+
+
+  if(diff >= 0 || *radius > fabs(diff)){
     if(node->left != NULL){
       kdtree_knn_node(tree,k,query,closest,radius,node->left);
     }
   }
-  if(diff <= 0 && *radius > diff){
+  if(diff <= 0 || *radius > fabs(diff)){
     if(node->right != NULL){
       kdtree_knn_node(tree,k,query,closest,radius,node->right);
     }
   }
+
 }
 
 int* kdtree_knn(const struct kdtree *tree, int k, const double* query) {
