@@ -46,12 +46,12 @@ struct node* kdtree_create_node(int d, const double *points,
                                 int depth, int n, int *indexes) {
 
 
-
   struct node *node = malloc(sizeof(struct node));
   node->left = NULL;
   node->right = NULL;        
   node->point_index = NULL;                        
   node->axis = NULL;
+  if(n == 0){return node;}
 
   int axis = depth%d;
 
@@ -67,14 +67,16 @@ struct node* kdtree_create_node(int d, const double *points,
   int half = (int) floor(n/2);
   int median = indexes[half];
 
-  if(half == 0){
-    return node;
-  }   
+  int other_half = n-half;
 
+  if(other_half == 1 && half == 0){
+    other_half = 0;
+  }
   node->axis = axis;
   node->point_index = median;
+  
   node->left = kdtree_create_node(d, points, depth+1, half, indexes);
-  node->right = kdtree_create_node(d, points, depth+1, n-half, &indexes[half]);
+  node->right = kdtree_create_node(d, points, depth+1, other_half, &indexes[half]);
  
   return node;
 }
