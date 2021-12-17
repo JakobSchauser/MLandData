@@ -4,60 +4,96 @@
 #include <stdint.h>
 #include <assert.h>
 
-
-// MANGLER: Fejltjek over alt
-///
 double* read_points(FILE *f, int* n_out, int *d_out) {
-  assert(f);
-  fread (n_out, sizeof(int32_t), 1, f);
-  fread (d_out, sizeof(int32_t), 1, f);
+  int read;
 
-  int size;
-  size = (*n_out) * (*d_out);
+  read = fread(n_out, sizeof(int) , 1 , f);
+  if (read != 1) {
+    return NULL;
+  }
 
-  // printf("%d %d %d\n",*n_out,*d_out, size);
 
-  double *datapointer = malloc(size*sizeof(double));
+  read = fread(d_out, sizeof(int) , 1 , f);
+  if (read != 1) {
+    return NULL;
+  }
 
-  fread (datapointer, sizeof(double), size, f);
-  return datapointer;
+  int size = (*n_out) * (*d_out);
+
+  double *points = malloc(sizeof(double) * size);
+
+  read = fread(points, sizeof(double), size, f);
+  if (read != size) {
+    free(points);
+    return NULL;
+  }
+
+  return points;
 }
 
-
-// Read indexes from an indexes data file.  Returns a pointer to the
-// data, and writes the size to the n_out and k_out arguments.
-// Returns a NULL pointer if reading fails.  It is the caller's
-// responsibility to eventually free the returned pointer with free().
 int* read_indexes(FILE *f, int *n_out, int *k_out) {
-  assert(f);
-  fread (n_out, sizeof(int32_t), 1, f);
-  fread (k_out, sizeof(int32_t), 1, f);
+  int read;
 
-  int size;
-  size = (*n_out) * (*k_out);
+  read = fread(n_out, sizeof(int) , 1 , f);
+  if (read != 1) {
+    return NULL;
+  }
 
-  // printf("%d %d %d\n",*n_out,*d_out, size);
 
-  int *datapointer = malloc(size*sizeof(int));
+  read = fread(k_out, sizeof(int) , 1 , f);
+  if (read != 1) {
+    return NULL;
+  }
 
-  fread (datapointer, sizeof(int), size, f);
-  return datapointer;
+  int size = (*n_out) * (*k_out);
+
+  int *indexes = malloc(sizeof(int) * size);
+
+  read = fread(indexes, sizeof(int), size, f);
+  if (read != size) {
+    free(indexes);
+    return NULL;
+  }
+
+  return indexes;
 }
 
 int write_points(FILE *f, int32_t n, int32_t d, double *data) {
-  assert(f);
-  fwrite(&n, sizeof(int32_t), 1, f);
-  fwrite(&d, sizeof(int32_t), 1, f);
-  fwrite(data, sizeof(double), n*d, f);
 
-  return 0;
+  if (fwrite(&n, sizeof(int32_t), 1, f) != 1 ) {
+    return 1;
+  }
+
+  if (fwrite(&d, sizeof(int32_t), 1, f) != 1) {
+    return 1;
+  }
+
+  int size = n * d;
+
+  if ((int)fwrite(data, sizeof(double), size, f) != size) {
+    return 1;
+  }
+
+return 0;
+
 }
 
 int write_indexes(FILE *f, int32_t n, int32_t k, int *data) {
-  assert(f);
-  fwrite(&n, sizeof(int32_t), 1, f);
-  fwrite(&k, sizeof(int32_t), 1, f);
-  fwrite(data, sizeof(int), n*k, f);
+  
+  // Write number of points.
+  if (fwrite(&n, sizeof(int32_t), 1, f) != 1) {
+    return 1;
+  }
+
+  // Write number of indexes for each point.
+  if (fwrite(&k, sizeof(int32_t), 1, f) != 1) {
+    return 1;
+  }
+
+  // Write the raw point data.
+  if ((int)fwrite(data, k*sizeof(int), n, f) != n) {
+    return 1;
+  }
 
   return 0;
 }

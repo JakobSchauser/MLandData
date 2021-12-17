@@ -2,7 +2,7 @@ CC?=gcc
 CFLAGS?=-Wextra -Wall -pedantic -std=c99 -g
 LDFLAGS?=-lm
 
-all: knn-bruteforce knn-svg knn-kdtree knn-genpoints printpoints
+all: knn-bruteforce knn-svg knn-kdtree knn-genpoints printpoints index_check
 
 knn-bruteforce: knn-bruteforce.o bruteforce.o io.o util.o
 	$(CC) -o $@ $^ $(LDFLAGS)
@@ -19,6 +19,8 @@ knn-svg: knn-svg.o io.o util.o kdtree.o sort.o
 printpoints: printpoints.c io.o
 	gcc -o printpoints printpoints.c io.c $(CFLAGS)
 
+index_check: index_check.c io.o util.o
+	$(CC) -o $@ $^ $(LDFLAGS)
 # A general rule that tells us how to generate an .o file from a .c
 # file.  This cuts down on the boilerplate.
 %.o: %.c
