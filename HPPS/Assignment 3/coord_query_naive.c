@@ -32,7 +32,7 @@ double distance(struct record *rec, double lon, double lat){
 }
 
 const struct record* lookup_naive(struct naive_data *data, double lon, double lat) {
-  double lowest_dist = (90*90)+(360*360);
+  double lowest_dist = (90*90)+(360*360); // Unless I am dumb, this is the longest distance there can be in coordinates
   struct record *lowest = NULL;
 
   for (int i = 0; i<data->n; i++){

@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall -Wextra -pedantic -std=gnu99 -g -ggdb3
 LDFLAGS=-lm
-PROGRAMS=random_ids id_query_naive coord_query_naive id_query_indexed
+PROGRAMS=random_ids id_query_naive coord_query_naive id_query_indexed id_query_binsort
 TESTS=..
 
 .PHONY: all test clean ../src.zip

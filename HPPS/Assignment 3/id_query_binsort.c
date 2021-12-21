@@ -20,6 +20,10 @@ struct indexed_data {
 };
 
 
+int comparefunc(struct index_record *a, struct index_record *b){
+    return (int) (a->osm_id - b->osm_id);
+}
+
 struct indexed_data* mk_index(struct record* rs, int n) {
   struct index_record *sorted = malloc(sizeof(struct index_record)*n);
 
@@ -34,6 +38,7 @@ struct indexed_data* mk_index(struct record* rs, int n) {
   
   free(nxt);
 
+  qsort(sorted, n, sizeof(struct index_record), comparefunc);
 
   struct indexed_data *data = malloc(sizeof(struct indexed_data));
   data->irs = malloc(sizeof(struct index_record)*n);
@@ -50,15 +55,28 @@ void free_index(struct indexed_data* data) {
 }
 
 const struct record* lookup_index(struct indexed_data *data, int64_t needle) {
+  int max = data->n;
+  int min = 0;
+  int index = max/2;
 
-  for (int i = 0; i<data->n; i++){
-    struct index_record *rec = &(data->irs[i]);
-    int64_t diff = rec->osm_id;
-    if(diff == needle){
+  while (1) {
+    struct index_record *rec = &(data->irs[index]);
+    int64_t diff = rec->osm_id - needle;
+
+    if(diff == 0){
       return rec->record;
-    }     
+    } else if (diff < 0){
+        min = index;
+    } else {
+        max = index;
+    }
+
+    index = (max + min)/2;
+
+    if(abs(max-min)<=1){
+        return NULL;
+    }
   }
-  return NULL;
 
 }
 
