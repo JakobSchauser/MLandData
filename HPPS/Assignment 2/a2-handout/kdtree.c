@@ -42,19 +42,7 @@ int cmp_indexes(const int *ip, const int *jp, struct sort_env* env) {
 }
 
 
-struct node* kdtree_create_node(int d, const double *points,
-                                int depth, int n, int *indexes) {
-
-
-
-  struct node *node = malloc(sizeof(struct node));
-  node->left = NULL;
-  node->right = NULL;        
-  node->point_index = NULL;                        
-  node->axis = NULL;
-
-  int axis = depth%d;
-
+void sort_indexes(int d, int axis,double *points,int *indexes,int n){
   struct sort_env env;
   env.points = points;
   env.d = d;
@@ -63,18 +51,36 @@ struct node* kdtree_create_node(int d, const double *points,
   hpps_quicksort(indexes, n, sizeof(int),
                 (int (*)(const void*, const void*, void*))cmp_indexes,
                 &env);    
+}
+
+struct node* kdtree_create_node(int d, const double *points,
+                                int depth, int n, int *indexes) {
+
+
+  struct node *node = malloc(sizeof(struct node));
+  node->left = NULL;
+  node->right = NULL;        
+  node->point_index = NULL;                        
+  node->axis = NULL;
+  if(n == 0){return node;}
+
+  int axis = depth%d;
+
+  sort_indexes(d,axis,points,indexes,n);
 
   int half = (int) floor(n/2);
   int median = indexes[half];
 
-  if(half == 0){
-    return node;
-  }   
+  int other_half = n-half -1;
 
+  if(other_half == 1 && half == 0){
+    other_half = 0;
+  }
   node->axis = axis;
   node->point_index = median;
+  
   node->left = kdtree_create_node(d, points, depth+1, half, indexes);
-  node->right = kdtree_create_node(d, points, depth+1, n-half, &indexes[half]);
+  node->right = kdtree_create_node(d, points, depth+1, other_half, &indexes[half+1]);
  
   return node;
 }

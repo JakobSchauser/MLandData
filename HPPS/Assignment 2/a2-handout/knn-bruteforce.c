@@ -52,11 +52,11 @@ int main(int argc, char** argv) {
   for (int q = 0; q < n_queries; q++) {
     int *closest = knn(k, d, n_points, points, &queries[q*d]);
 
-    printf("Query %d: ", q);
-    for (int i = 0; i < k; i++) {
-      printf("%d ", closest[i]);
-    }
-    printf("\n");
+    // printf("Query %d: ", q);
+    // for (int i = 0; i < k; i++) {
+      // printf("%d ", closest[i]);
+    // }
+    // printf("\n");
 
     memcpy(&indexes[q*k], closest, k*sizeof(int));
     free(closest);
