@@ -1,0 +1,36 @@
+# 10i - generelle kommentarer og overholdelse af afleveringsformat
+
+[+] Du har afleveret filerne korrekt
+[+] Fin README
+[-] Husk at der skal en () bag på en method, selvom den ikke tager nogle argumenter.			(y)
+
+# 10i0 - Drone klassen
+
+[+] Drone-klassen har en Position-property (member) der returnerer (int*int)
+[+] Drone-klassen har en Destination-property (member) der returnerer (int*int)
+[+] Drone-klassen har en Speed-property (member) der returnerer int.
+[-] Jeg forstår ikke loggiken i jeres AtDestination. Det er i hvert fald ikke helt rigtigt.		(x)
+[-] Drone-klassen har en Fly-property, som skulle have været en method.					(y)
+[-] Drone-klassens constructor tager x- og y-koordinater som enkelte værdier, ikke tupler		(y)
+
+# 10i0 - Airspace klassen
+
+[-] Airspace-klassen skulle have en constructor uden argumenter eller en constructor der tager en liste af
+    droner som argument (enten unit eller drone list).							(y)
+[+] Airspace-klassen har en Drones-property (member).
+[+] Airspace-klassen har en DroneDist-metode (member).
+[+] Airspace-klassen har en AddDrone-metode (member).
+[-] Airspace-klassen har en FlyDrones-property, som skulle have været en method.			(y)
+[-] AddRandomDrone skulle også have været en method.							(y)
+[*] Airspace-klassen har en WillCollide-metode. Den looper en gang for meget, og er ikke testet tilstrækkeligt
+    så jeg ved ikke helt om den virker korrekt.								(x)
+
+# 10i0 - Test af Drone klassen
+
+[-] Der er for få tests (mindst 4 per method)								(x)
+[+] Fin struktur og opstilling af tests
+
+# 10i0 - Test af Airspace klassen
+
+[-] Der er for få tests (mindst 4 per method) 								(x)
+[+] Fin struktur og opstilling af tests

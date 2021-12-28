@@ -1,17 +1,17 @@
 module Simulation
 
-type Drone (startx: int, starty : int, destinationx : int, destinationy : int, speed : int) =
-    let mutable movedPosition = (startx, starty)
-    let mutable direction = atan2 (float (destinationy - starty)) (float (destinationx - startx))
+type Drone (start : int*int, destination : int*int, speed : int) =
+    let mutable movedPosition = start
+    let mutable direction = atan2 (float (snd destination - snd start)) (float (fst destination - fst start))
 
     member this.Speed = speed
-    member this.Id = sprintf "%i%i%i%i%i" startx starty destinationx destinationy speed
+    member this.Id = sprintf "%i%i%i%i%i" (fst start) (snd start) (fst destination) (snd destination) speed
     member this.Position = movedPosition
-    member this.Destination = (destinationx,destinationy)
+    member this.Destination = destination
 
     /// <summary> Calculates and executes one time step of flight </summary>
     /// <returns> Nothing </returns>
-    member this.Fly =
+    member this.Fly () =
         let xx = (cos direction) * (float this.Speed)
         let yy = (sin direction) * (float this.Speed)
         movedPosition <- (int (float (fst this.Position) + xx), int (float (snd this.Position) + yy))
@@ -19,9 +19,9 @@ type Drone (startx: int, starty : int, destinationx : int, destinationy : int, s
 
     /// <summary> Checks whether the drone is at its destination </summary>
     /// <returns> True or false </returns>
-    member this.AtDestination =
+    member this.AtDestination  =
         match movedPosition with
-             | (x,y) -> speed*speed > (destinationx - x) * (destinationx - x) + (destinationy - y) * (destinationy - y)
+             | (x,y) -> speed*speed > (fst destination - x) * (fst destination - x) + (snd destination - y) * (snd destination - y)
 
 
 /// <summary> Calculates the distance between two points </summary>
@@ -30,8 +30,8 @@ type Drone (startx: int, starty : int, destinationx : int, destinationy : int, s
 /// <returns> The distance as a float </returns>
 let dist ((x0, y0) : int*int) ((x1, y1) : int*int) = sqrt (float ((x0 - x1) * (x0 - x1) + (y0 - y1) * (y0 - y1)))
 
-type Airspace (size : int) =
-
+type Airspace ()=
+    let size = 50*100
     let mutable drones = []
 
     /// <summary> Recursive function that finds all drones that collide </summary>
@@ -42,7 +42,7 @@ type Airspace (size : int) =
         match drones with
             | head::tail -> 
                 let newfallendrones = tail |> List.map (fun (d : Drone) -> 
-                                                    match (d.AtDestination,head.AtDestination) with
+                                                    match (d.AtDestination, head.AtDestination) with
                                                         | (false,false) -> if dist head.Position d.Position < 500.0 then Some (d,head) else None
                                                         | _ -> None)
                 findFallenDrones tail (fallendrones@newfallendrones)
@@ -60,8 +60,8 @@ type Airspace (size : int) =
 
     /// <summary> Lets all the drones in the airspace "fly" </summary>
     /// <returns> Nothing </returns>
-    member this.FlyDrones =
-        this.Drones |> List.iter (fun (d : Drone) -> if not d.AtDestination then d.Fly)
+    member this.FlyDrones () =
+        this.Drones |> List.iter (fun (d : Drone) -> if not d.AtDestination then d.Fly ())
 
     /// <summary> Adds a new drone to the airspace </summary>
     /// <param name = startx> The starting x-position </param>
@@ -70,22 +70,22 @@ type Airspace (size : int) =
     /// <param name = destinationy> The destinations y-position </param>
     /// <param name = speed> The speed of the drone </param>
     /// <returns> Notihng  </returns>
-    member this.AddDrone (startx: int, starty : int, destinationx : int, destinationy : int, speed : int) = 
-        let newdrone = Drone (startx, starty, destinationx, destinationy, speed)
+    member this.AddDrone (start : int*int) (destination : int*int) (speed : int) = 
+        let newdrone = new Drone (start, destination, speed)
         drones <- newdrone::drones
 
     /// <summary> Adds a new drone with a random starting position and destination </summary>
     /// <returns> Nothing  </returns>
-    member this.AddRandomDrone =
+    member this.AddRandomDrone () =
         let rnd = System.Random ()
-        this.AddDrone (rnd.Next(this.Size), rnd.Next(this.Size), rnd.Next(this.Size), rnd.Next(this.Size), 10)
+        this.AddDrone (rnd.Next(this.Size), rnd.Next(this.Size)) (rnd.Next(this.Size), rnd.Next(this.Size)) 10
 
     /// <summary> Adds N new drones with a random starting positions and destinations </summary>
     /// <param name = number> The number of drones to add </param>
     /// <returns> Nothing  </returns>
     member this.AddRandomDrones (number : int) =
         for i in 1..number do
-            this.AddRandomDrone
+            this.AddRandomDrone ()
 
     /// <summary> Gets the drone ids in the airspace </summary>
     /// <returns> A list of drone ids </returns>
@@ -100,10 +100,12 @@ type Airspace (size : int) =
     /// <returns> The list of collisions that happened </returns>
     member this.WillCollide (minutes : int) =
         let mutable allcrashes = []
-        for i in 0..(minutes*60) do
-            this.FlyDrones
+        for i in 0..(minutes*60 - 1) do
+            this.FlyDrones ()
+
             let crashes = findFallenDrones drones [] |> List.filter (fun drones -> 
                                                                match drones with | Some (d1, d2) -> true | _ -> false )
+
             allcrashes <- allcrashes@crashes
 
             let toremove = List.map (fun dronepair -> match dronepair with | Some (a,_) | Some (_, a) -> a) crashes
