@@ -32,7 +32,7 @@ printfn "%5b: Is this other random drone at its destination?" (not drone.AtDesti
 
 // AddDrone
 printfn "\nBlackbox test of AddDrone, AddRandomDrone and AddRandomDrones:"
-printfn "%5b: Is an empty Arispace droneless" (List.length space.Drones = 0)
+printfn "%5b: Is an empty Airspace droneless" (List.length space.Drones = 0)
 space.AddDrone (0, 0) (1000, 1000) 10
 printfn "%5b: Does it have exactly one drone after using AddDrone" (List.length space.Drones = 1)
 
@@ -51,7 +51,11 @@ printfn "%5b: Are two drones on top of each other at distance 0.0?" (space.Drone
 
 printfn "%5b: Is it larger if they are away from each other?" (space.DroneDist droneAtDestination drone > 0.0)
 
-printfn "%5b: Does distance commute?" (space.DroneDist droneAtDestination drone = space.DroneDist drone droneAtDestination)
+printfn "%5b: Does distances commute?" (space.DroneDist droneAtDestination drone = space.DroneDist drone droneAtDestination)
+
+printfn "%5b: Does Is the distance between a drone and itself 0?" (space.DroneDist drone drone = 0.0)
+
+
 
 // WillCollide
 printfn "\nBlackbox test of WillCollide:"
@@ -87,6 +91,7 @@ printfn "\nBlackbox test of FlyDrones:"
 emptyspace <- new Airspace ()
 emptyspace.AddRandomDrones 50
 
+// let firstdrone = 
 let droneposbefore = emptyspace.GetDronePositions
 emptyspace.FlyDrones ()
 

@@ -9,7 +9,7 @@
 [+] Drone-klassen har en Position-property (member) der returnerer (int*int)
 [+] Drone-klassen har en Destination-property (member) der returnerer (int*int)
 [+] Drone-klassen har en Speed-property (member) der returnerer int.
-[-] Jeg forstår ikke loggiken i jeres AtDestination. Det er i hvert fald ikke helt rigtigt.		(x)
+[-] Jeg forstår ikke loggiken i jeres AtDestination. Det er i hvert fald ikke helt rigtigt.		(y)
 [-] Drone-klassen har en Fly-property, som skulle have været en method.					(y)
 [-] Drone-klassens constructor tager x- og y-koordinater som enkelte værdier, ikke tupler		(y)
 
