@@ -23,11 +23,11 @@
 [-] Airspace-klassen har en FlyDrones-property, som skulle have været en method.			(y)
 [-] AddRandomDrone skulle også have været en method.							(y)
 [*] Airspace-klassen har en WillCollide-metode. Den looper en gang for meget, og er ikke testet tilstrækkeligt
-    så jeg ved ikke helt om den virker korrekt.								(x)
+    så jeg ved ikke helt om den virker korrekt.								(y)
 
 # 10i0 - Test af Drone klassen
 
-[-] Der er for få tests (mindst 4 per method)								(x)
+[-] Der er for få tests (mindst 4 per method)								(y)
 [+] Fin struktur og opstilling af tests
 
 # 10i0 - Test af Airspace klassen
