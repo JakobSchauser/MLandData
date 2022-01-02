@@ -68,12 +68,26 @@ def receive_from_client():
                     # Hmm is this the correct way?
                     lines = string_message.split("\n")
 
-                    msg = lines[0]
+                    msg, headers = lines[0], lines[1:]
                     try:
                         _type, loc, http = msg.split(" ")
                     except:
                         connection.sendall(make_sendable("400 Bad Request"))
                         continue
+                    
+                    has_host = False
+                    for head in headers:
+                        h = head.split(": ")
+                        if h[0] == "Host":
+                            has_host = True
+                            if "schauser" in h[1]:
+                                connection.sendall(make_sendable("420 Good Request"))
+                                continue
+
+                    if not has_host:
+                        connection.sendall(make_sendable("400 Bad Request\n\nA Host header is required"))
+                        continue
+
                     if _type != "GET":
                         connection.sendall(make_sendable("404 Not Found\n\nOnly GET requests are supported"))
                         continue
