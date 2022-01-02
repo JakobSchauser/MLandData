@@ -1,40 +1,69 @@
 
-type Square = {on : string; right_wall : bool; bottom_wall : bool}
+type Square =
+   val mutable on: string
+   val mutable right_wall: bool
+   val mutable bottom_wall: bool
+   new(_on : string, right : bool, bottom : bool) = {on = _on; right_wall = right; bottom_wall = bottom}
+
 type BoardDisplay (rows:int, cols:int) =
-   let mutable board = [for i in 1 .. rows*cols -> {"  ";false;false} ]
+   let size = rows*cols
+   let mutable board = [for i in 0 .. size -> new Square ("  ",false,false)]
 
    // "" = empty
    // "A"-"Z" = robot
    // r = right wall
    // b = bottom wall
 
-   member.Board = board
-   member.Set (row:int) (col:int) (cont:string) =
-      
+   member this.Board = board
 
-   member SetBottomWall : row:int * col:int -> unit
-   member SetRightWall : row:int * col:int -> unit
-   member.Show =
-      let rec makerow (row1:string) (row2:string) (boardrow:list) =
+   member this.Set (row:int,col:int,cont:string) =
+      board.[row+col*cols].on <- cont
+
+   member this.SetBottomWall (row:int, col:int) = 
+      board.[row+col*cols].bottom_wall <- true
+
+   member this.SetRightWall (row:int, col:int) = 
+      board.[row+col*cols].right_wall <- true
+
+
+   member this.Show () =
+      let rec makerow (row1:string) (row2:string) (boardrow: Square list) =
          match boardrow with
             | head::tail -> 
                let mutable newstr = head.on
+               let mutable newstrl2 = ""
+
                if head.right_wall then
                   newstr <- newstr + "|"
                else
                   newstr <- newstr + " "
                if head.bottom_wall then
-                  let newstrl2 = "--+"
+                  newstrl2 <- "--+"
                else
-                  let newstrl2 = "  +"
+                  newstrl2 <- "  +"
+               
 
                makerow (row1 + newstr) (row2 + newstrl2) tail
-            | [] -> (row1, row2)
+            | [] -> (row1.[0..row1.Length - 2] + "|", row2.[0..row2.Length - 2] + "+")
 
-      for row in 0..(rows-2) do
-         let rows = makerow "" "" board.[i*cols:(i+1)*cols]
-         printfn "%A" fst rows
-         printfn "%A" snd rows
-      end
+      let mutable top = "+"
+      for i in 1..cols do
+         top <- top + "--+"
 
-   end
+      printfn "%A" top
+      for row in 0..(rows-1) do
+         let rr = board.[row*cols..((row + 1)*cols-1)]
+         let (first,second) = makerow "" "" rr
+         printfn "%A" ("|" + first)
+         if not (row = (rows-1)) then 
+            printfn "%A" ("+" + second)
+
+      printfn "%A" top
+
+
+
+let a = new BoardDisplay (3,4)
+a.SetBottomWall (1,1)
+a.Set (0,2, "BB")
+a.Set (0,1, "CC")
+a.Show ()
