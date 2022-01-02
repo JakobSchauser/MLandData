@@ -19,7 +19,7 @@ type Drone (start : int*int, destination : int*int, speed : int) =
 
     /// <summary> Checks whether the drone is at its destination </summary>
     /// <returns> True or false </returns>
-    member this.AtDestination  =        // To negate the fact that the drone flies with a constant speed in a grid,
+    member this.AtDestination  =        // To negate the fact that the drone flies with a constant float-speed in an int-grid,
         match movedPosition with        //   this checks whether the drone would overshoot the target in the following frame. 
              | (x,y) -> speed*speed > (fst destination - x) * (fst destination - x) + (snd destination - y) * (snd destination - y)
 

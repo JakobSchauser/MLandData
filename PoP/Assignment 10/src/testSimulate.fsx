@@ -55,11 +55,22 @@ printfn "%5b: Does distances commute?" (space.DroneDist droneAtDestination drone
 
 printfn "%5b: Does Is the distance between a drone and itself 0?" (space.DroneDist drone drone = 0.0)
 
+printfn "\nBlackbox test of FlyDrones:"
+let mutable emptyspace = new Airspace ()
+emptyspace <- new Airspace ()
+emptyspace.AddRandomDrones 50
 
+let droneposbefore = emptyspace.GetDronePositions
+emptyspace.FlyDrones ()
+
+let allchanged = List.exists2 (fun ((a,b) :int*int) ((c,d) :int*int) -> a = c && b = d) droneposbefore emptyspace.GetDronePositions
+printfn "%5b: After using FlyDrones 1 time, all drones should have moved." (not allchanged)
+
+printfn "As this is a method that takes no arguments, I am having a lot of trouble coming up with outher tests :("
 
 // WillCollide
+emptyspace <- new Airspace ()
 printfn "\nBlackbox test of WillCollide:"
-let mutable emptyspace = new Airspace ()
 let collided = emptyspace.WillCollide 10
 printfn "%5b: There should be no collision for an empty airspace" (List.length collided = 0)
 
@@ -87,13 +98,3 @@ printfn "%5b: Is there no collision if they should stop before they meet?" (List
 
 
 // FlyDrones
-printfn "\nBlackbox test of FlyDrones:"
-emptyspace <- new Airspace ()
-emptyspace.AddRandomDrones 50
-
-// let firstdrone = 
-let droneposbefore = emptyspace.GetDronePositions
-emptyspace.FlyDrones ()
-
-let allchanged = List.exists2 (fun ((a,b) :int*int) ((c,d) :int*int) -> a = c && b = d) droneposbefore emptyspace.GetDronePositions
-printfn "%5b: After using FlyDrones 1 time, all drones should have moved." (not allchanged)
