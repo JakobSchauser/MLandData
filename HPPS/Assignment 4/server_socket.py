@@ -2,13 +2,15 @@
 import socket
 import time
 import os
+import datetime
 
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 5678
 MSG_MAX_SIZE = 256
 
+months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 
-supported_headers = ["Date","If-Modified-Since"]
+supported_headers = ["Host","If-Modified-Since","Accept-Language"]
 
 def work_on_headers(string_message):
     lines = string_message.split("\n")
@@ -21,10 +23,6 @@ def work_on_headers(string_message):
             return "Unknown header: " + head
         
         
-        # if head == "If-Modified-Since":
-        #     dayname = val[:3]
-        #     day, month, year, = val[5:18].split(" ")
-        #     hour, minute, second = val[18:18+8].split(":") 
 
 
 def make_sendable(str):
@@ -68,9 +66,10 @@ def receive_from_client():
                     # Hmm is this the correct way?
                     lines = string_message.split("\n")
 
-                    msg, headers = lines[0], lines[1:]
+                    request, headers = lines[0], lines[1:]
+
                     try:
-                        _type, loc, http = msg.split(" ")
+                        _type, loc, http = request.split(" ")
                     except:
                         connection.sendall(make_sendable("400 Bad Request"))
                         continue
@@ -78,14 +77,51 @@ def receive_from_client():
                     has_host = False
                     for head in headers:
                         h = head.split(": ")
+                        if not h[0] in supported_headers:
+                            connection.sendall(make_sendable("400 Bad Request - Unkown Header " + str(h[0])))
+                            continue
                         if h[0] == "Host":
+                            if has_host:
+                                connection.sendall(make_sendable("400 Bad Request - Only one Host header is allowed"))
+                                continue
                             has_host = True
                             if "schauser" in h[1]:
                                 connection.sendall(make_sendable("420 Good Request"))
                                 continue
 
+                        if h[0] == "Accept-Language":
+                            lan = h[1].split(";")[0]
+                            if not lan[:2] == "en":
+                                if lan[:2] == "de":
+                                    connection.sendall(make_sendable("406 Nur English kanst gebrauchen worden sein"))
+                                    continue
+                                if lan[:2] == "da":
+                                    connection.sendall(make_sendable("406 Hovhov du, vi snakker kun engelsk"))   
+                                    continue
+                                if lan[:2] == "no":
+                                    connection.sendall(make_sendable("406 Håvhåv do, vi snakkær kun engølsk"))   
+                                    continue
+                                if lan[:2] == "sv":
+                                    connection.sendall(make_sendable("406 Hävhäv dö, vi snakkär kun engëlsk"))   
+                                    continue
+                                if lan[:2] == "es":
+                                    connection.sendall(make_sendable("¡406! Dos cerversas por favor"))   
+                                    continue
+                                connection.sendall(make_sendable("406 Unfortunately, only English is supported at the moment."))   
+                                continue
+
+                        if h[0] == "If-Modified-Since":
+                            dayname = h[1][:3]
+                            day, month, year, = h[1][5:16].split(" ")
+                            hour, minute, second = h[1][16:16+9].split(":") 
+                            now = datetime.datetime(int(year), months.index(month), int(day), int(hour), int(minute), int(second))
+                            if now > global_start_time:
+                                connection.sendall(make_sendable("304 The server was last updated on "+ str(global_start_time)))
+                                continue
+
+
                     if not has_host:
-                        connection.sendall(make_sendable("400 Bad Request\n\nA Host header is required"))
+                        connection.sendall(make_sendable("400 Bad Request\n\nA Host header is required, albeit ignored"))
                         continue
 
                     if _type != "GET":
@@ -132,4 +168,5 @@ def receive_from_client():
 
 
 if __name__ == "__main__":
+    global_start_time = datetime.datetime(2022, 1, 3)
     receive_from_client()

@@ -37,4 +37,4 @@ def send_to_server(message: str) -> None:
 
 if __name__ == "__main__":
     # Send a message to a server
-    send_to_server("GET testFolder/index.html HTTP/1.1")
+    send_to_server("GET testFolder/index.html HTTP/1.1\n\nIf-Modified-Since: Sat, 29 Oct 1994 19:43:31 GMT\nHost: alibaba.com\nAccept-Language: de")
