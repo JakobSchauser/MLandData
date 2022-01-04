@@ -74,6 +74,7 @@ def receive_from_client():
                         connection.sendall(make_sendable("400 Bad Request"))
                         continue
                     
+                    modified_time = NONE
                     has_host = False
                     for head in headers:
                         h = head.split(": ")
@@ -85,13 +86,13 @@ def receive_from_client():
                                 connection.sendall(make_sendable("400 Bad Request - Only one Host header is allowed"))
                                 continue
                             has_host = True
-                            if "schauser" in h[1]:
+                            if "schauser" in h[1] or "utecht" in h[1]:
                                 connection.sendall(make_sendable("420 Good Request"))
                                 continue
 
                         if h[0] == "Accept-Language":
                             lan = h[1].split(";")[0]
-                            if not lan[:2] == "en":
+                            if not "en" in lan:
                                 if lan[:2] == "de":
                                     connection.sendall(make_sendable("406 Nur English kanst gebrauchen worden sein"))
                                     continue
@@ -115,9 +116,7 @@ def receive_from_client():
                             day, month, year, = h[1][5:16].split(" ")
                             hour, minute, second = h[1][16:16+9].split(":") 
                             now = datetime.datetime(int(year), months.index(month), int(day), int(hour), int(minute), int(second))
-                            if now > global_start_time:
-                                connection.sendall(make_sendable("304 The server was last updated on "+ str(global_start_time)))
-                                continue
+                            modified_time = time.mktime(now.timetuple())
 
 
                     if not has_host:
@@ -138,6 +137,10 @@ def receive_from_client():
                         files = os.listdir(loc)
                         
                         if "index.html" in files:
+                            if modified_time != NULL:
+                                if os.path.getmtime(loc+"/index.html") < modified_time:
+                                    connection.sendall(make_sendable("304 - file is too old"))
+                                    continue
                             cont = open(loc+"/index.html", "r").read()
                             connection.sendall(make_sendable(cont))
                             continue
