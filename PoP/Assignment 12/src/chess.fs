@@ -159,3 +159,37 @@ type board () =
         // Extract and merge lists of first obstruction pieces and filter out own pieces
         let opponent = List.choose snd vacantPieceLists
         (vacant, opponent)
+
+        
+
+
+
+type Player () = 
+  nextMove : Board -> string
+
+type Human () =
+  inherit Player ()
+
+  member this.nextMove Board : string =
+    //Get input
+    // check if legal 
+    // format and return
+
+
+
+type Game () =
+  let mutable gameboard = new board ()
+
+
+  let rec turn (players : Player list) (board: Board) (turn : int) =
+    let nextmove = players.[turn%2].nextMove gameboard
+    match nextmove with
+      | "quit" ->  
+      | _  -> 
+        gameboard.Move nextmove 
+        turn players board (turn+1)
+
+  member this.run (player1 : Player, player2 : Player) =
+    let players = [player1;player2]
+
+    turn players board 0
