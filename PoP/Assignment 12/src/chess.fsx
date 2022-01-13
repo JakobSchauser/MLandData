@@ -1,4 +1,5 @@
-module Chess
+// module Chess
+open System
 /// The possible colors of chess pieces
 type Color = White | Black
 
@@ -146,7 +147,7 @@ type board () =
   /// <param name = "piece"> A chess piece </param>
   /// <returns> A pair of lists of all available moves and neighbours,
   /// e.g., ([(1,0); (2,0);...], [p1; p2]) </returns>
-  member this.availableMoves (piece : chessPiece) : (Position list * chessPiece list)  =
+    member this.availableMoves (piece : chessPiece) : (Position list * chessPiece list)  =
     match piece.position with
       None -> 
         ([],[])
@@ -155,41 +156,84 @@ type board () =
           (relativeToAbsolute p) >> getVacantNOccupied
         let vacantPieceLists = List.map convertNWrap piece.candiateRelativeMoves
         // Extract and merge lists of vacant squares
-        let vacant = List.collect fst vacantPieceLists
+        let mutable vacant = List.collect fst vacantPieceLists
         // Extract and merge lists of first obstruction pieces and filter out own pieces
         let opponent = List.choose snd vacantPieceLists
+
+        let mutable threatened = []
+        if piece.nameOfType = "king" then
+          for i in 0..8 do
+            for j in 0..8 do
+              match this.[i,j] with
+                | Some (opp) when opp.color <> piece.color && opp.nameOfType <> "king" ->
+                              threatened <- threatened @ fst (this.availableMoves opp)
+
+          let possible = List.filter (fun v -> not (List.exists (fun o -> o = v) threatened)) vacant
+
+          vacant <- possible
+
+
+        // for all opponents, find their available moves
+        // remove from vacant list
+        // ?
         (vacant, opponent)
 
-        
+  member this.fromNotationToPos (str : string) : Position =  (int str.[0] - 97, int str.[1] - 49)
+    
 
 
+let isletter (chr:char) : bool = int chr >= 97 && int chr < 106
 
+let isnum (chr:char) : bool = int chr >= 49 && int chr <= 59 
+  
+
+let isCorrectlyFormatted (str : string) : bool = 
+                   isletter str.[0] && isnum str.[1] && isletter str.[3] && isnum str.[4]
+
+
+[<AbstractClass >]
 type Player () = 
-  nextMove : Board -> string
+  abstract member nextMove : board -> string
 
 type Human () =
   inherit Player ()
 
-  member this.nextMove Board : string =
-    //Get input
-    // check if legal 
-    // format and return
-
+  override this.nextMove (Board : board) : string =
+    try
+      let inp = Console.ReadLine(); 
+      if not (isCorrectlyFormatted inp) then "format" else
+        let from = Board.fromNotationToPos inp.[..1]
+        let _to = Board.fromNotationToPos inp.[3..]
+        
+        match Board.[fst from, snd from] with
+          | Some (piece) -> if List.exists (fun mv -> mv = _to) (fst (Board.availableMoves piece)) then inp else ""
+          | _ -> "no piece"
+    with
+      | _ -> "error"
 
 
 type Game () =
   let mutable gameboard = new board ()
 
-
-  let rec turn (players : Player list) (board: Board) (turn : int) =
-    let nextmove = players.[turn%2].nextMove gameboard
+  let rec taketurn (players : Player list) (board: board) (ind : int) : int =
+    printf "%A" (ind%2)
+    let nextmove = players.[ind%2].nextMove gameboard
     match nextmove with
-      | "quit" ->  
-      | _  -> 
-        gameboard.Move nextmove 
-        turn players board (turn+1)
+      | "quit" ->  ind
+      | "" | "error" | "no piece" -> 
+        printf "%A" (gameboard.ToString ())
+        printf "%A: Not a valid move!" nextmove
+        taketurn players board ind
+      | _ -> 
+        let a = gameboard.fromNotationToPos nextmove.[..2]
+        gameboard.move a
+        printf "%A" (gameboard.ToString ())
+        printf "%A has been moved" nextmove
+        taketurn players board (ind+1)
 
-  member this.run (player1 : Player, player2 : Player) =
-    let players = [player1;player2]
+  member this.run (player1 : Player, player2 : Player) : int = taketurn [player1;player2] gameboard 0
 
-    turn players board 0
+
+// let game = new Game ()
+
+// game.run (new Human (), new Human ())

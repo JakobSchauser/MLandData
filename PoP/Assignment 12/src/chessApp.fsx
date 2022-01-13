@@ -22,3 +22,5 @@ Array.iter (printPiece board) pieces
 board.move (1,1) (3,1) // Moves a piece from (1,1) to (3,1)
 printfn "%A" board
 Array.iter (printPiece board) pieces
+
+board.run (new Human (), new Human ())
