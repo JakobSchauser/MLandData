@@ -1,4 +1,6 @@
-// module Chess
+// #load "pieces.fs"
+module Chess
+// open Pieces
 open System
 /// The possible colors of chess pieces
 type Color = White | Black
@@ -162,12 +164,15 @@ type board () =
 
         let mutable threatened = []
         if piece.nameOfType = "king" then
-          for i in 0..8 do
-            for j in 0..8 do
+          for i in 0..7 do
+            for j in 0..7 do
               match this.[i,j] with
                 | Some (opp) when opp.color <> piece.color && opp.nameOfType <> "king" ->
                               threatened <- threatened @ fst (this.availableMoves opp)
-
+                | Some (opp) when opp.color <> piece.color && opp.nameOfType = "king" ->
+                              threatened <- threatened @ (List.collect fst (List.map ((relativeToAbsolute (Option.get opp.position)) >> getVacantNOccupied) opp.candiateRelativeMoves))
+                | _ -> threatened <- threatened
+          printf "%A" threatened
           let possible = List.filter (fun v -> not (List.exists (fun o -> o = v) threatened)) vacant
 
           vacant <- possible
@@ -181,12 +186,21 @@ type board () =
   member this.fromNotationToPos (str : string) : Position =  (int str.[0] - 97, int str.[1] - 49)
     
 
-
+/// <summary> Checks wheter a character is a lowercase letter </summary>
+/// <param name = "chr"> The character </param>
+/// <returns> A bool </returns>
 let isletter (chr:char) : bool = int chr >= 97 && int chr < 106
 
+/// <summary> Checks wheter a character is a number </summary>
+/// <param name = "chr"> The character </param>
+/// <returns> A bool </returns>
 let isnum (chr:char) : bool = int chr >= 49 && int chr <= 59 
   
 
+/// <summary> Checks wheter a movement string is correctly formatted on the form 
+///  "a1 a1" where a is any lowercase letter and 1 is a 1-digit number </summary>
+/// <param name = "str"> The string on to check if is formatted correctly </param>
+/// <returns> A bool </returns>
 let isCorrectlyFormatted (str : string) : bool = 
                    isletter str.[0] && isnum str.[1] && isletter str.[3] && isnum str.[4]
 
@@ -198,6 +212,9 @@ type Player () =
 type Human () =
   inherit Player ()
 
+  /// <summary> Finds the next move for the human player</summary>
+  /// <param name = "Board"> The board the game is played on </param>
+  /// <returns> A string corresponding to a legal move </returns>
   override this.nextMove (Board : board) : string =
     try
       let inp = Console.ReadLine(); 
@@ -212,28 +229,46 @@ type Human () =
       | _ -> "error"
 
 
-type Game () =
+type Game (player1 : Player, player2 : Player) =
   let mutable gameboard = new board ()
 
-  let rec taketurn (players : Player list) (board: board) (ind : int) : int =
-    printf "%A" (ind%2)
+  // let pieces = [|
+  // king (White) :> chessPiece;
+  // rook (White) :> chessPiece;
+  // king (Black) :> chessPiece |]
+
+  // // Place pieces on the board
+  // gameboard.[0,0] <- Some pieces.[0]
+  // gameboard.[1,1] <- Some pieces.[1]
+  // gameboard.[4,1] <- Some pieces.[2]
+
+  /// <summary> Recursively takes turns for a list of players. Only advancing when a legal move is made </summary>
+  /// <param name = "players"> The list of players in the current game </param>
+  /// <param name = "gameboard"> The board the game is played on </param>
+  /// <param name = "ind"> The current count number </param>
+  /// <returns> An int counting hwo many rounds were played </returns>
+  let rec taketurn (players : Player list) (gameboard: board) (ind : int) : int =
+    printf "Player %A to move:\n" (ind%2)
     let nextmove = players.[ind%2].nextMove gameboard
     match nextmove with
       | "quit" ->  ind
-      | "" | "error" | "no piece" -> 
+      | "" | "error" | "no piece" | "format" -> 
         printf "%A" (gameboard.ToString ())
-        printf "%A: Not a valid move!" nextmove
-        taketurn players board ind
+        printf "%A: Not a valid move!\n" nextmove
+        taketurn players gameboard ind
       | _ -> 
-        let a = gameboard.fromNotationToPos nextmove.[..2]
-        gameboard.move a
+        let a = gameboard.fromNotationToPos nextmove.[..1]
+        let b = gameboard.fromNotationToPos nextmove.[3..]
+        gameboard.move a b
         printf "%A" (gameboard.ToString ())
         printf "%A has been moved" nextmove
-        taketurn players board (ind+1)
+        taketurn players gameboard (ind+1)
 
-  member this.run (player1 : Player, player2 : Player) : int = taketurn [player1;player2] gameboard 0
+  /// <summary> Starts allowing the players to take turns </summary>
+  /// <returns> An int counting hwo many rounds were played </returns>
+  member this.run () : int = taketurn [player1;player2] gameboard 0
 
-
+  member this.Board = gameboard
 // let game = new Game ()
 
 // game.run (new Human (), new Human ())
