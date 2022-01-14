@@ -172,7 +172,6 @@ type board () =
                 | Some (opp) when opp.color <> piece.color && opp.nameOfType = "king" ->
                               threatened <- threatened @ (List.collect fst (List.map ((relativeToAbsolute (Option.get opp.position)) >> getVacantNOccupied) opp.candiateRelativeMoves))
                 | _ -> threatened <- threatened
-          printf "%A" threatened
           let possible = List.filter (fun v -> not (List.exists (fun o -> o = v) threatened)) vacant
 
           vacant <- possible
