@@ -1,0 +1,110 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{a4wide}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+
+\usepackage{graphicx}  % For including images
+
+\usepackage{xcolor}  % For a colorfull presentation
+\usepackage{listings}  % For presenting code 
+
+\usepackage{hyperref}
+
+% Definition of a style for code, matter of taste
+\lstdefinestyle{mystyle}{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color[HTML]{F7F7F7},
+  rulecolor=\color[HTML]{EEEEEE},
+  identifierstyle=\color[HTML]{24292E},
+  emphstyle=\color[HTML]{005CC5},
+  keywordstyle=\color[HTML]{D73A49},
+  commentstyle=\color[HTML]{6A737D},
+  stringstyle=\color[HTML]{032F62},
+  emph={@property,self,range,True,False},
+  morekeywords={super,with,as,lambda},
+  literate=%
+    {+}{{{\color[HTML]{D73A49}+}}}1
+    {-}{{{\color[HTML]{D73A49}-}}}1
+    {*}{{{\color[HTML]{D73A49}*}}}1
+    {/}{{{\color[HTML]{D73A49}/}}}1
+    {=}{{{\color[HTML]{D73A49}=}}}1
+    {/=}{{{\color[HTML]{D73A49}=}}}1,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=none,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=4,
+  frame=single,
+}
+\lstset{style=mystyle}
+
+\begin{document}
+\title{Machine Learning B\\Home Assignment 1}
+\author{\color{red}Your name}
+\date{}
+\maketitle
+
+
+
+\section{Make Your Own}
+
+
+
+\section{Digits  Classification  with $K$ Nearest  Neigh-bors}
+
+
+
+
+\section{Linear Regression}
+\subsection{Implementation of linear regression}\label{sec:lr_imp}
+I implemented linear regression using the pseudoinverse as introduced
+in the lecture. My implementation can be found in the notebook
+\texttt{Assignment1Question6MyName.ipynb}.
+
+I computed the parameters of a regression model in the following way:
+\begin{lstlisting}
+ def important_function:
+     # vital code
+\end{lstlisting}
+
+
+
+\begin{figure}
+  \begin{center}
+%    \includegraphics[width=.75\textwidth]{Assignment1_Question6_Plot1}
+  \end{center}
+  \caption{This figure shows the PCB concentration vs.{} the age of
+    the fish in years.
+    Every figure and table has a caption and is referred to 
+    in the text body.\label{fig:q6p1}}
+\end{figure}
+\subsection{Building the first model}
+Figure~\ref{fig:q6p1} shows the loaded data.
+To fit a model of the form
+\begin{equation*}
+ h(x) = \exp(ax+b) 
+ \end{equation*}
+ with parameters $a,b\in\mathbb R$, I transformed the output data (the
+ $y$ values) by applying the natural logarithm first:
+\begin{lstlisting}
+ new = magic_transform(old)
+\end{lstlisting}
+The I used the algorithm described in Section~\ref{sec:lr_imp}
+to model $\ln y$ by $ax+b$.
+I found $a=\dots$ and $b=\dots$.
+
+\noindent\dots 
+\subsection{\dots}
+\dots 
+
+\bibliography{bibliography}  % If you have some references, use BibTeX
+
+\end{document}
