@@ -218,13 +218,13 @@ type Human () =
   override this.nextMove (Board : board) : string =
     try
       let inp = Console.ReadLine(); 
-      if not (isCorrectlyFormatted inp) then "format" else
+      if not (isCorrectlyFormatted inp) then (if inp = "quit" then "quit" else "wrong formatting") else
         let from = Board.fromNotationToPos inp.[..1]
         let _to = Board.fromNotationToPos inp.[3..]
         
         match Board.[fst from, snd from] with
-          | Some (piece) -> if List.exists (fun mv -> mv = _to) (fst (Board.availableMoves piece)) then inp else ""
-          | _ -> "no piece"
+          | Some (piece) -> if List.exists (fun mv -> mv = _to) (fst (Board.availableMoves piece)) then inp else "not a legal move"
+          | _ -> "no piece selected"
     with
       | _ -> "error"
 
@@ -232,35 +232,25 @@ type Human () =
 type Game (player1 : Player, player2 : Player) =
   let mutable gameboard = new board ()
 
-  // let pieces = [|
-  // king (White) :> chessPiece;
-  // rook (White) :> chessPiece;
-  // king (Black) :> chessPiece |]
-
-  // // Place pieces on the board
-  // gameboard.[0,0] <- Some pieces.[0]
-  // gameboard.[1,1] <- Some pieces.[1]
-  // gameboard.[4,1] <- Some pieces.[2]
-
   /// <summary> Recursively takes turns for a list of players. Only advancing when a legal move is made </summary>
   /// <param name = "players"> The list of players in the current game </param>
   /// <param name = "gameboard"> The board the game is played on </param>
   /// <param name = "ind"> The current count number </param>
   /// <returns> An int counting hwo many rounds were played </returns>
   let rec taketurn (players : Player list) (gameboard: board) (ind : int) : int =
-    printf "Player %A to move:\n" (ind%2)
+    printf "%A" (gameboard.ToString ())
+    printf "\n%s player to move:\n" (["White";"Black"].[ind%2])
     let nextmove = players.[ind%2].nextMove gameboard
     match nextmove with
       | "quit" ->  ind
-      | "" | "error" | "no piece" | "format" -> 
+      | "not a legal move" | "error" | "no piece selected" | "wrong formatting" | ""-> 
         printf "%A" (gameboard.ToString ())
-        printf "%A: Not a valid move!\n" nextmove
+        printf "%A: Unable to do move!\n" nextmove
         taketurn players gameboard ind
       | _ -> 
         let a = gameboard.fromNotationToPos nextmove.[..1]
         let b = gameboard.fromNotationToPos nextmove.[3..]
         gameboard.move a b
-        printf "%A" (gameboard.ToString ())
         printf "%A has been moved" nextmove
         taketurn players gameboard (ind+1)
 
