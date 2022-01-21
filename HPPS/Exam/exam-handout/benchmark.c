@@ -147,7 +147,7 @@ int main() {
   
   // bench_matmul("matmul", runs, matmul, n, m, k);
   // bench_matmul("matmul_parallel", runs, matmul_parallel, n, m, k);
-  bench_matmul("matmul_locality", runs, matmul_locality, n, m, k);
+  // bench_matmul("matmul_locality", runs, matmul_locality, n, m, k);
   // bench_matmul("matmul_transpose", runs, matmul_transpose, n, m, k);
   // bench_matmul("matmul_locality_parallel", runs, matmul_locality_parallel, n, m, k);
   // bench_matmul("matmul_transpose_parallel", runs, matmul_transpose_parallel, n, m, k);

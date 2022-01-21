@@ -57,9 +57,10 @@ void matmul(int n, int m, int k,
 
   for (int i = 0; i < n; i++){
     for (int j = 0; j < k; j++){
+
       double acc = 0;
       for (int p = 0; p < m; p++){
-        acc += A[p*n + i]*B[j*m + p];
+        acc += A[i*m + p] * B[p*k + j];
       }
       C[j*n + i] = acc;
     }
@@ -71,14 +72,14 @@ void matmul_locality(int n, int m, int k,
 
   //Checks if C is initialized purely with zeros
   double s = 0.0;
-  for(int i = 0; i < n*k; i ++){ s += C[i] }
-  assert(s = 0.0);
+  for(int i = 0; i < n*k; i ++){ s += C[i]; }
+  assert(s == 0.0);
 
   for (int i = 0; i < n; i++){
     for (int p = 0; p < m; p++){
-      double a = A[p*n + i];
+      double a = A[i*m + p];
       for (int j = 0; j < k; j++){
-        C[j*n + i] += a * B[j*m + p];
+        C[j*n + i] += a * B[p*k + j];
       }
     }
   }
@@ -86,31 +87,72 @@ void matmul_locality(int n, int m, int k,
 
 void matmul_transpose(int n, int m, int k,
                       double* C, const double* A, const double* B) {
-//   1. Transpose B to obtain BT
-// .
-// 2. Perform a conventional matrix multiplication (as in matmul()), but
-// where you are traversing the rows of BT
-// instead of the columns of B.
-// Use your fastest non-parallel transposition function.
-
   // remember to use fastest here!!
   double * BT = malloc(m*k*sizeof(double));
   transpose(m,k,BT,B);
 
+  // BT = k x m = j x p
 
+  for (int i = 0; i < n; i++){
+    for (int j = 0; j < k; j++){
+      double acc = 0;
+      for (int p = 0; p < m; p++){
+        acc += A[i*m + p] * BT[j*m + p];
+      }
+      C[j*n + i] = acc;
+    }
+  }
 }
 
 void matmul_parallel(int n, int m, int k,
                      double* C, const double* A, const double* B) {
-  assert(0);
+
+  #pragma omp parallel for
+  for (int i = 0; i < n; i++){
+    for (int j = 0; j < k; j++){
+      
+      double acc = 0;
+      for (int p = 0; p < m; p++){
+        acc += A[i*m + p] * B[p*k + j];
+      }
+      C[j*n + i] = acc;
+    }
+  }
 }
 
 void matmul_locality_parallel(int n, int m, int k,
                               double* C, const double* A, const double* B) {
-  assert(0);
+  //Checks if C is initialized purely with zeros
+  double s = 0.0;
+  for(int i = 0; i < n*k; i ++){ s += C[i]; }
+  assert(s == 0.0);
+
+  // Here stuff might go wrong with the 'a'-definition
+  #pragma omp parallel for
+  for (int i = 0; i < n; i++){
+    for (int p = 0; p < m; p++){
+      double a = A[i*m + p];
+      for (int j = 0; j < k; j++){
+        C[j*n + i] += a * B[p*k + j];
+      }
+    }
+  }
 }
 
 void matmul_transpose_parallel(int n, int m, int k,
                                double* C, const double* A, const double* B) {
-  assert(0);
+  // remember to use fastest here!!
+  double * BT = malloc(m*k*sizeof(double));
+  transpose_parallel(m,k,BT,B);
+
+  #pragma omp parallel for
+  for (int i = 0; i < n; i++){
+    for (int j = 0; j < k; j++){
+      double acc = 0;
+      for (int p = 0; p < m; p++){
+        acc += A[i*m + p] * BT[j*m + p];
+      }
+      C[j*n + i] = acc;
+    }
+  }
 }
