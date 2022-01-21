@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <omp.h>
+#include <math.h>
 
 void transpose(int n, int m, double *B, const double *A) {
   for (int i = 0; i < n; i++){
@@ -23,6 +24,7 @@ void transpose_parallel(int n, int m, double *B, const double *A) {
 
 ////////////////////////////// REMEMBER TO CHANGE BACK //////////////////////////////////////
 void transpose_blocked_T(int n, int m, double *B, const double *A, int T){
+
   for (int ii = 0; ii < n; ii += T){
     for (int jj = 0; jj < m; jj += T){
 
@@ -38,7 +40,31 @@ void transpose_blocked_T(int n, int m, double *B, const double *A, int T){
 
 void transpose_blocked(int n, int m, double *B, const double *A) {
   ////////////////////////////// REMEMBER TO CHANGE BACK //////////////////////////////////////
-  transpose_blocked_T(n, m, B, A, 2);
+  // transpose_blocked_T(n, m, B, A, 2);
+  if(n < 2 || m < 2){
+    transpose(n ,m, B, A);
+    return;
+  }
+  int T = sqrt(n);
+
+  // if (T%n != 0 || T%n != 0){
+  //   transpose(n ,m, B, A);
+  //   return;
+
+  // }
+
+
+  for (int ii = 0; ii < n; ii += T){
+    for (int jj = 0; jj < m; jj += T){
+
+      for (int i = ii; i < ii+T; i++){
+        for (int j = jj; j < jj+T; j++){
+          B[j*n + i] = A[i*m + j]; 
+        }
+      }
+
+    }
+  }
 }
 
 void transpose_blocked_parallel(int n, int m, double *B, const double *A) {
