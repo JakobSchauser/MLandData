@@ -168,7 +168,6 @@ void bench_transpose_csv(const char *filename, transpose_fn f, int n_sizes,int n
   fprintf(fpt,"\n");
 
   // Add data
-  fprintf(fpt,"\n");
   for (int i = 0; i < n_sizes; i ++){
     fprintf(fpt,"%d", sizes[i]);
     for (int r = 0; r < n_runs; r ++){
