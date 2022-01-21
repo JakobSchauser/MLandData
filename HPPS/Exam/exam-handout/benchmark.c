@@ -185,79 +185,77 @@ void bench_transpose_csv(const char *filename, transpose_fn f, int n_sizes,int n
 
 /////////////////  FINDING THE BEST T'S  ////////////////////
 
-// double gettime_transpose_T(int runs, int n, int m, int T){
-//   printf("size%d",n);
-//   uint64_t bef = microseconds();
-//   fflush(stdout);
-//   double *A = random_array(n*m);
-//   double *B = calloc(m*n, sizeof(double));
+double gettime_transpose_T(int runs, int n, int m, int T){
+  uint64_t bef = microseconds();
+  fflush(stdout);
+  double *A = random_array(n*m);
+  double *B = calloc(m*n, sizeof(double));
 
-//   for (int i = 0; i < runs; i++) {
-//     transpose_blocked(n, m, B, A);
-//   }
+  for (int i = 0; i < runs; i++) {
+    transpose_blocked(n, m, B, A);
+  }
 
-//   double us = (microseconds()-bef)/runs;
+  double us = (microseconds()-bef)/runs;
 
-//   free(A);
-//   free(B);
+  free(A);
+  free(B);
 
-//   return us/1e6;
+  return us/1e6;
 
-// }
+}
 
-// void find_best_T(const char *filename, int n_sizes){
+void find_best_T(const char *filename, int n_sizes){
 
-//   printf("Starting\n");
-//   int sizes[n_sizes];
-//   int Ts[n_sizes];
+  printf("Starting\n");
+  int sizes[n_sizes];
+  int Ts[n_sizes];
 
 
-//   for (int i = 0; i < n_sizes; i ++){
-//     int s = (i+1)*(i+1);
-//     sizes[i] = s;
+  for (int i = 0; i < n_sizes; i ++){
+    int s = (i+1)*(i+1);
+    sizes[i] = s;
 
-//     double bt = 99999999.0;
-//     int bT = 1;
-//     printf("Now at %d\n", s);
+    double bt = 99999999.0;
+    int bT = 1;
+    printf("Now at %d\n", s);
 
-//     for(int T = 0; T <= 10; T++){
+    for(int T = 1; T <= sqrt(s); T++){
+      if(s%T == 0){
+        double t = gettime_transpose_T(5,s,s,T);
+        if(t < bt){
+          bt = t;
+          bT = T;
+        }
 
-//       if(T%s == 0){
-//         double t = gettime_transpose_T(5,s,s,T);
-//         if(t < bt){
-//           bt = t;
-//           bT = T;
-//         }
+      }
+    }
+    Ts[i] = bT;
+  }
 
-//       }
-//     }
-//     Ts[i] = bT;
-//   }
+  // Find and open or create .csv file
+  FILE *fpt;
+  fpt = fopen(filename, "w+");
 
-//   // Find and open or create .csv file
-//   FILE *fpt;
-//   fpt = fopen(filename, "w+");
+  // Make header
+  fprintf(fpt,"size");
+  fprintf(fpt,", best T");
+  fprintf(fpt,"\n");
 
-//   // Make header
-//   fprintf(fpt,"size");
-//   fprintf(fpt,", best T");
-//   fprintf(fpt,"\n");
-
-//   // Add data
-//   for (int i = 0; i < n_sizes; i ++){
-//     fprintf(fpt,"%d", sizes[i]);
-//     fprintf(fpt,",%d", Ts[i]);
-//     fprintf(fpt,"\n");
-//   }
-//   fclose(fpt);
-//   printf("Finished!\n");
+  // Add data
+  for (int i = 0; i < n_sizes; i ++){
+    fprintf(fpt,"%d", sizes[i]);
+    fprintf(fpt,",%d", Ts[i]);
+    fprintf(fpt,"\n");
+  }
+  fclose(fpt);
+  printf("Finished!\n");
   
-// }
+}
 
 int main() {
   // Pick your own sensible sizes.
-  int n = 4;
-  int m = 3;
+  // int n = 2000;
+  // int m = 2000;
   int k = 2;
 
   // Think about how many runs is proper for each case, and probably
@@ -281,7 +279,7 @@ int main() {
   int n_sizes = 65;
   int n_runs = 5;
 
-  bench_transpose_csv("transpose_sizes.csv",transpose,n_sizes,n_runs);
-  // find_best_T("finding_T.csv", n_sizes);
+  // bench_transpose_csv("transpose_blocked_sizes.csv",transpose_blocked,n_sizes,n_runs);
+  find_best_T("finding_T.csv", n_sizes);
 
 }
