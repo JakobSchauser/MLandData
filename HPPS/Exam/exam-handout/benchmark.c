@@ -33,6 +33,17 @@ double* random_array(int n) {
   return p;
 }
 
+void display_array(int n, int m, double *A){
+  for(int i = 0; i < n; i++) {
+      for(int j = 0; j < m; j++) {
+         printf("%f ", A[i*n + j]);
+         if(j==m-1){
+            printf("\n");
+         }
+      }
+   }
+}
+
 void bench_transpose(const char *desc, int runs, transpose_fn f,
                      int n, int m) {
   uint64_t bef = microseconds();
@@ -47,6 +58,12 @@ void bench_transpose(const char *desc, int runs, transpose_fn f,
   }
 
   double us = (microseconds()-bef)/runs;
+
+  // printf("Displaying:\n");
+  // display_array(n,m,A);
+  // printf("\n");
+  // display_array(n,m,B);
+  // printf("Validating:\n");
 
   // Validate the result.
   for (int i = 0; i < n; i++) {
@@ -112,13 +129,13 @@ void bench_matmul(const char *desc, int runs, matmul_fn f,
 
 int main() {
   // Pick your own sensible sizes.
-  int n = 1;
-  int m = 2;
-  int k = 3;
+  int n = 4;
+  int m = 3;
+  int k = 2;
 
   // Think about how many runs is proper for each case, and probably
   // don't use the same number for all tests.
-  int runs = 10;
+  int runs = 1;
 
   // As you implement your functions, you can use the benchmarking
   // functions commented out below.
@@ -127,9 +144,10 @@ int main() {
   // bench_transpose("transpose_blocked", runs, transpose_blocked, n, m);
   // bench_transpose("transpose_parallel", runs, transpose_parallel, n, m);
   // bench_transpose("transpose_blocked_parallel", runs, transpose_blocked_parallel, n, m);
-
+  
+  // bench_matmul("matmul", runs, matmul, n, m, k);
   // bench_matmul("matmul_parallel", runs, matmul_parallel, n, m, k);
-  // bench_matmul("matmul_locality", runs, matmul_locality, n, m, k);
+  bench_matmul("matmul_locality", runs, matmul_locality, n, m, k);
   // bench_matmul("matmul_transpose", runs, matmul_transpose, n, m, k);
   // bench_matmul("matmul_locality_parallel", runs, matmul_locality_parallel, n, m, k);
   // bench_matmul("matmul_transpose_parallel", runs, matmul_transpose_parallel, n, m, k);
