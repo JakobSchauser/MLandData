@@ -2,5 +2,6 @@
 *.tsv
 *.zip
 *.dt
+*.o
 *.data
 /MachineLearningA/Exam/
