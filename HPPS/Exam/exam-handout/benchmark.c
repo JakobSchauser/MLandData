@@ -12,6 +12,8 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <math.h>
+
 
 #include "matlib.h"
 #include "timing.h"
@@ -58,12 +60,6 @@ void bench_transpose(const char *desc, int runs, transpose_fn f,
   }
 
   double us = (microseconds()-bef)/runs;
-
-  // printf("Displaying:\n");
-  // display_array(n,m,A);
-  // printf("\n");
-  // display_array(n,m,B);
-  // printf("Validating:\n");
 
   // Validate the result.
   for (int i = 0; i < n; i++) {
@@ -127,6 +123,64 @@ void bench_matmul(const char *desc, int runs, matmul_fn f,
   free(golden);
 }
 
+double gettime_transpose(int runs, transpose_fn f, int n, int m){
+  uint64_t bef = microseconds();
+  fflush(stdout);
+  double *A = random_array(n*m);
+  double *B = calloc(m*n, sizeof(double));
+
+  for (int i = 0; i < runs; i++) {
+    f(n, m, B, A);
+  }
+
+  double us = (microseconds()-bef)/runs;
+
+  free(A);
+  free(B);
+
+  return us/1e6;
+
+}
+
+
+void bench_transpose_csv(const char *filename, transpose_fn f, int n_sizes,int n_runs){
+  printf("Starting\n");
+  int sizes[n_sizes];
+  double times[n_sizes*n_runs];
+
+  for (int i = 0; i < n_sizes; i ++){
+    int s = (i+1)*(i+1);
+    sizes[i] = s;
+    for (int r = 0; r < n_runs; r ++){
+      times[i*n_runs + r] = gettime_transpose(5,f,s,s);
+    }
+  }
+
+  // Find and open or create .csv file
+  FILE *fpt;
+  fpt = fopen(filename, "w+");
+
+  // Make header
+  fprintf(fpt,"size");
+  for (int r = 0; r < n_runs; r ++){
+    fprintf(fpt,",time %d",r);
+  }
+  fprintf(fpt,"\n");
+
+  // Add data
+  fprintf(fpt,"\n");
+  for (int i = 0; i < n_sizes; i ++){
+    fprintf(fpt,"%d", sizes[i]);
+    for (int r = 0; r < n_runs; r ++){
+      fprintf(fpt,",%f", times[i*n_runs + r]);
+    }
+    fprintf(fpt,"\n");
+  }
+  fclose(fpt);
+  printf("Finished!\n");
+
+}
+
 int main() {
   // Pick your own sensible sizes.
   int n = 4;
@@ -151,4 +205,6 @@ int main() {
   // bench_matmul("matmul_transpose", runs, matmul_transpose, n, m, k);
   // bench_matmul("matmul_locality_parallel", runs, matmul_locality_parallel, n, m, k);
   // bench_matmul("matmul_transpose_parallel", runs, matmul_transpose_parallel, n, m, k);
+
+  bench_transpose_csv("2d_test.csv",transpose,45,5);
 }
