@@ -180,6 +180,25 @@ void bench_transpose_csv(const char *filename, transpose_fn f, int n_sizes,int n
 
 }
 
+void find_best_T(const char *filename, transpose_fn f, int n_sizes){
+
+  printf("Starting\n");
+  int sizes[n_sizes];
+  double times[n_sizes];
+  double Ts[n_sizes];
+
+
+  for (int i = 0; i < n_sizes; i ++){
+    int s = (i+1)*(i+1);
+    sizes[i] = s;
+    for(int T = 0; T < s/2, T ++){
+      times[i*n_runs + r] = gettime_transpose(5,f,s,s);
+    }
+  }
+
+  transpose_blocked_T(n,m,B,A,T)
+}
+
 int main() {
   // Pick your own sensible sizes.
   int n = 4;
@@ -204,6 +223,8 @@ int main() {
   // bench_matmul("matmul_transpose", runs, matmul_transpose, n, m, k);
   // bench_matmul("matmul_locality_parallel", runs, matmul_locality_parallel, n, m, k);
   // bench_matmul("matmul_transpose_parallel", runs, matmul_transpose_parallel, n, m, k);
+  int n_sizes = 45;
+  int n_runs = 5;
 
-  bench_transpose_csv("2d_test.csv",transpose,45,5);
+  bench_transpose_csv("2d_test.csv",transpose,n_sizes,n_runs);
 }
