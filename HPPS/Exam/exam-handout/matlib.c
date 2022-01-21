@@ -19,11 +19,7 @@ void transpose_parallel(int n, int m, double *B, const double *A) {
   }
 }
 
-void transpose_blocked(int n, int m, double *B, const double *A) {
-  int T = 2;
-  ////////////////////////////// REMEMBER TO CHANGE BACK //////////////////////////////////////
-  transpose_blocked_T(int n, int m, double *B, const double *A, int T);
-}
+
 
 ////////////////////////////// REMEMBER TO CHANGE BACK //////////////////////////////////////
 void transpose_blocked_T(int n, int m, double *B, const double *A, int T){
@@ -38,6 +34,11 @@ void transpose_blocked_T(int n, int m, double *B, const double *A, int T){
 
     }
   }
+}
+
+void transpose_blocked(int n, int m, double *B, const double *A) {
+  ////////////////////////////// REMEMBER TO CHANGE BACK //////////////////////////////////////
+  transpose_blocked_T(n, m, B, A, 2);
 }
 
 void transpose_blocked_parallel(int n, int m, double *B, const double *A) {

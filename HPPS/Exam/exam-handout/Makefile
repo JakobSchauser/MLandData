@@ -1,5 +1,5 @@
 CC?=cc
-CFLAGS?=-std=c99 -Wall -Wextra -pedantic -O3 -fopenmp
+CFLAGS?=-std=c99 -Wall -Wextra -pedantic -O3 -fopenmp -lm
 
 all: benchmark
 

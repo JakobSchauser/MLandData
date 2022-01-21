@@ -149,7 +149,9 @@ void bench_transpose_csv(const char *filename, transpose_fn f, int n_sizes,int n
   double times[n_sizes*n_runs];
 
   for (int i = 0; i < n_sizes; i ++){
+
     int s = (i+1)*(i+1);
+    printf("Now at size %d: %d/%d\n",s,i,n_sizes);
     sizes[i] = s;
     for (int r = 0; r < n_runs; r ++){
       times[i*n_runs + r] = gettime_transpose(5,f,s,s);
@@ -180,24 +182,77 @@ void bench_transpose_csv(const char *filename, transpose_fn f, int n_sizes,int n
 
 }
 
-void find_best_T(const char *filename, transpose_fn f, int n_sizes){
 
-  printf("Starting\n");
-  int sizes[n_sizes];
-  double times[n_sizes];
-  double Ts[n_sizes];
+/////////////////  FINDING THE BEST T'S  ////////////////////
+
+// double gettime_transpose_T(int runs, int n, int m, int T){
+//   printf("size%d",n);
+//   uint64_t bef = microseconds();
+//   fflush(stdout);
+//   double *A = random_array(n*m);
+//   double *B = calloc(m*n, sizeof(double));
+
+//   for (int i = 0; i < runs; i++) {
+//     transpose_blocked(n, m, B, A);
+//   }
+
+//   double us = (microseconds()-bef)/runs;
+
+//   free(A);
+//   free(B);
+
+//   return us/1e6;
+
+// }
+
+// void find_best_T(const char *filename, int n_sizes){
+
+//   printf("Starting\n");
+//   int sizes[n_sizes];
+//   int Ts[n_sizes];
 
 
-  for (int i = 0; i < n_sizes; i ++){
-    int s = (i+1)*(i+1);
-    sizes[i] = s;
-    for(int T = 0; T < s/2, T ++){
-      times[i*n_runs + r] = gettime_transpose(5,f,s,s);
-    }
-  }
+//   for (int i = 0; i < n_sizes; i ++){
+//     int s = (i+1)*(i+1);
+//     sizes[i] = s;
 
-  transpose_blocked_T(n,m,B,A,T)
-}
+//     double bt = 99999999.0;
+//     int bT = 1;
+//     printf("Now at %d\n", s);
+
+//     for(int T = 0; T <= 10; T++){
+
+//       if(T%s == 0){
+//         double t = gettime_transpose_T(5,s,s,T);
+//         if(t < bt){
+//           bt = t;
+//           bT = T;
+//         }
+
+//       }
+//     }
+//     Ts[i] = bT;
+//   }
+
+//   // Find and open or create .csv file
+//   FILE *fpt;
+//   fpt = fopen(filename, "w+");
+
+//   // Make header
+//   fprintf(fpt,"size");
+//   fprintf(fpt,", best T");
+//   fprintf(fpt,"\n");
+
+//   // Add data
+//   for (int i = 0; i < n_sizes; i ++){
+//     fprintf(fpt,"%d", sizes[i]);
+//     fprintf(fpt,",%d", Ts[i]);
+//     fprintf(fpt,"\n");
+//   }
+//   fclose(fpt);
+//   printf("Finished!\n");
+  
+// }
 
 int main() {
   // Pick your own sensible sizes.
@@ -207,7 +262,7 @@ int main() {
 
   // Think about how many runs is proper for each case, and probably
   // don't use the same number for all tests.
-  int runs = 1;
+  int runs = 10;
 
   // As you implement your functions, you can use the benchmarking
   // functions commented out below.
@@ -223,8 +278,10 @@ int main() {
   // bench_matmul("matmul_transpose", runs, matmul_transpose, n, m, k);
   // bench_matmul("matmul_locality_parallel", runs, matmul_locality_parallel, n, m, k);
   // bench_matmul("matmul_transpose_parallel", runs, matmul_transpose_parallel, n, m, k);
-  int n_sizes = 45;
+  int n_sizes = 65;
   int n_runs = 5;
 
-  bench_transpose_csv("2d_test.csv",transpose,n_sizes,n_runs);
+  bench_transpose_csv("transpose_sizes.csv",transpose,n_sizes,n_runs);
+  // find_best_T("finding_T.csv", n_sizes);
+
 }
