@@ -68,11 +68,16 @@ void transpose_blocked(int n, int m, double *B, const double *A) {
 }
 
 void transpose_blocked_parallel(int n, int m, double *B, const double *A) {
-  int T = 2;
+  if(n < 2 || m < 2){
+    transpose(n ,m, B, A);
+    return;
+  }
+  int T = sqrt(n);
 
+  #pragma omp parallel for
   for (int ii = 0; ii < n; ii += T){
     for (int jj = 0; jj < m; jj += T){
-      #pragma omp parallel for
+    #pragma omp parallel for
       for (int i = ii; i < ii+T; i++){
         for (int j = jj; j < jj+T; j++){
           B[j*n + i] = A[i*m + j]; 
