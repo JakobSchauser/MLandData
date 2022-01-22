@@ -108,9 +108,9 @@ void matmul_locality(int n, int m, int k,
                      double* C, const double* A, const double* B) {
 
   //Checks if C is initialized purely with zeros
-  double s = 0.0;
-  for(int i = 0; i < n*k; i ++){ s += C[i]; }
-  assert(s == 0.0);
+  // double s = 0.0;
+  // for(int i = 0; i < n*k; i ++){ s += C[i]; }
+  // assert(s == 0.0);
 
   for (int i = 0; i < n; i++){
     for (int p = 0; p < m; p++){
@@ -133,7 +133,7 @@ void matmul_transpose(int n, int m, int k,
   for (int i = 0; i < n; i++){
     for (int j = 0; j < k; j++){
       double acc = 0;
-      for (int p = 0; p < m; p++){
+      for (int p = 0; p < m; p++){ 
         acc += A[i*m + p] * BT[j*m + p];
       }
       C[j*n + i] = acc;
@@ -160,9 +160,9 @@ void matmul_parallel(int n, int m, int k,
 void matmul_locality_parallel(int n, int m, int k,
                               double* C, const double* A, const double* B) {
   //Checks if C is initialized purely with zeros
-  double s = 0.0;
-  for(int i = 0; i < n*k; i ++){ s += C[i]; }
-  assert(s == 0.0);
+  // double s = 0.0;
+  // for(int i = 0; i < n*k; i ++){ s += C[i]; }
+  // assert(s == 0.0);
 
   // Here stuff might go wrong with the 'a'-definition
   #pragma omp parallel for

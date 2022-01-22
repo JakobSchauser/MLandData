@@ -390,11 +390,11 @@ int main() {
   // bench_matmul("matmul_transpose", runs, matmul_transpose, n, m, k);
   // bench_matmul("matmul_locality_parallel", runs, matmul_locality_parallel, n, m, k);
   // bench_matmul("matmul_transpose_parallel", runs, matmul_transpose_parallel, n, m, k);
-  int n_sizes = 65;
+  int n_sizes = 30;
   int n_runs = 10;
 
-  bench_transpose_csv("transpose_blocked_parallel.csv",transpose_blocked_parallel,n_sizes,n_runs);
-  bench_matmul_csv("transpose_blocked_parallel.csv",transpose_blocked_parallel,n_sizes,n_runs);
+  // bench_transpose_csv("transpose_blocked_parallel.csv",transpose_blocked_parallel,n_sizes,n_runs);
+  bench_matmul_csv("matmul_transpose_parallel.csv",matmul_transpose_parallel,n_sizes,n_runs);
 
   // find_best_T("finding_T_2.csv", n_sizes);
   // find_T_for_sizes("times_for_T_for_5040_6.csv",5040); // 5040 is a highly composite number
