@@ -73,7 +73,7 @@ void transpose_blocked_parallel(int n, int m, double *B, const double *A) {
     return;
   }
   int T = sqrt(n);
-
+  
   #pragma omp parallel for
   for (int ii = 0; ii < n; ii += T){
     for (int jj = 0; jj < m; jj += T){

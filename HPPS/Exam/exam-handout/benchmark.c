@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
+#include <omp.h>
 
 
 #include "matlib.h"
@@ -371,11 +372,53 @@ void find_T_for_sizes(const char *filename, int size){
 }
 
 
+////////////////////      TIME THREADS  /  MODI-STUFF      /////////////////////////
+
+
+void MODI(char *filename){
+  int n_sizes = 6;
+  int sizes[n_sizes];
+  sizes[0] = 20;
+  sizes[1] = 100;
+  sizes[2] = 300;
+  sizes[3] = 600;
+  sizes[4] = 800;
+  sizes[5] = 1000;
+
+  double times[n_sizes];
+  double parallel_times[n_sizes];
+
+  for(int i = 0; i < n_sizes; i++){
+    int N = sizes[i];
+    double t = gettime_matmul(30,matmul_transpose,N,N,N);
+    printf("Time %f",t);
+    times[i] = t;
+    parallel_times[i] = gettime_matmul(30,matmul_transpose_parallel,N,N,N);
+  }
+
+
+  FILE *fpt;
+  fpt = fopen(filename, "w+");
+
+  // Make header
+  fprintf(fpt,"size, times, parallel times\n");
+ 
+
+  // Add data
+  for (int i = 0; i < n_sizes; i ++){
+    fprintf(fpt,"%d,%f,%f\n", sizes[i], times[i], parallel_times[i]);
+  }
+  fclose(fpt);
+  printf("Finished!\n");
+}
+
+
+
 
 
 /////////////////////   LET'S USE THE STUFF WE HAVE MADE   //////////////////////////
 
-int main() {
+int main(int argc, char *argv[]) {
   // Pick your own sensible sizes.
   // int n = 2000;
   // int m = 2000;
@@ -399,12 +442,18 @@ int main() {
   // bench_matmul("matmul_transpose", runs, matmul_transpose, n, m, k);
   // bench_matmul("matmul_locality_parallel", runs, matmul_locality_parallel, n, m, k);
   // bench_matmul("matmul_transpose_parallel", runs, matmul_transpose_parallel, n, m, k);
-  int n_sizes = 30;
+  int n_sizes = 10;
   int n_runs = 10;
 
-  // bench_transpose_csv("transpose_blocked_parallel.csv",transpose_blocked_parallel,n_sizes,n_runs);
+  // printf("Available: %d\n",omp_get_max_threads());
+
+  // printf(argv[1]);
+  MODI(argv[1]);
+
+
+  // bench_transpose_csv("transpose_blocked_parallel_testsinf_pls_delete.csv",transpose_blocked_parallel,n_sizes,n_runs);
   // bench_matmul_csv("matmul_transpose_parallel.csv",matmul_transpose_parallel,n_sizes,n_runs);
 
   // find_best_T("finding_T_2.csv", n_sizes);
-  find_T_for_sizes("times_for_T_for_5040_5runs.csv",5040); // 5040 is a highly composite number
+  // find_T_for_sizes("times_for_T_for_5040_5runs.csv",5040); // 5040 is a highly composite number
 }
