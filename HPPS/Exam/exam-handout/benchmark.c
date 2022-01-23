@@ -324,20 +324,24 @@ void find_best_T(const char *filename, int n_sizes){
 
   
 void find_T_for_sizes(const char *filename, int size){
-
+  int n_runs = 3;
   printf("Starting\n");
-  int Ts[(int)sqrt(size)];
-  double times[(int)sqrt(size)];
-
-
-
-  for(int T = 1; T <= sqrt(size); T++){
+  int Ts[size/2];
+  double times[size/2*n_runs];
+  
+  for(int T = 1; T <= size/2; T++){
+    printf("At %d of %d\n",T,size/2);
     Ts[T] = T;
-    times[T] = -1.0;
-    if(size%T == 0){
-      double t = gettime_transpose_T(5,size,size,T);
-      times[T] = t;
+    for(int run = 0; run < n_runs; run++){
+      if(size%T == 0){
+        double t = gettime_transpose_T(3,size,size,T);
+        times[T*n_runs + run] = t;
+      } else{ 
+        times[T*n_runs + run] = -1.0;
+      }
+
     }
+    
   }
 
   // Find and open or create .csv file
@@ -346,13 +350,18 @@ void find_T_for_sizes(const char *filename, int size){
 
  // Make header
   fprintf(fpt,"T");
-  fprintf(fpt,", time");
+  for (int r = 0; r < n_runs; r ++){
+    fprintf(fpt,",time %d",r);
+  }
   fprintf(fpt,"\n");
+  
 
   // Add data
-  for (int i = 0; i < sqrt(size); i ++){
+  for (int i = 0; i < size/2; i ++){
     fprintf(fpt,"%d", Ts[i]);
-    fprintf(fpt,",%f", times[i]);
+     for (int r = 0; r < n_runs; r ++){
+    fprintf(fpt,",%f", times[i*n_runs + r]);
+  }
     fprintf(fpt,"\n");
   }
   // Save
@@ -394,8 +403,8 @@ int main() {
   int n_runs = 10;
 
   // bench_transpose_csv("transpose_blocked_parallel.csv",transpose_blocked_parallel,n_sizes,n_runs);
-  bench_matmul_csv("matmul_transpose_parallel.csv",matmul_transpose_parallel,n_sizes,n_runs);
+  // bench_matmul_csv("matmul_transpose_parallel.csv",matmul_transpose_parallel,n_sizes,n_runs);
 
   // find_best_T("finding_T_2.csv", n_sizes);
-  // find_T_for_sizes("times_for_T_for_5040_6.csv",5040); // 5040 is a highly composite number
+  find_T_for_sizes("times_for_T_for_5040_5runs.csv",5040); // 5040 is a highly composite number
 }
