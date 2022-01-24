@@ -155,7 +155,7 @@ void bench_transpose_csv(const char *filename, transpose_fn f, int n_sizes,int n
 
   for (int i = 0; i < n_sizes; i ++){
 
-    int s = (i+1)*(i+1);
+    int s = i*100;
     printf("Now at size %d: %d/%d\n",s,i,n_sizes);
     sizes[i] = s;
     for (int r = 0; r < n_runs; r ++){
@@ -221,7 +221,7 @@ void bench_matmul_csv(const char *filename, matmul_fn f, int n_sizes,int n_runs)
 
   for (int i = 0; i < n_sizes; i ++){
 
-    int s = (i+1)*(i+1);
+    int s = (i+1)*50;
     printf("Now at size %d: %d/%d\n",s,i,n_sizes);
     sizes[i] = s;
     for (int r = 0; r < n_runs; r ++){
@@ -376,14 +376,13 @@ void find_T_for_sizes(const char *filename, int size){
 
 
 void MODI(char *filename){
-  int n_sizes = 6;
+  int n_sizes = 5;
   int sizes[n_sizes];
   sizes[0] = 20;
   sizes[1] = 100;
   sizes[2] = 300;
   sizes[3] = 600;
-  sizes[4] = 800;
-  sizes[5] = 1000;
+  sizes[4] = 1000;
 
   double times[n_sizes];
   double parallel_times[n_sizes];
@@ -420,13 +419,13 @@ void MODI(char *filename){
 
 int main(int argc, char *argv[]) {
   // Pick your own sensible sizes.
-  // int n = 2000;
-  // int m = 2000;
-  int k = 2;
+  int n = 1000;
+  int m = 500;
+  int k = 200;
 
   // Think about how many runs is proper for each case, and probably
   // don't use the same number for all tests.
-  int runs = 10;
+  int runs = 1;
 
   // As you implement your functions, you can use the benchmarking
   // functions commented out below.
@@ -442,17 +441,19 @@ int main(int argc, char *argv[]) {
   // bench_matmul("matmul_transpose", runs, matmul_transpose, n, m, k);
   // bench_matmul("matmul_locality_parallel", runs, matmul_locality_parallel, n, m, k);
   // bench_matmul("matmul_transpose_parallel", runs, matmul_transpose_parallel, n, m, k);
-  int n_sizes = 10;
+  int n_sizes = 16;
   int n_runs = 10;
 
   // printf("Available: %d\n",omp_get_max_threads());
 
   // printf(argv[1]);
-  MODI(argv[1]);
+  // MODI(argv[1]);
 
 
-  // bench_transpose_csv("transpose_blocked_parallel_testsinf_pls_delete.csv",transpose_blocked_parallel,n_sizes,n_runs);
-  // bench_matmul_csv("matmul_transpose_parallel.csv",matmul_transpose_parallel,n_sizes,n_runs);
+  // bench_transpose_csv("transpose_blocked_parallel_T_100_2_cores.csv",transpose_blocked_parallel,n_sizes,n_runs);
+
+  bench_matmul_csv("matmul_parallel_100_better.csv",matmul_parallel,n_sizes,n_runs);
+
 
   // find_best_T("finding_T_2.csv", n_sizes);
   // find_T_for_sizes("times_for_T_for_5040_5runs.csv",5040); // 5040 is a highly composite number

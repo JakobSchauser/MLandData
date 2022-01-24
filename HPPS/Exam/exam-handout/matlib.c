@@ -45,8 +45,8 @@ void transpose_blocked(int n, int m, double *B, const double *A) {
     transpose(n ,m, B, A);
     return;
   }
-  int T = sqrt(n);
-
+  // int T = sqrt(n);
+  int T = 100;
   // if (T%n != 0 || T%n != 0){
   //   transpose(n ,m, B, A);
   //   return;
@@ -72,12 +72,17 @@ void transpose_blocked_parallel(int n, int m, double *B, const double *A) {
     transpose(n ,m, B, A);
     return;
   }
-  int T = sqrt(n);
-  
+  // int T = sqrt(n);
+  int T = 50;
+  if(n%T != 0){
+    printf("Illegal!");
+    transpose(n ,m, B, A);
+    return;
+  }
   #pragma omp parallel for
   for (int ii = 0; ii < n; ii += T){
     for (int jj = 0; jj < m; jj += T){
-    #pragma omp parallel for
+    // #pragma omp parallel for
       for (int i = ii; i < ii+T; i++){
         for (int j = jj; j < jj+T; j++){
           B[j*n + i] = A[i*m + j]; 
@@ -99,7 +104,7 @@ void matmul(int n, int m, int k,
       for (int p = 0; p < m; p++){
         acc += A[i*m + p] * B[p*k + j];
       }
-      C[j*n + i] = acc;
+      C[i*k + j] = acc;
     }
   }
 }
@@ -112,11 +117,15 @@ void matmul_locality(int n, int m, int k,
   // for(int i = 0; i < n*k; i ++){ s += C[i]; }
   // assert(s == 0.0);
 
+
+  // A has size n x m.
+  // B has size m x k.
+  // C has size n x k.
   for (int i = 0; i < n; i++){
     for (int p = 0; p < m; p++){
       double a = A[i*m + p];
       for (int j = 0; j < k; j++){
-        C[j*n + i] += a * B[p*k + j];
+        C[i*k + j] += a * B[p*k + j];
       }
     }
   }
@@ -136,9 +145,11 @@ void matmul_transpose(int n, int m, int k,
       for (int p = 0; p < m; p++){ 
         acc += A[i*m + p] * BT[j*m + p];
       }
-      C[j*n + i] = acc;
+      C[i*k + j] = acc;
     }
   }
+
+  
 }
 
 void matmul_parallel(int n, int m, int k,
@@ -149,6 +160,7 @@ void matmul_parallel(int n, int m, int k,
     for (int j = 0; j < k; j++){
       
       double acc = 0;
+      // #pragma omp parallel for reduction (+: acc)
       for (int p = 0; p < m; p++){
         acc += A[i*m + p] * B[p*k + j];
       }
@@ -170,7 +182,7 @@ void matmul_locality_parallel(int n, int m, int k,
     for (int p = 0; p < m; p++){
       double a = A[i*m + p];
       for (int j = 0; j < k; j++){
-        C[j*n + i] += a * B[p*k + j];
+        C[i*k + j] += a * B[p*k + j];
       }
     }
   }
@@ -180,7 +192,8 @@ void matmul_transpose_parallel(int n, int m, int k,
                                double* C, const double* A, const double* B) {
   // remember to use fastest here!!
   double * BT = malloc(m*k*sizeof(double));
-  transpose_parallel(m,k,BT,B);
+
+  transpose_blocked_parallel(m,k,BT,B);
 
   #pragma omp parallel for
   for (int i = 0; i < n; i++){
