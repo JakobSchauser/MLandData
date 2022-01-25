@@ -15,10 +15,6 @@ void transpose_parallel(int n, int m, double *B, const double *A);
 // As 'transpose', but with the blocking optimisation.
 void transpose_blocked(int n, int m, double *B, const double *A);
 
-////////////////// REMEMBER TO CHANGE BACK //////////////////////////
-void transpose_blocked_T(int n, int m, double *B, const double *A, int T);
-
-
 // As 'transpose', but both parallelised and with blocking.
 void transpose_blocked_parallel(int n, int m, double *B, const double *A);
 

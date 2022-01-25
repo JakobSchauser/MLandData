@@ -22,26 +22,10 @@ void transpose_parallel(int n, int m, double *B, const double *A) {
 
 
 
-////////////////////////////// REMEMBER TO CHANGE BACK //////////////////////////////////////
-void transpose_blocked_T(int n, int m, double *B, const double *A, int T){
-
-  for (int ii = 0; ii < n; ii += T){
-    for (int jj = 0; jj < m; jj += T){
-
-      for (int i = ii; i < ii+T; i++){
-        for (int j = jj; j < jj+T; j++){
-          B[j*n + i] = A[i*m + j]; 
-        }
-      }
-
-    }
-  }
-}
 
 void transpose_blocked(int n, int m, double *B, const double *A) {
-  ////////////////////////////// REMEMBER TO CHANGE BACK //////////////////////////////////////
-  // transpose_blocked_T(n, m, B, A, 2);
   if(n < 2 || m < 2){
+    // printf("Too small matrix!");
     transpose(n ,m, B, A);
     return;
   }
@@ -49,8 +33,7 @@ void transpose_blocked(int n, int m, double *B, const double *A) {
   int T = 50;
 
   if (n%T != 0){
-    printf("Illegal! n = %d", n);
-    
+    // printf("Illegal! n = %d", n);
     transpose(n ,m, B, A);
     return;
 
@@ -72,7 +55,7 @@ void transpose_blocked(int n, int m, double *B, const double *A) {
 
 void transpose_blocked_parallel(int n, int m, double *B, const double *A) {
   if(n < 2 || m < 2){
-    printf("f");
+    // printf("Too small matrix!");
     transpose(n ,m, B, A);
     return;
   }
@@ -138,9 +121,8 @@ void matmul_locality(int n, int m, int k,
 
 void matmul_transpose(int n, int m, int k,
                       double* C, const double* A, const double* B) {
-  // remember to use fastest here!!
   double * BT = malloc(m*k*sizeof(double));
-  transpose(m,k,BT,B);
+  transpose_blocked(m,k,BT,B);
 
   // BT = k x m = j x p
 
@@ -153,6 +135,8 @@ void matmul_transpose(int n, int m, int k,
       C[i*k + j] = acc;
     }
   }
+
+  free(BT);
 
   
 }
@@ -181,7 +165,6 @@ void matmul_locality_parallel(int n, int m, int k,
   // for(int i = 0; i < n*k; i ++){ s += C[i]; }
   // assert(s == 0.0);
 
-  // Here stuff might go wrong with the 'a'-definition
   #pragma omp parallel for
   for (int i = 0; i < n; i++){
     for (int p = 0; p < m; p++){
@@ -195,7 +178,7 @@ void matmul_locality_parallel(int n, int m, int k,
 
 void matmul_transpose_parallel(int n, int m, int k,
                                double* C, const double* A, const double* B) {
-  // remember to use fastest here!!
+
   double * BT = malloc(m*k*sizeof(double));
 
   transpose_blocked_parallel(m,k,BT,B);
@@ -210,5 +193,6 @@ void matmul_transpose_parallel(int n, int m, int k,
       C[i*k + j] = acc;
     }
   }
+  free(BT);
 
 }

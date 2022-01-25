@@ -94,6 +94,7 @@ void bench_matmul(const char *desc, int runs, matmul_fn f,
 
   // Compute the "expected" output of matrix multiplication.
   double *golden = calloc(n*k, sizeof(double));
+
   matmul(n, m, k, golden, A, B);
 
   for (int i = 0; i < runs; i++) {
@@ -444,9 +445,9 @@ void MODI2(char *filename, int cores){
 
 int main(int argc, char *argv[]) {
   // Pick your own sensible sizes.
-  int n = 2000;
-  int m = 2000;
-  int k = 20;
+  int n = 200;
+  int m = 200;
+  int k = 200;
 
   // Think about how many runs is proper for each case, and probably
   // don't use the same number for all tests.
@@ -455,33 +456,39 @@ int main(int argc, char *argv[]) {
   // As you implement your functions, you can use the benchmarking
   // functions commented out below.
 
-  // bench_transpose("transpose", runs, transpose, n, m);
-  // bench_transpose("transpose_blocked", runs, transpose_blocked, n, m);
-  // bench_transpose("transpose_parallel", runs, transpose_parallel, n, m);
-  // bench_transpose("transpose_bparallel", runs, transpose_blocked_parallel, n, m);
+  bench_transpose("transpose", runs, transpose, n, m);
+  bench_transpose("transpose_blocked", runs, transpose_blocked, n, m);
+  bench_transpose("transpose_parallel", runs, transpose_parallel, n, m);
+  bench_transpose("transpose_bparallel", runs, transpose_blocked_parallel, n, m);
   
-  // bench_matmul("matmul", runs, matmul, n, m, k);
-  // bench_matmul("matmul_parallel", runs, matmul_parallel, n, m, k);
-  // bench_matmul("matmul_locality", runs, matmul_locality, n, m, k);
-  // bench_matmul("matmul_transpose", runs, matmul_transpose, n, m, k);
-  // bench_matmul("matmul_locality_parallel", runs, matmul_locality_parallel, n, m, k);
-  // bench_matmul("matmul_transpose_parallel", runs, matmul_transpose_parallel, n, m, k);
-  int n_sizes = 35;
-  int n_runs = 10;
+  bench_matmul("matmul", runs, matmul, n, m, k);
+  bench_matmul("matmul_parallel", runs, matmul_parallel, n, m, k);
+  bench_matmul("matmul_locality", runs, matmul_locality, n, m, k);
+  bench_matmul("matmul_transpose", runs, matmul_transpose, n, m, k);
+  bench_matmul("matmul_locality_parallel", runs, matmul_locality_parallel, n, m, k);
+  bench_matmul("matmul_transpose_parallel", runs, matmul_transpose_parallel, n, m, k);
 
-  // printf("Available: %d\n",omp_get_max_threads());
 
-  // printf(argv[1]);
+
+
+  // int n_sizes = 35;
+  // int n_runs = 10;
+
+  // To use on modi to test the n_cores dependency and scaling
   // MODI(argv[1]);
   // MODI2(argv[1], atoi(argv[2]));
 
 
+  // Makes a csv file for transpose functions
   // bench_transpose_csv("transpose_blocked_parallel_T_100_4_cores.csv",transpose_blocked_parallel,n_sizes,n_runs);
 
+  // Makes a csv file for transpose functions
   // bench_matmul_csv("matmul_parallel_100_better.csv",matmul_parallel,n_sizes,n_runs);
 
-
-  find_best_T("finding_T_lastnite.csv", n_sizes);
-
+  // Finds all the T values for a single matrix-size
   // find_T_for_sizes("times_for_T_Testins.csv",5040); // 5040 is a highly composite number
+
+  // Finds the best T values for a range of different sizes
+  // find_best_T("finding_T_lastnite.csv", n_sizes);
+
 }
