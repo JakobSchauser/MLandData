@@ -12,6 +12,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <omp.h>
 
@@ -281,7 +282,7 @@ void find_best_T(const char *filename, int n_sizes){
 
 
   for (int i = 0; i < n_sizes; i ++){
-    int s = (i+1)*(i+1);
+    int s = (i+1)*100;
     sizes[i] = s;
 
     double bt = 99999999.0;
@@ -411,7 +412,31 @@ void MODI(char *filename){
   printf("Finished!\n");
 }
 
+void MODI2(char *filename, int cores){
+    
+  int size = cores*200;
+  double time;
+  double parallel_time;
 
+  int N = size;
+  double t = gettime_matmul(30,matmul_transpose,N,N,N);
+  printf("Time %f",t);
+  time = t;
+  parallel_time = gettime_matmul(30,matmul_transpose_parallel,N,N,N);
+
+
+  FILE *fpt;
+  fpt = fopen(filename, "w+");
+
+  // Make header
+  fprintf(fpt,"size, time, parallel time\n");
+ 
+
+  // Add data
+  fprintf(fpt,"%d,%f,%f\n", size, time, parallel_time);
+  fclose(fpt);
+  printf("Finished!\n");
+}
 
 
 
@@ -419,9 +444,9 @@ void MODI(char *filename){
 
 int main(int argc, char *argv[]) {
   // Pick your own sensible sizes.
-  int n = 1000;
-  int m = 500;
-  int k = 200;
+  int n = 2000;
+  int m = 2000;
+  int k = 20;
 
   // Think about how many runs is proper for each case, and probably
   // don't use the same number for all tests.
@@ -433,7 +458,7 @@ int main(int argc, char *argv[]) {
   // bench_transpose("transpose", runs, transpose, n, m);
   // bench_transpose("transpose_blocked", runs, transpose_blocked, n, m);
   // bench_transpose("transpose_parallel", runs, transpose_parallel, n, m);
-  // bench_transpose("transpose_blocked_parallel", runs, transpose_blocked_parallel, n, m);
+  // bench_transpose("transpose_bparallel", runs, transpose_blocked_parallel, n, m);
   
   // bench_matmul("matmul", runs, matmul, n, m, k);
   // bench_matmul("matmul_parallel", runs, matmul_parallel, n, m, k);
@@ -441,20 +466,22 @@ int main(int argc, char *argv[]) {
   // bench_matmul("matmul_transpose", runs, matmul_transpose, n, m, k);
   // bench_matmul("matmul_locality_parallel", runs, matmul_locality_parallel, n, m, k);
   // bench_matmul("matmul_transpose_parallel", runs, matmul_transpose_parallel, n, m, k);
-  int n_sizes = 16;
+  int n_sizes = 35;
   int n_runs = 10;
 
   // printf("Available: %d\n",omp_get_max_threads());
 
   // printf(argv[1]);
   // MODI(argv[1]);
+  // MODI2(argv[1], atoi(argv[2]));
 
 
-  // bench_transpose_csv("transpose_blocked_parallel_T_100_2_cores.csv",transpose_blocked_parallel,n_sizes,n_runs);
+  // bench_transpose_csv("transpose_blocked_parallel_T_100_4_cores.csv",transpose_blocked_parallel,n_sizes,n_runs);
 
-  bench_matmul_csv("matmul_parallel_100_better.csv",matmul_parallel,n_sizes,n_runs);
+  // bench_matmul_csv("matmul_parallel_100_better.csv",matmul_parallel,n_sizes,n_runs);
 
 
-  // find_best_T("finding_T_2.csv", n_sizes);
-  // find_T_for_sizes("times_for_T_for_5040_5runs.csv",5040); // 5040 is a highly composite number
+  find_best_T("finding_T_lastnite.csv", n_sizes);
+
+  // find_T_for_sizes("times_for_T_Testins.csv",5040); // 5040 is a highly composite number
 }

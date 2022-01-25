@@ -46,12 +46,15 @@ void transpose_blocked(int n, int m, double *B, const double *A) {
     return;
   }
   // int T = sqrt(n);
-  int T = 100;
-  // if (T%n != 0 || T%n != 0){
-  //   transpose(n ,m, B, A);
-  //   return;
+  int T = 50;
 
-  // }
+  if (n%T != 0){
+    printf("Illegal! n = %d", n);
+    
+    transpose(n ,m, B, A);
+    return;
+
+  }
 
 
   for (int ii = 0; ii < n; ii += T){
@@ -69,20 +72,22 @@ void transpose_blocked(int n, int m, double *B, const double *A) {
 
 void transpose_blocked_parallel(int n, int m, double *B, const double *A) {
   if(n < 2 || m < 2){
+    printf("f");
     transpose(n ,m, B, A);
     return;
   }
   // int T = sqrt(n);
-  int T = 50;
+  int T = 100;
   if(n%T != 0){
     printf("Illegal!");
     transpose(n ,m, B, A);
     return;
   }
+
   #pragma omp parallel for
   for (int ii = 0; ii < n; ii += T){
     for (int jj = 0; jj < m; jj += T){
-    // #pragma omp parallel for
+
       for (int i = ii; i < ii+T; i++){
         for (int j = jj; j < jj+T; j++){
           B[j*n + i] = A[i*m + j]; 
@@ -164,7 +169,7 @@ void matmul_parallel(int n, int m, int k,
       for (int p = 0; p < m; p++){
         acc += A[i*m + p] * B[p*k + j];
       }
-      C[j*n + i] = acc;
+      C[i*k + j] = acc;
     }
   }
 }
@@ -202,7 +207,8 @@ void matmul_transpose_parallel(int n, int m, int k,
       for (int p = 0; p < m; p++){
         acc += A[i*m + p] * BT[j*m + p];
       }
-      C[j*n + i] = acc;
+      C[i*k + j] = acc;
     }
   }
+
 }
