@@ -2,5 +2,8 @@
 *.tsv
 *.zip
 *.dt
+*.o
 *.data
+*.djvu
+Introduction-to-algorithms.pdf
 /MachineLearningA/Exam/
