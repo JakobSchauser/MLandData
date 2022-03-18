@@ -24,44 +24,49 @@ class plot:
     def __init__(self):
         pass
 
-    def points(x,y,label = None,ax = None):
+    def points(y,x = [],label = None,ax = None):
 
         if not ax:
             fig, ax = plt.subplots(1,1,figsize = standard_figsize)
 
+        if len(x) == 0:
+            x = [i for i in range(len(y))]
         ax.plot(x,y,'.',label = label)
 
         if despine:
             sns.despine()
 
     
-    def line(x,y,label = None,ax = None):
+    def line(y,x = [],label = None,ax = None):
 
         if not ax:
             fig, ax = plt.subplots(1,1,figsize = standard_figsize)
-
+        if len(x) == 0:
+            x = [i for i in range(len(y))]
         ax.plot(x,y,'-',label = label)
 
         if despine:
             sns.despine()
 
-    def flot(x,y,label = None,ax = None):
+    def flot(y,x = [],label = None,ax = None):
 
         if not ax:
             fig, ax = plt.subplots(1,1,figsize = standard_figsize)
-
+        if len(x) == 0:
+            x = [i for i in range(len(y))]
         ax.plot(x,y,'.',label = label)
         ax.plot(x,y,'-')
 
         if despine:
             sns.despine()
 
-    def error(x,y,yerr,label = None,ax = None):
+    def error(y, yerr,x = [],label = None,ax = None):
 
         if not ax:
             fig, axs = plt.subplots(1,1,figsize = standard_figsize)
 
-
+        if len(x) == 0:
+            x = [i for i in range(len(y))]
         ax.fill_between(x,np.maximum(0,y-yerr),y+yerr,alpha=0.4)
         ax.plot(x,y,'--',label = label)
 
