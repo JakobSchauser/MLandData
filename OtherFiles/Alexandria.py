@@ -24,7 +24,11 @@ class plot:
     def __init__(self):
         pass
 
-    def points(y,x = [],label = None,ax = None):
+    def points(y,x = [], ax = None, **kwargs):
+
+        for key, value in kwargs.items():
+            if key == "label":
+                print("yes")
 
         if not ax:
             fig, ax = plt.subplots(1,1,figsize = standard_figsize)
