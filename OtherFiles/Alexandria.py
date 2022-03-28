@@ -79,7 +79,7 @@ class plot:
 
 
     def hist(y,x = [],n = 19,label = None,ax = None):
-        if not ax:
+        if ax == None:
             fig, ax = plt.subplots(1,1,figsize = standard_figsize)
 
         h, xx = np.histogram(y,bins = n)
