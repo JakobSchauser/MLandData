@@ -67,7 +67,7 @@ class plot:
     def error(y, yerr,x = [],label = None,ax = None):
 
         if not ax:
-            fig, axs = plt.subplots(1,1,figsize = standard_figsize)
+            fig, ax = plt.subplots(1,1,figsize = standard_figsize)
 
         if len(x) == 0:
             x = [i for i in range(len(y))]
