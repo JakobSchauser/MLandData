@@ -95,6 +95,17 @@ class plot:
             sns.despine()
 
 
+def printshape(*args):
+    try:
+        print([a.shape for a in args])
+    except:
+        try:
+            print(len(arr))
+        except:
+            print("Input is neither array nor list")
+
+    
+
 def jitter(values,amount = 0.3):
     return values + np.random.normal(0,0.3*values,values.shape)
 
