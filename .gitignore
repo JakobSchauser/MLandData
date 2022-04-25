@@ -6,7 +6,7 @@
 *.o
 *.data
 *.djvu
-/ADL/GTSRB/
 /ADL/runs/
 AD/Introduction-to-algorithms.pdf
 /MachineLearningA/Exam/
+ADL/Assignment 1/GTSRB/
