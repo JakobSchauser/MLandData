@@ -1,0 +1,78 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{microtype}
+\usepackage{lmodern}
+\usepackage{mathpazo}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[english]{babel}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{xcolor}
+% use more of the page
+\usepackage[scale=0.8]{geometry}
+% do not move figures across sections
+\usepackage[section]{placeins}
+
+% Sensible defaults for lstlistings
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  commentstyle=\bfseries\color{purple!40!black}
+  frame=L,
+  identifierstyle=\color{blue},
+  keywordstyle=\bfseries\color{green!40!black},
+  language=python,
+  showstringspaces=false,
+  stringstyle=\color{orange},
+  xleftmargin=\parindent,
+}
+% prettier links
+\hypersetup{
+colorlinks,
+linkcolor={red!50!black},
+citecolor={blue!50!black},
+urlcolor={blue!80!black}
+}
+\urlstyle{rm}
+
+\begin{document}
+\title{Advaned Deep Learning\\Assignment 1}
+\author{\color{red}Your name}
+\maketitle
+
+\begin{figure}
+  \begin{center}
+%    \includegraphics[width=.75\textwidth]{Assignment1_Question6_Plot1}
+  \end{center}
+  \caption{Every figure and table has a caption and is referred to 
+    in the text body.\label{fig:q6p1}}
+\end{figure}
+
+
+
+You can add code like this
+\begin{lstlisting}
+c = conv(x)
+c = torch.square(c)
+\end{lstlisting}
+and like this \lstinline{torch.sum}.
+
+\section{Convolutional neural networks}
+
+no problem if you do or do not see the activation function when you output of the architecture 
+
+
+\subsection{Basic CNN definition}
+\subsection{Batch normalization}
+\subsection{Optimizers}
+\subsection{Experimental architecture comparison}
+\section{U-Nets}
+\subsection{U-Nets}
+
+
+
+\end{document}
