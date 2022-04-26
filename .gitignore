@@ -3,10 +3,8 @@
 *.zip
 *.dt
 *.db
+*.sql
 *.o
 *.data
 *.djvu
-/ADL/runs/
 AD/Introduction-to-algorithms.pdf
-/MachineLearningA/Exam/
-ADL/Assignment 1/GTSRB/
