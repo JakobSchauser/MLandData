@@ -7,4 +7,5 @@
 *.o
 *.data
 *.djvu
+*.npy
 AD/Introduction-to-algorithms.pdf
