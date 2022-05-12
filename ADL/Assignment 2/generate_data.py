@@ -69,7 +69,6 @@ def generate_data(N, is_short, type = 2):
 
     labels = np.array([*np.ones(N//2).astype(int),*np.zeros(N//2).astype(int)])
 
-    p = np.random.permutation(N)
     
 
     return alls[p], labels[p]
