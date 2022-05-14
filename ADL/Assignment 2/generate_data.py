@@ -56,6 +56,42 @@ def make_false(N,is_short, type = 2):
     return alls
 
 
+def encode_letter(l):
+    return np.array([tensor(onehot[d].values) for d in l])
+
+letterToIndex = lambda l: ord(l) - 97
+
+def encode_language(l):
+    tensor = torch.zeros(min_length, 1, 3)
+
+    for li, letter in enumerate(l):
+        tensor[li][0][letterToIndex(letter)] = 1
+    return tensor
+
+def onehot_encode(data):
+    return [encode_language(l) for l in data]
+
+def onehot_labels(labels):
+    tensor = torch.zeros(len(labels), 2)
+
+    for i, l in enumerate(labels):
+        tensor[i][l] = 1
+    return tensor
+
+
+def data_loader(data, labels, batch_size):
+    shuffle = np.random.permutation(len(data))
+
+    _data = data[shuffle]
+    _labels = labels[shuffle]
+    for i in range(len(_data)//batch_size):
+        enc = onehot_encode(_data[i*batch_size:(i+1)*batch_size])
+        batch = torch.cat(enc,axis = 1)
+        
+        truth = onehot_labels(_labels[i*batch_size:(i+1)*batch_size])
+        yield (batch, truth)
+
+
 def generate_data(N, is_short, type = 2):
     """
     returns N/2 true and N/2 false shuffled data points and labels
