@@ -1,9 +1,17 @@
 import numpy as np
 from numpy.random import randint
 from itertools import permutations
+import pandas as pd
+import torch
+
+
+
 
 base_2 = ['a','b']
 base_3 = ['a','b','c']
+
+onehot = pd.Series(data = [[1,0,0],[0,1,0],[0,0,1]], index = ['a','b','c'])
+
 
 # base_2 = [0,1]
 # base_3 = [0,1,2]
@@ -61,15 +69,15 @@ def encode_letter(l):
 
 letterToIndex = lambda l: ord(l) - 97
 
-def encode_language(l):
+def encode_language(l, min_length = 50):
     tensor = torch.zeros(min_length, 1, 3)
 
     for li, letter in enumerate(l):
         tensor[li][0][letterToIndex(letter)] = 1
     return tensor
 
-def onehot_encode(data):
-    return [encode_language(l) for l in data]
+def onehot_encode(data, min_length = 50):
+    return [encode_language(l,min_length = min_length) for l in data]
 
 def onehot_labels(labels):
     tensor = torch.zeros(len(labels), 2)
@@ -79,13 +87,13 @@ def onehot_labels(labels):
     return tensor
 
 
-def data_loader(data, labels, batch_size):
+def data_loader(data, labels, batch_size, min_length = 50):
     shuffle = np.random.permutation(len(data))
 
     _data = data[shuffle]
     _labels = labels[shuffle]
     for i in range(len(_data)//batch_size):
-        enc = onehot_encode(_data[i*batch_size:(i+1)*batch_size])
+        enc = onehot_encode(_data[i*batch_size:(i+1)*batch_size], min_length = min_length)
         batch = torch.cat(enc,axis = 1)
         
         truth = onehot_labels(_labels[i*batch_size:(i+1)*batch_size])
@@ -106,6 +114,5 @@ def generate_data(N, is_short, type = 2):
     labels = np.array([*np.ones(N//2).astype(int),*np.zeros(N//2).astype(int)])
 
     
-
-    return alls[p], labels[p]
+    return alls, labels
 
