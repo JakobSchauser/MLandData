@@ -21,85 +21,41 @@ bases = [base_2,base_3]
 all_possible_short = np.linspace(1,20,20).astype(int)
 all_possible_long = np.linspace(21,50,40).astype(int)
 
-def make_true(is_short, type = 2):
+def make_true(train_test_validation, type = 2):
     base = bases[type-2]
-    lo = 0 if is_short else 20
-    hi = 20 if is_short else 50
 
-    prods = product(*[range(lo, hi) for _ in range(type)])
+    lo = 1 if train_test_validation == "train" else 20 if train_test_validation == "test" else 50
+    hi = 20 if train_test_validation == "train" else 50 if train_test_validation == "test" else 70
 
-    prods = [p for p in prods if (sum(p) <= hi and all(p == p[0]))]
+
+    prods = list(product(*[range(1, hi) for _ in range(type)]))
+
+    prods = [p for p in prods if (sum(p) <= hi and sum(p) > lo and np.all([k == p[0] for k in p]))]
 
     alls = []
     for nn in prods:
         e = np.hstack([np.repeat(base[i], nn[i]) for i in range(len(nn))])
         alls.append(e)
 
-    return prods
+    return alls
 
 
-def make_false(is_short, type = 2):
+def make_false(train_test_validation, type = 2):
     base = bases[type-2]
-    lo = 0 if is_short else 20
-    hi = 20 if is_short else 50
 
-    prods = product(*[range(lo, hi) for _ in range(type)])
+    lo = 1 if train_test_validation == "train" else 20 if train_test_validation == "test" else 50
+    hi = 20 if train_test_validation == "train" else 50 if train_test_validation == "test" else 70
 
-    prods = [p for p in prods if (sum(p) <= hi and all(p != p[0]))]
+    prods = product(*[range(1, hi) for _ in range(type)])
+
+    prods = [p for p in prods if (sum(p) <= hi and sum(p) > lo and np.any([k != p[0] for k in p]))]
 
     alls = []
     for nn in prods:
         e = np.hstack([np.repeat(base[i], nn[i]) for i in range(len(nn))])
         alls.append(e)
 
-    return prods
-
-
-# def make_true(N, is_short, type = 2):
-#     base = bases[type-2]
-#     if is_short:
-#         if type == 2:
-#             n = randint(1,11,N)
-#         elif type == 3:
-#             n = randint(1,7,N)
-#     else:
-#         if type == 2:
-#             n = randint(11,26,N)
-#         elif type == 3:
-#             n = randint(7,17,N)
-
-#     alls = []
-
-#     for nn in n:
-#         alls.append(np.repeat(base,nn))
-
-#     return alls
-
-# def make_false(N,is_short, type = 2):
-#     base = bases[type-2]
-#     if is_short:
-#         size = 20
-#     else:
-#         size = 50
-
-#     n = []
-#     for _ in range(N):
-#         k = np.empty(type)
-#         s = size
-#         for i in range(type):
-#             r = np.random.randint(s)
-#             k[i] = r
-#             s -= r
-#         n.append(k)
-
-
-#     alls = []
-
-#     for nn in n:
-#         e = np.hstack([np.repeat(base[i], nn[i]) for i in range(len(nn))])
-#         alls.append(e)
-
-#     return alls
+    return alls
 
 
 def encode_letter(l):
@@ -138,27 +94,25 @@ def data_loader(data, labels, batch_size, min_length = 50):
         yield (batch, truth)
 
 
-def generate_data(train_test_split, is_short, type = 2):
+def generate_data(train_test_validation, type = 2):
     """
     returns N/2 true and N/2 false shuffled data points and labels
     """
 
-    true = make_true(is_short, type)
-    false = make_false(is_short, type)
+    true = np.array(make_true(train_test_validation, type))
+    false = np.array(make_false(train_test_validation, type))
 
-    N = len(true)
 
-    shuffle = np.random.permutation(N)
+    shuffle = np.random.permutation(len(false))
+    false = false[shuffle][:len(true)]
 
-    false = false[shuffle][:N]
+    shuffle = np.random.permutation(len(true))
+    true = true[shuffle]
 
-    alls_train = np.array([*true[:(train_test_split*N)],*false[:(train_test_split*N)]])
-    alls_test = np.array([*true[(train_test_split*N):],*false[(train_test_split*N):]])
 
-    labels_train = np.array([*np.ones((train_test_split*N)).astype(int),*np.zeros((train_test_split*N)).astype(int)])
+    alls = np.array([*true,*false])
 
-    labels_test = np.array([*np.ones(((1-train_test_split)*N)).astype(int),*np.zeros(((1-train_test_split)*N)).astype(int)])
+    labels = np.array([*np.ones(len(true)).astype(int),*np.zeros(len(false)).astype(int)])
 
-    
-    return alls_train, labels_train, alls_test, labels_test
+    return alls, labels
 
