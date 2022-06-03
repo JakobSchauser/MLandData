@@ -5,18 +5,6 @@ sns.set_style("white")
 
 
 
-"""
-    IDEAS:
-
-    
-    Webscraping?
-
-
-
-
-
-
-"""
 standard_figsize = (10,5)
 despine = True
 
@@ -94,6 +82,34 @@ class plot:
         if despine:
             sns.despine()
 
+    def plot_loss_and_acc(loss, acc, title, runtype, log = False, ax1 = None, text = ""):
+        if ax1 is None:
+            fig, ax1 = plt.subplots()
+
+        # print(loss.shape,acc.shape)
+
+        b, g = "royalblue", "seagreen"
+        ax1.set_xlabel('Epochs')
+        ax1.set_ylabel('Loss', color = b)
+        # ax1.plot(loss, label = "Loss", color = b)
+        ax1.fill_between([i for i in range(len(loss[0]))], np.min(loss,axis = 0), np.max(loss,axis = 0), color = b, alpha = 0.6)
+        ax1.tick_params(axis='y')
+        ax1.set_ylim(0,np.max(loss))
+        ax1.plot(np.mean(loss,axis = 0), '--', color = b)
+        if log:
+            ax1.set_xscale("log")
+
+        ax2 = ax1.twinx()  # instantiate a second axes that shares the same x--axis
+
+        ax2.set_ylabel('Validation accuracy', color = g)
+        # ax2.plot(acc, label = "Accuracy", color = g)
+        ax2.fill_between([i for i in range(len(acc[0]))], np.min(acc,axis = 0), np.max(acc,axis = 0), color = g, alpha = 0.6)
+        ax2.set_ylim(0.5,1)
+        ax2.plot(np.mean(acc,axis = 0), '--', color = g)
+        ax2.tick_params(axis='y')
+
+        ax1.set_title(title)
+        ax1.text(np.log(len(loss[0]))/6,0.05, text)
 
 def printshape(*args):
     try:
