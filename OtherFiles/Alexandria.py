@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set_style("white")
+from itertools import product
 
 
 
@@ -123,7 +124,7 @@ def printshape(*args):
     
 
 def jitter(values,amount = 0.3):
-    return values + np.random.normal(0,0.3*values,values.shape)
+    return values + np.random.normal(0,amount*values,values.shape)
 
 
 def kdn(k,n = 6, n_repeats = 1):
@@ -133,6 +134,9 @@ def kdn(k,n = 6, n_repeats = 1):
     """
     return np.random.randint(1,n,(n_repeats, k))
 
+
+def coords(n):
+    return product(range(n), repeat = 2)
 # def zoom_inset(x,y,ax, x_range = [], size = "30%",loc = "center left",label = "",ls = "-"):
 #     axins = inset_axes(ax, size, size ,loc=loc, borderpad=1)
 
